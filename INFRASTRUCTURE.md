@@ -13,7 +13,7 @@ This document describes the external infrastructure needed for each Link Languag
 | Matrix | Homeserver | ✅ Docker | matrix.org | Minimal |
 | Solid | Pod server | ✅ Docker | solidcommunity.net | Minimal |
 | IPFS | kubo daemon | ✅ Docker | Public gateways | Minimal |
-| Hypercore | None | — | Hyperswarm DHT | Free |
+| Hypercore | Sidecar gateway | ✅ Node.js | — | Minimal |
 
 ---
 
@@ -260,22 +260,48 @@ IPFS data is content-addressed and pinned locally. Unpinned data may be garbage-
 ## Hypercore
 
 ### What's Needed
-**Nothing.** Hypercore uses [Hyperswarm](https://docs.holepunch.to/building-blocks/hyperswarm), a distributed networking stack with built-in DHT for peer discovery and NAT hole-punching.
+A **sidecar gateway** — a Node.js process that manages Hyperswarm connections and Corestore feeds, exposing a REST API that the link language talks to via `httpFetch`.
+
+The Deno executor runtime cannot run Hyperswarm natively (it requires Node.js `net`/`dgram`), so the gateway pattern bridges the gap.
+
+### Self-Hosted (Required)
+
+The gateway is a standalone Node.js process, not a Docker container:
+
+```bash
+mkdir -p /tmp/hypercore-gateway && cd /tmp/hypercore-gateway
+npm init -y
+npm install hypercore hyperswarm corestore express body-parser
+# Create index.js — see reference in interop/scripts/languages/hypercore/
+node index.js &
+```
+
+**Ports:**
+| Port | Service | Protocol |
+|---|---|---|
+| 7778 | Gateway REST API | TCP (HTTP) |
+| (dynamic) | Hyperswarm (UDP/TCP) | P2P |
+
+### Gateway API
+
+- `GET /status` — health check
+- `GET /feeds` — list feeds
+- `POST /feeds` — create feed
+- `GET /feeds/:key/entries` — list entries
+- `POST /feeds/:key/append` — append entry
 
 ### Network Requirements
-- **Outbound internet** on both machines (for DHT bootstrap)
+- Gateway needs **outbound internet** for Hyperswarm DHT bootstrap
 - **UDP** for hole-punching (may not work behind strict corporate firewalls)
-- If both machines are on the same LAN, mDNS can accelerate discovery
-- No specific ports need to be opened inbound (Hyperswarm handles NAT traversal)
+- LAN discovery via mDNS is near-instant
+- Both devices' gateways need to be able to discover each other via DHT
 
 ### Persistence
-Hypercore data is append-only and stored locally. Each peer maintains its own copy. No central point of failure — if both peers go offline, data persists locally and syncs when they reconnect.
+Hypercore data is append-only and stored locally by the gateway. Each peer maintains its own copy. No central point of failure.
 
 ### Notes
-- Fully P2P — no Docker infrastructure needed
-- Initial peer discovery may take 5-15 seconds via DHT
-- LAN discovery via mDNS is near-instant
-- Consider increasing `SYNC_WAIT_SECONDS` for initial Hypercore tests
+- The gateway is lightweight (~50MB RAM) but must stay running
+- Consider increasing `SYNC_WAIT_SECONDS` for initial Hypercore tests (DHT discovery takes 5-15s)
 
 ---
 

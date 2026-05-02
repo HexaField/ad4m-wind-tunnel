@@ -50,15 +50,15 @@ for f in verify-*.sh; do ./$f; echo ""; done
 
 ```
 ┌──────────────────────────┐     SSH / HTTP / WS     ┌──────────────────────────┐
-│     Mac (test runner)    │ ◄──────────────────────► │   Device A (YOUR_DEVICE_IP) │
+│     Mac (test runner)    │ ◄──────────────────────► │   Device A              │
 │                          │                          │                          │
-│  verify-matrix.sh        │    WS :12000             │  AD4M Executor           │
-│  verify-atproto.sh       │    HTTP :6167             │  ┌─ Matrix (Conduit)    │
-│  verify-solid.sh         │    HTTP :2583             │  ├─ AT Proto (PDS)      │
-│  verify-ipfs.sh          │    HTTP :3000             │  ├─ Solid (CSS)         │
-│  verify-nostr.sh         │    HTTP :5001,:8080       │  ├─ IPFS (Kubo)         │
-│  verify-hypercore.sh     │    WS  :7777             │  ├─ Nostr Relay          │
-│                          │    HTTP :7778             │  └─ Hypercore Gateway   │
+│  verify-*.sh             │    WS :12000              │  AD4M Executor           │
+│                          │    HTTP :6167             │  Matrix (Conduit)        │
+│                          │    HTTP :2583             │  AT Proto (PDS)          │
+│                          │    HTTP :3000             │  Solid (CSS)             │
+│                          │    HTTP :5001,:8080       │  IPFS (Kubo)             │
+│                          │    WS  :7777              │  Nostr Relay             │
+│                          │    HTTP :7778             │  Hypercore Gateway       │
 └──────────────────────────┘                          └──────────────────────────┘
 ```
 
@@ -150,7 +150,7 @@ Every verification script follows the same 10-step pattern:
 
 **Interop proof:** AD4M writes links → kind:30078 events appear on relay → Nostr client shows app data. Event published via WebSocket → AD4M sync picks it up.
 
-> **Note:** The Nostr language address will be updated after the native WebSocket fix is deployed.
+The Nostr language uses native Deno WebSocket connections to relays (not `httpFetch`) and BIP-340 Schnorr signing via `@noble/curves`.
 
 ### Hypercore
 
@@ -164,7 +164,7 @@ Every verification script follows the same 10-step pattern:
 
 **Interop proof:** AD4M writes links → entries appended to Hypercore feed, visible via gateway API. Entry appended via gateway → AD4M sync picks it up.
 
-> **Note:** The Hypercore language address will be updated after the gateway fix.
+The Hypercore language communicates with the sidecar gateway via `httpFetch`. The gateway handles Hyperswarm peer discovery and Corestore feed management.
 
 ## Docker Compose
 
@@ -199,8 +199,8 @@ cd /tmp/hypercore-gateway
 npm init -y
 npm install hypercore hyperswarm express body-parser
 
-# Create index.js — see the reference implementation in
-# /tmp/ad4m-link-language-tests/scripts/languages/hypercore/
+# Create index.js — see the Hypercore link language repo for the gateway reference:
+# https://github.com/HexaField/hypercore-link-language
 # Then start:
 node index.js &
 ```
