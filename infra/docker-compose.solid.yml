@@ -1,0 +1,26 @@
+# Community Solid Server (CSS)
+# Port 3000: HTTP API for Solid pods
+services:
+  solid-server:
+    image: solidproject/community-server:latest
+    container_name: ad4m-test-solid-server
+    ports:
+      - "3000:3000"
+    volumes:
+      - solid-data:/data
+    environment:
+      - CSS_PORT=3000
+      - CSS_BASE_URL=http://localhost:3000
+    command: >
+      -p 3000
+      -b http://localhost:3000
+      --seededPodConfigJson /dev/null
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:3000/"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  solid-data:
