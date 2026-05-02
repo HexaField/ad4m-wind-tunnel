@@ -23,6 +23,8 @@ Each language is a self-contained bundle that runs inside the AD4M executor's sa
 
 **Starting a new language?** Use the [ad4m-link-language-template](https://github.com/HexaField/ad4m-link-language-template) — modern ALDK pattern with `defineLanguage()`, esbuild, pure/impure separation, and 20 passing tests out of the box.
 
+**Comparing languages?** See [`CAPABILITIES.md`](CAPABILITIES.md) for a full capability matrix — topology, encryption, identity, access control, scalability, and AD4M feature support across all 8 languages.
+
 ## Basic Usage
 
 Every link language follows the same lifecycle:
