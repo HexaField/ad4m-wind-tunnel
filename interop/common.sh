@@ -55,7 +55,7 @@ fi
 # ─── Config ──────────────────────────────────────────────────────────────────
 
 # Device A — runs the executor + Docker services
-DEVICE_A="YOUR_DEVICE_IP"
+DEVICE_A="${DEVICE_A:-YOUR_DEVICE_IP}"
 DEVICE_A_USER="${DEVICE_A_USER:-YOUR_USER}"
 AD4M_HOST="${AD4M_HOST:-$DEVICE_A}"
 AD4M_PORT="${AD4M_PORT:-12000}"

@@ -1,5 +1,5 @@
 # AD4M Link Language Interop — Docker Compose
-# All backend services for interop testing on Device A (YOUR_DEVICE_IP)
+# All backend services for interop testing on the target device
 # Usage: docker compose -f docker-compose.yml up -d
 #
 # Note: Conduit (Matrix) and nostr-rs-relay may already be running.

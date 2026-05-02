@@ -226,7 +226,7 @@ All scripts use defaults defined in `common.sh`:
 
 Override via environment variables:
 ```bash
-AD4M_HOST=192.168.1.100 AD4M_PORT=4000 ./verify-matrix.sh
+AD4M_HOST=10.0.0.100 AD4M_PORT=4000 ./verify-matrix.sh
 ```
 
 ## WS RPC Protocol
