@@ -76,12 +76,20 @@ What each language implements from the AD4M Language Interface.
 | **perspective-sync** | ✅ (gossip) | ✅ (timeline poll) | ✅ (REQ filter) | ✅ (repo list) | ✅ (IPNS resolve) | ✅ (container list) | ✅ (feed poll) | ✅ (outbox poll) |
 | **perspective-query** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **peers** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **telepresence** | ✅ (real) | ❌ (stub) | ❌ (stub) | ❌ (stub) | ❌ | ❌ (stub) | ❌ (stub) | ❌ (stub) |
+| **telepresence** | ✅ (native DHT) | ✅ (Presence API) | ✅ (ephemeral events) | ❌ | ❌ | ❌ | ✅ (Hyperswarm peers) | ❌ |
 | **interactions** | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | **dual-language** | N/A (primary) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **sync modes** | Bidirectional | Bi / Pub / Sub | Bi / Pub / Sub | Bi / Pub / Sub | Bi / Pub / Sub | Bi / Pub / Sub | Bi / Pub / Sub | Bi / Pub / Sub |
 
-**Telepresence** = real-time presence and signalling (online status, peer-to-peer signals). Only Holochain implements this via its DHT-based `get_online_agents` and `send_signal` zome calls. The other languages export `handleSignal` for signal forwarding but do not implement native presence or signalling channels.
+**Telepresence** = real-time presence and signalling (online status, peer-to-peer signals, broadcast). Implemented via:
+- **Holochain**: DHT-based `get_online_agents` + `send_signal` zome calls
+- **Matrix**: Presence API (`/_matrix/client/v3/presence`) + to-device messages for signalling
+- **Nostr**: Ephemeral events (kind 20042-20044, NIP-16) via WebSocket subscriptions
+- **Hypercore**: Hyperswarm peer tracking via sidecar gateway REST API
+
+AT Proto, IPFS, Solid, and ActivityPub lack a real-time bidirectional channel suitable for presence — AT Proto's firehose is one-way, IPFS PubSub is experimental, Solid notifications are container-level, and AP is HTTP push only.
+
+**Interactions** = protocol-specific actions exposed to the UI (e.g. "invite user", "pin message"). Primarily useful for expression languages, not link languages — link language operations are handled through the perspective API (`addLink`, `queryLinks`, etc.).
 
 **Dual-language** = can coexist alongside Holochain (p-diff-sync) in the same Neighbourhood, with origin tracking to prevent echo loops. Holochain is the primary language, so dual-language doesn't apply to it.
 
@@ -147,7 +155,7 @@ How each language relates to the broader protocol ecosystem.
 | If you need... | Use |
 |---|---|
 | Fully P2P, no infrastructure | **Holochain** or **Hypercore** |
-| Real-time telepresence (presence, signals) | **Holochain** (only one with real implementation) |
+| Real-time telepresence (presence, signals) | **Holochain**, **Matrix**, **Nostr**, or **Hypercore** |
 | Human-readable data in native apps | **Matrix**, **Solid**, or **ActivityPub** |
 | Sovereign identity (no server authority) | **Holochain**, **Nostr**, **IPFS**, or **Hypercore** |
 | End-to-end encryption | **Matrix** (Olm/Megolm) or **Hypercore** (symmetric key) |
