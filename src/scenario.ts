@@ -1,0 +1,29 @@
+/**
+ * Scenario Interface and Registry
+ */
+
+import { InstrumentedClient } from "./client.js";
+
+export interface ScenarioResult {
+  scenario: string;
+  branch: string;
+  startTime: number;
+  endTime: number;
+  durationMs: number;
+  metrics: Record<string, any>;
+  samples: Array<{ name: string; durationMs: number; timestamp: number; error?: string }>;
+  summary: string;
+}
+
+export interface ScenarioContext {
+  client: InstrumentedClient;
+  branch: string;
+  port: number;
+}
+
+export interface Scenario {
+  id: string;
+  name: string;
+  description: string;
+  run(ctx: ScenarioContext): Promise<ScenarioResult>;
+}

@@ -1,0 +1,24 @@
+{
+  "name": "ad4m-wind-tunnel",
+  "version": "1.0.0",
+  "description": "Performance testing framework for the AD4M executor",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsx src/main.ts",
+    "scenario:s1": "tsx src/main.ts --scenario s1",
+    "scenario:s2": "tsx src/main.ts --scenario s2",
+    "scenario:s5": "tsx src/main.ts --scenario s5",
+    "scenario:m1": "tsx src/main.ts --scenario m1",
+    "report": "tsx src/report.ts"
+  },
+  "dependencies": {
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/ws": "^8.5.10",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}

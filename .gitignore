@@ -1,17 +1,5 @@
-# Test results
-results/*.json
-results/*.log
-results/*.txt
-!results/.gitkeep
-
-# Config with real credentials
-config.env
-
-# OS junk
-.DS_Store
-Thumbs.db
-
-# Editor
-*.swp
-*.swo
-*~
+node_modules/
+dist/
+results/
+*.log
+.env
