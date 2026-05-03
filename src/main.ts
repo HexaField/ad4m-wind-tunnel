@@ -8,8 +8,8 @@ import { InstrumentedClient, Transport } from "./client.js";
 import { buildExecutor, startExecutor, waitForHealth, stopExecutor, sleep, initExecutor, ExecutorConfig } from "./executor.js";
 import { Scenario, ScenarioContext, ScenarioResult } from "./scenario.js";
 import {
-  s1ColdStart, s2LinkThroughput, s3PerspectiveScaling, s4LanguageInstallStorm,
-  s5QueryScaling, s6ApiConcurrency, s7MemoryStability,
+  s1ColdStart, s2LinkThroughput, s2bMillionLinks, s3PerspectiveScaling, s4LanguageInstallStorm,
+  s5QueryScaling, s6ApiConcurrency, s7MemoryStability, s8SubjectClassQueries,
   m1NeighbourhoodSync, m2MultiExecutorScale, m3LinkLanguageComparison,
   m4WriteLoadUnderSync, m5ConcurrentNeighbourhoods,
   a1McpThroughput,
@@ -33,8 +33,8 @@ const BRANCHES: BranchConfig[] = [
 ];
 
 const ALL_SCENARIOS: Scenario[] = [
-  s1ColdStart, s2LinkThroughput, s3PerspectiveScaling, s4LanguageInstallStorm,
-  s5QueryScaling, s6ApiConcurrency, s7MemoryStability,
+  s1ColdStart, s2LinkThroughput, s2bMillionLinks, s3PerspectiveScaling, s4LanguageInstallStorm,
+  s5QueryScaling, s6ApiConcurrency, s7MemoryStability, s8SubjectClassQueries,
   m1NeighbourhoodSync, m2MultiExecutorScale, m3LinkLanguageComparison,
   m4WriteLoadUnderSync, m5ConcurrentNeighbourhoods,
   a1McpThroughput,

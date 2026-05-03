@@ -1,29 +1,84 @@
 {
   "scenario": "m4-write-load-under-sync",
   "branch": "feat/sparql-1.2-cleanup",
-  "startTime": 1777815085017,
-  "endTime": 1777815085017,
-  "durationMs": 0,
+  "startTime": 1777819353773,
+  "endTime": 1777819434552,
+  "durationMs": 80779,
   "metrics": {
-    "status": "STUB",
-    "requiresInfrastructure": [
-      "Neighbourhood sync operational between 2+ executors",
-      "Shared link language with sync support installed",
-      "Holochain bootstrap service",
-      "Signal server for peer discovery"
-    ],
-    "plannedWriteRates": [
-      "10/s",
-      "50/s",
-      "100/s"
-    ],
-    "plannedMetrics": [
-      "writeLatencyMs (with sync overhead)",
-      "syncPropagationDelayMs",
-      "writeThroughputCeiling",
-      "memoryUsageUnderSync"
-    ]
+    "mode": "isolation_test",
+    "note": "Neighbourhood sync not available; measuring cross-executor interference via resource contention",
+    "isolated": {
+      "linkCount": 1180,
+      "avg": 1.73,
+      "p50": 1.73,
+      "p95": 2.45,
+      "p99": 3.86,
+      "min": 0.68,
+      "max": 6.58
+    },
+    "concurrent": {
+      "executor1": {
+        "linkCount": 4220,
+        "avg": 1.04,
+        "p50": 0.97,
+        "p95": 1.6,
+        "p99": 2.19,
+        "min": 0.37,
+        "max": 12.96
+      },
+      "executor2": {
+        "linkCount": 4221,
+        "avg": 0.99,
+        "p50": 0.93,
+        "p95": 1.51,
+        "p99": 2.17,
+        "min": 0.35,
+        "max": 12.56
+      }
+    },
+    "pressure": {
+      "writerLinks": 46659,
+      "writerStats": {
+        "avg": 0.32,
+        "p50": 0.23,
+        "p95": 0.69,
+        "p99": 1.64,
+        "min": 0.07,
+        "max": 95.07
+      },
+      "queryProbe": {
+        "queryCount": 30,
+        "avg": 0.51,
+        "p50": 0.41,
+        "p95": 1,
+        "p99": 3.02,
+        "min": 0.25,
+        "max": 3.02
+      }
+    },
+    "interferenceFactor": 0.6,
+    "rssAfter": {
+      "executor1Kb": 357168,
+      "executor2Kb": 357216
+    },
+    "totalLinksWritten": 56280
   },
-  "samples": [],
-  "summary": "STUB: Requires neighbourhood sync infrastructure (Holochain + link language). See scenario file for requirements."
+  "samples": [
+    {
+      "name": "phase1_isolated",
+      "durationMs": 15008.341666,
+      "timestamp": 1777819389214
+    },
+    {
+      "name": "phase2_concurrent",
+      "durationMs": 30006.140333999996,
+      "timestamp": 1777819419220
+    },
+    {
+      "name": "phase3_pressure",
+      "durationMs": 15049.768041000003,
+      "timestamp": 1777819434270
+    }
+  ],
+  "summary": "Isolation test: isolated=1.7ms, concurrent=1.0ms/1.0ms, interference=0.6x. RSS: E1=349MB, E2=349MB"
 }

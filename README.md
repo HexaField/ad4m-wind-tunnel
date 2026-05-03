@@ -31,16 +31,18 @@ npm install
 |----|------|-------------|
 | S1 | Cold Start | Time from executor start to first successful operations |
 | S2 | Link Throughput | Sustained link add/query rate, latency degradation over time |
+| S2b | Million Links | Scale to 1M links with checkpoints at 1K/10K/100K/500K/1M |
 | S3 | Perspective Scaling | How the executor handles many perspectives (10, 50, 100) |
 | S4 | Language Install Storm | Concurrent language installation load |
 | S5 | Query Scaling | Query latency vs data size (100, 500, 1000 links) |
 | S6 | API Concurrency | Multiple concurrent connections doing mixed operations |
 | S7 | Memory Stability | RSS growth over sustained workload (5 min run) |
+| S8 | Subject Class Queries | Realistic Flux community graph + SPARQL/link query benchmarks |
 | M1 | Neighbourhood Sync | Dual-executor neighbourhood create/join/sync |
 | M2 | Multi-Executor Scale | 3 executors, cross-interference measurement |
-| M3 | Link Language Comparison | Sync performance per protocol (requires infra) |
-| M4 | Write Load Under Sync | Sustained writes across shared neighbourhood |
-| M5 | Concurrent Neighbourhoods | Multiple neighbourhoods per agent |
+| M3 | Link Language Comparison | Docker infra startup + local baseline comparison |
+| M4 | Write Load Under Sync | Dual-executor concurrent write interference measurement |
+| M5 | Concurrent Neighbourhoods | 3 executors × 3 perspectives concurrent load |
 | A1 | MCP Throughput | AI tool call latency via MCP protocol |
 
 #### Results

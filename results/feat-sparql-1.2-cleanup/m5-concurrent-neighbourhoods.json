@@ -1,31 +1,164 @@
 {
   "scenario": "m5-concurrent-neighbourhoods",
   "branch": "feat/sparql-1.2-cleanup",
-  "startTime": 1777815087590,
-  "endTime": 1777815087590,
-  "durationMs": 0,
+  "startTime": 1777819447626,
+  "endTime": 1777819523333,
+  "durationMs": 75707,
   "metrics": {
-    "status": "STUB",
-    "requiresInfrastructure": [
-      "6+ executors for 3 concurrent neighbourhoods",
-      "Neighbourhood sync fully operational",
-      "Link languages installed and configured",
-      "Holochain bootstrap + signal server",
-      "~2-3GB available RAM for executor instances"
-    ],
-    "plannedNeighbourhoodCounts": [
-      3,
-      5,
-      10
-    ],
-    "plannedMetrics": [
-      "perNeighbourhoodSyncLatencyMs",
-      "crossNeighbourhoodInterference",
-      "totalMemoryFootprintMb",
-      "cpuUtilisationScaling",
-      "holochainConductorInterference"
-    ]
+    "mode": "multi_perspective_isolation_test",
+    "note": "Neighbourhood sync not available; measuring multi-executor/multi-perspective resource contention",
+    "executorCount": 3,
+    "perspectivesPerExecutor": 3,
+    "singlePerspective": {
+      "perExecutor": [
+        {
+          "executor": 1,
+          "links": 1396,
+          "avg": 1.18,
+          "p50": 1.06,
+          "p95": 2.04,
+          "p99": 3.47,
+          "min": 0.38,
+          "max": 11.86
+        },
+        {
+          "executor": 2,
+          "links": 1396,
+          "avg": 1.18,
+          "p50": 1.05,
+          "p95": 1.98,
+          "p99": 3.47,
+          "min": 0.4,
+          "max": 11.91
+        },
+        {
+          "executor": 3,
+          "links": 1399,
+          "avg": 1.15,
+          "p50": 1.06,
+          "p95": 1.94,
+          "p99": 3.26,
+          "min": 0.39,
+          "max": 10.97
+        }
+      ],
+      "avgAcrossExecutors": 1.17
+    },
+    "multiPerspective": {
+      "perExecutor": [
+        {
+          "executor": 1,
+          "links": 2858,
+          "avg": 1.01,
+          "p50": 0.93,
+          "p95": 1.56,
+          "p99": 2.92,
+          "min": 0.32,
+          "max": 16.07
+        },
+        {
+          "executor": 2,
+          "links": 2856,
+          "avg": 1.01,
+          "p50": 0.94,
+          "p95": 1.61,
+          "p99": 2.46,
+          "min": 0.34,
+          "max": 15.97
+        },
+        {
+          "executor": 3,
+          "links": 2860,
+          "avg": 1.04,
+          "p50": 0.95,
+          "p95": 1.64,
+          "p99": 2.67,
+          "min": 0.32,
+          "max": 11.79
+        }
+      ],
+      "avgAcrossExecutors": 1.02,
+      "vsBaseline": 0.87
+    },
+    "fullPressure": {
+      "perExecutor": [
+        {
+          "executor": 1,
+          "links": 17241,
+          "avg": 0.87,
+          "p50": 0.42,
+          "p95": 2.75,
+          "p99": 11.04,
+          "min": 0.11,
+          "max": 51.88
+        },
+        {
+          "executor": 2,
+          "links": 17226,
+          "avg": 0.87,
+          "p50": 0.43,
+          "p95": 2.74,
+          "p99": 10.62,
+          "min": 0.11,
+          "max": 51.87
+        },
+        {
+          "executor": 3,
+          "links": 17242,
+          "avg": 0.87,
+          "p50": 0.42,
+          "p95": 2.64,
+          "p99": 11,
+          "min": 0.11,
+          "max": 51.89
+        }
+      ],
+      "avgAcrossExecutors": 0.87,
+      "vsBaseline": 0.74
+    },
+    "queryPerformance": {
+      "avg": 0.46,
+      "p50": 0.43,
+      "p95": 0.97,
+      "p99": 0.97,
+      "min": 0.28,
+      "max": 0.97
+    },
+    "rss": {
+      "initialKb": [
+        562352,
+        577984,
+        154880
+      ],
+      "finalKb": [
+        345024,
+        345024,
+        345024
+      ],
+      "growthPerPerspectiveKb": [
+        -72443,
+        -77653,
+        63381
+      ]
+    },
+    "totalLinksWritten": 64474
   },
-  "samples": [],
-  "summary": "STUB: Requires multi-executor neighbourhood sync infrastructure (6+ executors, Holochain). See scenario file for requirements."
+  "samples": [
+    {
+      "name": "phase1_single_perspective",
+      "durationMs": 10008.400041999997,
+      "timestamp": 1777819487864
+    },
+    {
+      "name": "phase2_multi_perspective",
+      "durationMs": 20006.692750000002,
+      "timestamp": 1777819507871
+    },
+    {
+      "name": "phase3_pressure",
+      "durationMs": 15033.536541000001,
+      "timestamp": 1777819522904
+    }
+  ],
+  "summary": "3 executors × 3 perspectives: single=1.2ms, multi=1.0ms (0.87x), pressure=0.9ms (0.74x). RSS growth: -71MB/persp, -76MB/persp, 62MB/persp"
 }

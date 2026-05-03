@@ -1,31 +1,96 @@
 {
   "scenario": "m3-link-language-comparison",
   "branch": "feat/sparql-1.2-cleanup",
-  "startTime": 1777815082452,
-  "endTime": 1777815082452,
-  "durationMs": 0,
+  "startTime": 1777819540363,
+  "endTime": 1777819675007,
+  "durationMs": 134644,
   "metrics": {
-    "status": "STUB",
-    "requiresInfrastructure": [
-      "Docker Compose with Matrix Synapse",
-      "Nostr relay (strfry or similar)",
-      "IPFS node (kubo)",
-      "Compiled link language bundles for each backend",
-      "Holochain bootstrap and proxy services"
+    "dockerStartupMs": 445,
+    "serviceHealthWaitMs": 121028,
+    "services": [
+      {
+        "name": "matrix-conduit",
+        "port": 6167,
+        "healthy": false,
+        "error": "fetch failed"
+      },
+      {
+        "name": "atproto-pds",
+        "port": 2583,
+        "healthy": false,
+        "error": "fetch failed"
+      },
+      {
+        "name": "solid-server",
+        "port": 3000,
+        "healthy": false,
+        "error": "fetch failed"
+      },
+      {
+        "name": "ipfs-node",
+        "port": 5001,
+        "healthy": false,
+        "error": "HTTP 405"
+      },
+      {
+        "name": "nostr-relay",
+        "port": 7777,
+        "healthy": true
+      }
     ],
-    "plannedLanguages": [
-      "matrix",
-      "nostr",
-      "ipfs",
-      "local"
-    ],
-    "plannedMetrics": [
-      "addLatencyMs",
-      "queryLatencyMs",
-      "syncTimeMs",
-      "reliability"
-    ]
+    "healthBenchmarks": {
+      "nostr-relay": {
+        "avgMs": 21.39,
+        "minMs": 14.61,
+        "maxMs": 33.93,
+        "samples": 10
+      }
+    },
+    "localBaseline": {
+      "100": {
+        "addAvgMs": 0.61,
+        "queryAvgMs": 0.6,
+        "throughputLinksPerSec": 1612.8
+      },
+      "500": {
+        "addAvgMs": 0.71,
+        "queryAvgMs": 0.57,
+        "throughputLinksPerSec": 1401.3
+      },
+      "1000": {
+        "addAvgMs": 0.55,
+        "queryAvgMs": 0.36,
+        "throughputLinksPerSec": 1821.3
+      }
+    },
+    "note": "Full link language comparison requires language installation (future iteration). This measures infrastructure readiness and local baseline."
   },
-  "samples": [],
-  "summary": "STUB: Requires Docker Compose infrastructure (Matrix/Nostr/IPFS). See scenario file for requirements."
+  "samples": [
+    {
+      "name": "docker_compose_up",
+      "durationMs": 445.15812500000004,
+      "timestamp": 1777819540970
+    },
+    {
+      "name": "services_healthy_wait",
+      "durationMs": 121027.5855,
+      "timestamp": 1777819661999
+    },
+    {
+      "name": "baseline_100_links",
+      "durationMs": 62.003292000008514,
+      "timestamp": 1777819674096
+    },
+    {
+      "name": "baseline_500_links",
+      "durationMs": 356.8043330000073,
+      "timestamp": 1777819674456
+    },
+    {
+      "name": "baseline_1000_links",
+      "durationMs": 549.059917000006,
+      "timestamp": 1777819675007
+    }
+  ],
+  "summary": "Docker infra: 1/5 healthy in 121.0s. Local baseline at 1000 links: add=0.6ms, query=0ms, 1821 links/s"
 }

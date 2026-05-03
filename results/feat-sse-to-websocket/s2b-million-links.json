@@ -1,0 +1,712 @@
+{
+  "scenario": "s2b-million-links",
+  "branch": "feat/sse-to-websocket",
+  "startTime": 1777818641317,
+  "endTime": 1777818947052,
+  "durationMs": 305735,
+  "metrics": {
+    "totalLinksAdded": 1000000,
+    "checkpoints": [
+      {
+        "tier": 1000,
+        "addAvgMs": 0.73,
+        "addP50Ms": 0.45,
+        "addP95Ms": 1.08,
+        "addP99Ms": 11.18,
+        "queryAllMs": 0.72,
+        "queryBySourceMs": 0.98,
+        "queryByPredicateMs": 0.48,
+        "rssKb": 214192,
+        "throughputLinksPerSec": 1358.6,
+        "batchCount": 2,
+        "totalLinksAtCheckpoint": 1000
+      },
+      {
+        "tier": 10000,
+        "addAvgMs": 0.71,
+        "addP50Ms": 0.42,
+        "addP95Ms": 0.61,
+        "addP99Ms": 8.55,
+        "queryAllMs": 0.59,
+        "queryBySourceMs": 0.49,
+        "queryByPredicateMs": 0.45,
+        "rssKb": 331088,
+        "throughputLinksPerSec": 1388.9,
+        "batchCount": 18,
+        "totalLinksAtCheckpoint": 10000
+      },
+      {
+        "tier": 100000,
+        "addAvgMs": 0.6,
+        "addP50Ms": 0.36,
+        "addP95Ms": 0.53,
+        "addP99Ms": 8.08,
+        "queryAllMs": 7.13,
+        "queryBySourceMs": 4.29,
+        "queryByPredicateMs": 0.63,
+        "rssKb": 478784,
+        "throughputLinksPerSec": 1664.8,
+        "batchCount": 180,
+        "totalLinksAtCheckpoint": 100000
+      },
+      {
+        "tier": 500000,
+        "addAvgMs": 0.29,
+        "addP50Ms": 0.15,
+        "addP95Ms": 0.47,
+        "addP99Ms": 2.05,
+        "queryAllMs": 5.25,
+        "queryBySourceMs": 3.55,
+        "queryByPredicateMs": 0.47,
+        "rssKb": 1138816,
+        "throughputLinksPerSec": 3423,
+        "batchCount": 800,
+        "totalLinksAtCheckpoint": 500000
+      },
+      {
+        "tier": 1000000,
+        "addAvgMs": 0.23,
+        "addP50Ms": 0.12,
+        "addP95Ms": 0.39,
+        "addP99Ms": 1.56,
+        "queryAllMs": 5.1,
+        "queryBySourceMs": 3.72,
+        "queryByPredicateMs": 0.41,
+        "rssKb": 1781344,
+        "throughputLinksPerSec": 4307.9,
+        "batchCount": 1000,
+        "totalLinksAtCheckpoint": 1000000
+      }
+    ],
+    "ceilingHit": false,
+    "ceilingReason": null,
+    "totalDurationMs": 305735,
+    "predicateDistribution": [
+      {
+        "uri": "flux://has_message",
+        "weight": 0.6
+      },
+      {
+        "uri": "flux://has_reaction",
+        "weight": 0.2
+      },
+      {
+        "uri": "flux://has_reply",
+        "weight": 0.1
+      },
+      {
+        "uri": "flux://has_thread_message",
+        "weight": 0.05
+      },
+      {
+        "uri": "flux://has_item",
+        "weight": 0.05
+      }
+    ]
+  },
+  "summary": "Added 1000000 links total. Final tier: avg=0.2ms, P95=0.4ms, queryAll=5ms, RSS=1740MB Completed all tiers.",
+  "sampleCount": 1000005,
+  "samplesHead": [
+    {
+      "name": "link_add_error_0",
+      "durationMs": 2.3498749999998836,
+      "timestamp": 1777818651861,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 90"
+    },
+    {
+      "name": "link_add_error_1",
+      "durationMs": 1.6580420000009326,
+      "timestamp": 1777818651863,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 89"
+    },
+    {
+      "name": "link_add_error_2",
+      "durationMs": 1.226875000000291,
+      "timestamp": 1777818651865,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 89"
+    },
+    {
+      "name": "link_add_error_3",
+      "durationMs": 0.8770829999994021,
+      "timestamp": 1777818651866,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 87"
+    },
+    {
+      "name": "link_add_error_4",
+      "durationMs": 0.8472920000003796,
+      "timestamp": 1777818651867,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 90"
+    },
+    {
+      "name": "link_add_error_5",
+      "durationMs": 1.0857909999995172,
+      "timestamp": 1777818651868,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 89"
+    },
+    {
+      "name": "link_add_error_6",
+      "durationMs": 0.9667499999995925,
+      "timestamp": 1777818651869,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 89"
+    },
+    {
+      "name": "link_add_error_7",
+      "durationMs": 1.247457999999824,
+      "timestamp": 1777818651870,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 89"
+    },
+    {
+      "name": "link_add_error_8",
+      "durationMs": 0.7071249999989959,
+      "timestamp": 1777818651871,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 89"
+    },
+    {
+      "name": "link_add_error_9",
+      "durationMs": 0.6771250000001601,
+      "timestamp": 1777818651872,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 89"
+    },
+    {
+      "name": "link_add_error_10",
+      "durationMs": 0.6827499999999418,
+      "timestamp": 1777818651872,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 91"
+    },
+    {
+      "name": "link_add_error_11",
+      "durationMs": 0.6732500000016444,
+      "timestamp": 1777818651873,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 90"
+    },
+    {
+      "name": "link_add_error_12",
+      "durationMs": 0.6979579999988346,
+      "timestamp": 1777818651874,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 91"
+    },
+    {
+      "name": "link_add_error_13",
+      "durationMs": 0.656290999999328,
+      "timestamp": 1777818651874,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 91"
+    },
+    {
+      "name": "link_add_error_14",
+      "durationMs": 1.029791999999361,
+      "timestamp": 1777818651875,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 91"
+    },
+    {
+      "name": "link_add_error_15",
+      "durationMs": 0.6195420000003651,
+      "timestamp": 1777818651876,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 90"
+    },
+    {
+      "name": "link_add_error_16",
+      "durationMs": 0.561083000000508,
+      "timestamp": 1777818651877,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 90"
+    },
+    {
+      "name": "link_add_error_17",
+      "durationMs": 0.5555829999993875,
+      "timestamp": 1777818651877,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 90"
+    },
+    {
+      "name": "link_add_error_18",
+      "durationMs": 0.6378330000006827,
+      "timestamp": 1777818651878,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 91"
+    },
+    {
+      "name": "link_add_error_19",
+      "durationMs": 0.5629579999986163,
+      "timestamp": 1777818651879,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 90"
+    },
+    {
+      "name": "link_add_error_20",
+      "durationMs": 0.5859999999993306,
+      "timestamp": 1777818651879,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 90"
+    },
+    {
+      "name": "link_add_error_21",
+      "durationMs": 1.116916000000856,
+      "timestamp": 1777818651880,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 90"
+    },
+    {
+      "name": "link_add_error_22",
+      "durationMs": 0.6403750000008586,
+      "timestamp": 1777818651881,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 90"
+    },
+    {
+      "name": "link_add_error_23",
+      "durationMs": 0.624707999999373,
+      "timestamp": 1777818651881,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 90"
+    },
+    {
+      "name": "link_add_error_24",
+      "durationMs": 0.637457999999242,
+      "timestamp": 1777818651882,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 97"
+    },
+    {
+      "name": "link_add_error_25",
+      "durationMs": 0.6082499999993161,
+      "timestamp": 1777818651883,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 90"
+    },
+    {
+      "name": "link_add_error_26",
+      "durationMs": 0.6023750000003929,
+      "timestamp": 1777818651883,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 90"
+    },
+    {
+      "name": "link_add_error_27",
+      "durationMs": 0.5598330000011629,
+      "timestamp": 1777818651884,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 88"
+    },
+    {
+      "name": "link_add_error_28",
+      "durationMs": 0.5417500000003201,
+      "timestamp": 1777818651884,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 90"
+    },
+    {
+      "name": "link_add_error_29",
+      "durationMs": 0.5036669999990409,
+      "timestamp": 1777818651885,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 90"
+    },
+    {
+      "name": "link_add_error_30",
+      "durationMs": 0.541665999999168,
+      "timestamp": 1777818651886,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 88"
+    },
+    {
+      "name": "link_add_error_31",
+      "durationMs": 0.48962500000016007,
+      "timestamp": 1777818651886,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 90"
+    },
+    {
+      "name": "link_add_error_32",
+      "durationMs": 0.4684999999990396,
+      "timestamp": 1777818651887,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 88"
+    },
+    {
+      "name": "link_add_error_33",
+      "durationMs": 0.5254169999989244,
+      "timestamp": 1777818651887,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 90"
+    },
+    {
+      "name": "link_add_error_34",
+      "durationMs": 0.48650000000088767,
+      "timestamp": 1777818651888,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 91"
+    },
+    {
+      "name": "link_add_error_35",
+      "durationMs": 0.46854200000052515,
+      "timestamp": 1777818651888,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 88"
+    },
+    {
+      "name": "link_add_error_36",
+      "durationMs": 0.5569999999988795,
+      "timestamp": 1777818651889,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 91"
+    },
+    {
+      "name": "link_add_error_37",
+      "durationMs": 1.0871250000000146,
+      "timestamp": 1777818651889,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 91"
+    },
+    {
+      "name": "link_add_error_38",
+      "durationMs": 0.5850000000009459,
+      "timestamp": 1777818651890,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 98"
+    },
+    {
+      "name": "link_add_error_39",
+      "durationMs": 0.6440829999992275,
+      "timestamp": 1777818651891,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 91"
+    },
+    {
+      "name": "link_add_error_40",
+      "durationMs": 0.7005829999998241,
+      "timestamp": 1777818651891,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 92"
+    },
+    {
+      "name": "link_add_error_41",
+      "durationMs": 0.7080829999995331,
+      "timestamp": 1777818651892,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 98"
+    },
+    {
+      "name": "link_add_error_42",
+      "durationMs": 0.6257499999992433,
+      "timestamp": 1777818651893,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 92"
+    },
+    {
+      "name": "link_add_error_43",
+      "durationMs": 0.7090000000007421,
+      "timestamp": 1777818651893,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 91"
+    },
+    {
+      "name": "link_add_error_44",
+      "durationMs": 0.7491669999999431,
+      "timestamp": 1777818651894,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 91"
+    },
+    {
+      "name": "link_add_error_45",
+      "durationMs": 0.6297090000007302,
+      "timestamp": 1777818651895,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 91"
+    },
+    {
+      "name": "link_add_error_46",
+      "durationMs": 0.5524169999989681,
+      "timestamp": 1777818651896,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 92"
+    },
+    {
+      "name": "link_add_error_47",
+      "durationMs": 0.6434590000008029,
+      "timestamp": 1777818651896,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 91"
+    },
+    {
+      "name": "link_add_error_48",
+      "durationMs": 0.6428329999998823,
+      "timestamp": 1777818651897,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 91"
+    },
+    {
+      "name": "link_add_error_49",
+      "durationMs": 0.5638330000001588,
+      "timestamp": 1777818651897,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 92"
+    }
+  ],
+  "samplesTail": [
+    {
+      "name": "link_add_error_999951",
+      "durationMs": 0.22079200000735,
+      "timestamp": 1777818946599,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999952",
+      "durationMs": 0.13641700003063306,
+      "timestamp": 1777818946599,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999953",
+      "durationMs": 0.1344999999855645,
+      "timestamp": 1777818946599,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999954",
+      "durationMs": 0.1284999999916181,
+      "timestamp": 1777818946599,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999955",
+      "durationMs": 0.1269169999868609,
+      "timestamp": 1777818946600,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999956",
+      "durationMs": 0.1265830000047572,
+      "timestamp": 1777818946600,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999957",
+      "durationMs": 0.13037500000791624,
+      "timestamp": 1777818946600,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 96"
+    },
+    {
+      "name": "link_add_error_999958",
+      "durationMs": 0.12654100003419444,
+      "timestamp": 1777818946600,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 96"
+    },
+    {
+      "name": "link_add_error_999959",
+      "durationMs": 0.12383300001965836,
+      "timestamp": 1777818946600,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999960",
+      "durationMs": 0.16499999997904524,
+      "timestamp": 1777818946600,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999961",
+      "durationMs": 0.1315830000094138,
+      "timestamp": 1777818946600,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 96"
+    },
+    {
+      "name": "link_add_error_999962",
+      "durationMs": 0.12562500004423782,
+      "timestamp": 1777818946600,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 96"
+    },
+    {
+      "name": "link_add_error_999963",
+      "durationMs": 0.12349999998696148,
+      "timestamp": 1777818946601,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 93"
+    },
+    {
+      "name": "link_add_error_999964",
+      "durationMs": 0.12245799996890128,
+      "timestamp": 1777818946601,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 96"
+    },
+    {
+      "name": "link_add_error_999965",
+      "durationMs": 0.13083400001050904,
+      "timestamp": 1777818946601,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999966",
+      "durationMs": 0.13120800000615418,
+      "timestamp": 1777818946601,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 96"
+    },
+    {
+      "name": "link_add_error_999967",
+      "durationMs": 0.12387499999022111,
+      "timestamp": 1777818946601,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999968",
+      "durationMs": 0.1282090000458993,
+      "timestamp": 1777818946601,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999969",
+      "durationMs": 0.1259999999892898,
+      "timestamp": 1777818946601,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999970",
+      "durationMs": 0.13079199998173863,
+      "timestamp": 1777818946601,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999971",
+      "durationMs": 0.13604199996916577,
+      "timestamp": 1777818946602,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999972",
+      "durationMs": 0.12674999999580905,
+      "timestamp": 1777818946602,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 96"
+    },
+    {
+      "name": "link_add_error_999973",
+      "durationMs": 0.12799999996786937,
+      "timestamp": 1777818946602,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 93"
+    },
+    {
+      "name": "link_add_error_999974",
+      "durationMs": 0.12558299995725974,
+      "timestamp": 1777818946602,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999975",
+      "durationMs": 0.125,
+      "timestamp": 1777818946602,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999976",
+      "durationMs": 0.1269159999792464,
+      "timestamp": 1777818946602,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 96"
+    },
+    {
+      "name": "link_add_error_999977",
+      "durationMs": 0.12725000001955777,
+      "timestamp": 1777818946602,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999978",
+      "durationMs": 0.12891600001603365,
+      "timestamp": 1777818946602,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999979",
+      "durationMs": 0.12799999996786937,
+      "timestamp": 1777818946603,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999980",
+      "durationMs": 0.12641600001370534,
+      "timestamp": 1777818946603,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999981",
+      "durationMs": 0.13716699997894466,
+      "timestamp": 1777818946603,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999982",
+      "durationMs": 0.34345799998845905,
+      "timestamp": 1777818946603,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999983",
+      "durationMs": 0.24658400000771508,
+      "timestamp": 1777818946603,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999984",
+      "durationMs": 0.12841599999228492,
+      "timestamp": 1777818946604,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999985",
+      "durationMs": 0.13058300002012402,
+      "timestamp": 1777818946604,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 93"
+    },
+    {
+      "name": "link_add_error_999986",
+      "durationMs": 0.13037500000791624,
+      "timestamp": 1777818946604,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999987",
+      "durationMs": 0.130957999965176,
+      "timestamp": 1777818946604,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 102"
+    },
+    {
+      "name": "link_add_error_999988",
+      "durationMs": 0.12891700002364814,
+      "timestamp": 1777818946604,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999989",
+      "durationMs": 0.12979099998483434,
+      "timestamp": 1777818946604,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999990",
+      "durationMs": 0.13004199997521937,
+      "timestamp": 1777818946604,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 93"
+    },
+    {
+      "name": "link_add_error_999991",
+      "durationMs": 0.12912499997764826,
+      "timestamp": 1777818946605,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999992",
+      "durationMs": 0.13345900003332645,
+      "timestamp": 1777818946605,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999993",
+      "durationMs": 0.13266699999803677,
+      "timestamp": 1777818946605,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 92"
+    },
+    {
+      "name": "link_add_error_999994",
+      "durationMs": 0.12920899997698143,
+      "timestamp": 1777818946605,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999995",
+      "durationMs": 0.13766700000269338,
+      "timestamp": 1777818946605,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999996",
+      "durationMs": 0.1321250000037253,
+      "timestamp": 1777818946605,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 92"
+    },
+    {
+      "name": "link_add_error_999997",
+      "durationMs": 0.13420799997402355,
+      "timestamp": 1777818946605,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999998",
+      "durationMs": 0.12862499995389953,
+      "timestamp": 1777818946605,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "link_add_error_999999",
+      "durationMs": 0.12870800000382587,
+      "timestamp": 1777818946606,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 95"
+    },
+    {
+      "name": "checkpoint_1000000",
+      "durationMs": 116066.09975,
+      "timestamp": 1777818947052
+    }
+  ]
+}

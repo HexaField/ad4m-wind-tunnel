@@ -1,0 +1,343 @@
+{
+  "scenario": "s8-subject-class-queries",
+  "branch": "dev",
+  "startTime": 1777817373622,
+  "endTime": 1777817438227,
+  "durationMs": 64605,
+  "metrics": {
+    "sparqlAvailable": true,
+    "tiers": {
+      "small": {
+        "seedDurationMs": 1884,
+        "linkCount": 1867,
+        "queries": [
+          {
+            "queryName": "totalItemCount",
+            "avgMs": 0.76,
+            "p50Ms": 0.62,
+            "p95Ms": 1.36,
+            "p99Ms": 1.36,
+            "minMs": 0.55,
+            "maxMs": 1.36,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          },
+          {
+            "queryName": "allItems",
+            "avgMs": 0.6,
+            "p50Ms": 0.6,
+            "p95Ms": 0.64,
+            "p99Ms": 0.64,
+            "minMs": 0.56,
+            "maxMs": 0.64,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          },
+          {
+            "queryName": "unprocessedItems",
+            "avgMs": 0.64,
+            "p50Ms": 0.62,
+            "p95Ms": 0.69,
+            "p99Ms": 0.69,
+            "minMs": 0.61,
+            "maxMs": 0.69,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          },
+          {
+            "queryName": "recentConversations",
+            "avgMs": 0.58,
+            "p50Ms": 0.57,
+            "p95Ms": 0.62,
+            "p99Ms": 0.62,
+            "minMs": 0.54,
+            "maxMs": 0.62,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          },
+          {
+            "queryName": "pinnedConversations",
+            "avgMs": 0.5,
+            "p50Ms": 0.5,
+            "p95Ms": 0.55,
+            "p99Ms": 0.55,
+            "minMs": 0.46,
+            "maxMs": 0.55,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          },
+          {
+            "queryName": "subgroupItemsData",
+            "avgMs": 0.77,
+            "p50Ms": 0.6,
+            "p95Ms": 1.16,
+            "p99Ms": 1.16,
+            "minMs": 0.55,
+            "maxMs": 1.16,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          },
+          {
+            "queryName": "subgroupTopics",
+            "avgMs": 0.46,
+            "p50Ms": 0.48,
+            "p95Ms": 0.5,
+            "p99Ms": 0.5,
+            "minMs": 0.42,
+            "maxMs": 0.5,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          },
+          {
+            "queryName": "messageHydration",
+            "avgMs": 0.47,
+            "p50Ms": 0.45,
+            "p95Ms": 0.54,
+            "p99Ms": 0.54,
+            "minMs": 0.44,
+            "maxMs": 0.54,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          },
+          {
+            "queryName": "paginatedMessages",
+            "avgMs": 0.57,
+            "p50Ms": 0.57,
+            "p95Ms": 0.62,
+            "p99Ms": 0.62,
+            "minMs": 0.52,
+            "maxMs": 0.62,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          }
+        ]
+      },
+      "medium": {
+        "seedDurationMs": 47288,
+        "linkCount": 58365,
+        "queries": [
+          {
+            "queryName": "totalItemCount",
+            "avgMs": 0.69,
+            "p50Ms": 0.62,
+            "p95Ms": 1,
+            "p99Ms": 1,
+            "minMs": 0.54,
+            "maxMs": 1,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          },
+          {
+            "queryName": "allItems",
+            "avgMs": 0.57,
+            "p50Ms": 0.61,
+            "p95Ms": 0.62,
+            "p99Ms": 0.62,
+            "minMs": 0.49,
+            "maxMs": 0.62,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          },
+          {
+            "queryName": "unprocessedItems",
+            "avgMs": 0.46,
+            "p50Ms": 0.45,
+            "p95Ms": 0.51,
+            "p99Ms": 0.51,
+            "minMs": 0.43,
+            "maxMs": 0.51,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          },
+          {
+            "queryName": "recentConversations",
+            "avgMs": 0.53,
+            "p50Ms": 0.52,
+            "p95Ms": 0.58,
+            "p99Ms": 0.58,
+            "minMs": 0.49,
+            "maxMs": 0.58,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          },
+          {
+            "queryName": "pinnedConversations",
+            "avgMs": 0.48,
+            "p50Ms": 0.49,
+            "p95Ms": 0.5,
+            "p99Ms": 0.5,
+            "minMs": 0.46,
+            "maxMs": 0.5,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          },
+          {
+            "queryName": "subgroupItemsData",
+            "avgMs": 0.54,
+            "p50Ms": 0.52,
+            "p95Ms": 0.61,
+            "p99Ms": 0.61,
+            "minMs": 0.49,
+            "maxMs": 0.61,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          },
+          {
+            "queryName": "subgroupTopics",
+            "avgMs": 0.55,
+            "p50Ms": 0.55,
+            "p95Ms": 0.62,
+            "p99Ms": 0.62,
+            "minMs": 0.5,
+            "maxMs": 0.62,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          },
+          {
+            "queryName": "messageHydration",
+            "avgMs": 0.49,
+            "p50Ms": 0.47,
+            "p95Ms": 0.54,
+            "p99Ms": 0.54,
+            "minMs": 0.44,
+            "maxMs": 0.54,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          },
+          {
+            "queryName": "paginatedMessages",
+            "avgMs": 0.58,
+            "p50Ms": 0.55,
+            "p95Ms": 0.84,
+            "p99Ms": 0.84,
+            "minMs": 0.45,
+            "maxMs": 0.84,
+            "runs": 5,
+            "errors": 0,
+            "usedSparql": true
+          }
+        ]
+      }
+    }
+  },
+  "samples": [
+    {
+      "name": "seed_small",
+      "durationMs": 1883.6885419999999,
+      "timestamp": 1777817390808
+    },
+    {
+      "name": "query_small_totalItemCount",
+      "durationMs": 0.76,
+      "timestamp": 1777817390837
+    },
+    {
+      "name": "query_small_allItems",
+      "durationMs": 0.6,
+      "timestamp": 1777817390837
+    },
+    {
+      "name": "query_small_unprocessedItems",
+      "durationMs": 0.64,
+      "timestamp": 1777817390837
+    },
+    {
+      "name": "query_small_recentConversations",
+      "durationMs": 0.58,
+      "timestamp": 1777817390837
+    },
+    {
+      "name": "query_small_pinnedConversations",
+      "durationMs": 0.5,
+      "timestamp": 1777817390837
+    },
+    {
+      "name": "query_small_subgroupItemsData",
+      "durationMs": 0.77,
+      "timestamp": 1777817390837
+    },
+    {
+      "name": "query_small_subgroupTopics",
+      "durationMs": 0.46,
+      "timestamp": 1777817390837
+    },
+    {
+      "name": "query_small_messageHydration",
+      "durationMs": 0.47,
+      "timestamp": 1777817390837
+    },
+    {
+      "name": "query_small_paginatedMessages",
+      "durationMs": 0.57,
+      "timestamp": 1777817390837
+    },
+    {
+      "name": "seed_medium",
+      "durationMs": 47288.275167,
+      "timestamp": 1777817438202
+    },
+    {
+      "name": "query_medium_totalItemCount",
+      "durationMs": 0.69,
+      "timestamp": 1777817438227
+    },
+    {
+      "name": "query_medium_allItems",
+      "durationMs": 0.57,
+      "timestamp": 1777817438227
+    },
+    {
+      "name": "query_medium_unprocessedItems",
+      "durationMs": 0.46,
+      "timestamp": 1777817438227
+    },
+    {
+      "name": "query_medium_recentConversations",
+      "durationMs": 0.53,
+      "timestamp": 1777817438227
+    },
+    {
+      "name": "query_medium_pinnedConversations",
+      "durationMs": 0.48,
+      "timestamp": 1777817438227
+    },
+    {
+      "name": "query_medium_subgroupItemsData",
+      "durationMs": 0.54,
+      "timestamp": 1777817438227
+    },
+    {
+      "name": "query_medium_subgroupTopics",
+      "durationMs": 0.55,
+      "timestamp": 1777817438227
+    },
+    {
+      "name": "query_medium_messageHydration",
+      "durationMs": 0.49,
+      "timestamp": 1777817438227
+    },
+    {
+      "name": "query_medium_paginatedMessages",
+      "durationMs": 0.58,
+      "timestamp": 1777817438227
+    }
+  ],
+  "summary": "SPARQL: yes. small: 1867 links, seed=1.9s, slowest=subgroupItemsData@1ms. medium: 58365 links, seed=47.3s, slowest=totalItemCount@1ms"
+}

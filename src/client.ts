@@ -317,6 +317,26 @@ export class InstrumentedClient {
     });
   }
 
+  async querySparql(perspectiveUuid: string, query: string): Promise<TimedResult<any>> {
+    if (this.config.transport === "ws") {
+      return this.timed(() =>
+        this.wsCall("perspective.query_sparql", { uuid: perspectiveUuid, query })
+      );
+    }
+    if (this.config.transport === "rest") {
+      return this.timed(() =>
+        this.restCall("POST", `/api/v1/perspectives/${perspectiveUuid}/sparql`, { query })
+      );
+    }
+    // GraphQL
+    return this.timed(async () => {
+      const escaped = query.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
+      const gql = `query { perspectiveQuerySparql(uuid: "${perspectiveUuid}", query: "${escaped}") }`;
+      const data = await this.graphqlCall<any>(gql);
+      return data.perspectiveQuerySparql;
+    });
+  }
+
   resetMetrics(): void {
     this.metrics = { totalRequests: 0, totalErrors: 0, totalDurationMs: 0, latencies: [] };
   }

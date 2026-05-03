@@ -1,6 +1,6 @@
 # AD4M Wind Tunnel — Comparison Report
 
-Generated: 2026-05-03T13:49:32.108Z
+Generated: 2026-05-03T14:55:23.372Z
 Machine: Apple Silicon MacBook Pro (48GB RAM, 14 CPUs)
 
 ## a1-mcp-throughput
@@ -55,34 +55,43 @@ Machine: Apple Silicon MacBook Pro (48GB RAM, 14 CPUs)
 
 | Metric | dev | feat-sparql-1.2-cleanup | feat-sse-to-websocket |
 | --- | --- | --- | --- |
-| status | STUB | STUB | STUB |
+| dockerStartupMs | 21727.00 | 445.00 | 1771.00 |
+| serviceHealthWaitMs | 121958.00 | 121028.00 | 122094.00 |
+| note | Full link language comparison requires language installation (future iteration). This measures infrastructure readiness and local baseline. | Full link language comparison requires language installation (future iteration). This measures infrastructure readiness and local baseline. | Full link language comparison requires language installation (future iteration). This measures infrastructure readiness and local baseline. |
 
 **Summaries:**
-- **dev:** STUB: Requires Docker Compose infrastructure (Matrix/Nostr/IPFS). See scenario file for requirements.
-- **feat-sparql-1.2-cleanup:** STUB: Requires Docker Compose infrastructure (Matrix/Nostr/IPFS). See scenario file for requirements.
-- **feat-sse-to-websocket:** STUB: Requires Docker Compose infrastructure (Matrix/Nostr/IPFS). See scenario file for requirements.
+- **dev:** Docker infra: 1/5 healthy in 122.0s. Local baseline at 1000 links: add=0.9ms, query=0ms, 1137 links/s
+- **feat-sparql-1.2-cleanup:** Docker infra: 1/5 healthy in 121.0s. Local baseline at 1000 links: add=0.6ms, query=0ms, 1821 links/s
+- **feat-sse-to-websocket:** Docker infra: 1/5 healthy in 122.1s. Local baseline at 1000 links: add=0.5ms, query=0ms, 1879 links/s
 
 ## m4-write-load-under-sync
 
 | Metric | dev | feat-sparql-1.2-cleanup | feat-sse-to-websocket |
 | --- | --- | --- | --- |
-| status | STUB | STUB | STUB |
+| mode | isolation_test | isolation_test | isolation_test |
+| note | Neighbourhood sync not available; measuring cross-executor interference via resource contention | Neighbourhood sync not available; measuring cross-executor interference via resource contention | Neighbourhood sync not available; measuring cross-executor interference via resource contention |
+| interferenceFactor | 0.69 | 0.60 | 0.56 |
+| totalLinksWritten | 46611.00 | 56280.00 | 73548.00 |
 
 **Summaries:**
-- **dev:** STUB: Requires neighbourhood sync infrastructure (Holochain + link language). See scenario file for requirements.
-- **feat-sparql-1.2-cleanup:** STUB: Requires neighbourhood sync infrastructure (Holochain + link language). See scenario file for requirements.
-- **feat-sse-to-websocket:** STUB: Requires neighbourhood sync infrastructure (Holochain + link language). See scenario file for requirements.
+- **dev:** Isolation test: isolated=1.1ms, concurrent=0.8ms/0.8ms, interference=0.69x. RSS: E1=336MB, E2=336MB
+- **feat-sparql-1.2-cleanup:** Isolation test: isolated=1.7ms, concurrent=1.0ms/1.0ms, interference=0.6x. RSS: E1=349MB, E2=349MB
+- **feat-sse-to-websocket:** Isolation test: isolated=1.8ms, concurrent=1.0ms/1.0ms, interference=0.56x. RSS: E1=336MB, E2=336MB
 
 ## m5-concurrent-neighbourhoods
 
 | Metric | dev | feat-sparql-1.2-cleanup | feat-sse-to-websocket |
 | --- | --- | --- | --- |
-| status | STUB | STUB | STUB |
+| mode | multi_perspective_isolation_test | multi_perspective_isolation_test | multi_perspective_isolation_test |
+| note | Neighbourhood sync not available; measuring multi-executor/multi-perspective resource contention | Neighbourhood sync not available; measuring multi-executor/multi-perspective resource contention | Neighbourhood sync not available; measuring multi-executor/multi-perspective resource contention |
+| executorCount | 3.00 | 3.00 | 3.00 |
+| perspectivesPerExecutor | 3.00 | 3.00 | 3.00 |
+| totalLinksWritten | 62013.00 | 64474.00 | 72474.00 |
 
 **Summaries:**
-- **dev:** STUB: Requires multi-executor neighbourhood sync infrastructure (6+ executors, Holochain). See scenario file for requirements.
-- **feat-sparql-1.2-cleanup:** STUB: Requires multi-executor neighbourhood sync infrastructure (6+ executors, Holochain). See scenario file for requirements.
-- **feat-sse-to-websocket:** STUB: Requires multi-executor neighbourhood sync infrastructure (6+ executors, Holochain). See scenario file for requirements.
+- **dev:** 3 executors × 3 perspectives: single=1.1ms, multi=0.8ms (0.66x), pressure=0.9ms (0.81x). RSS growth: -72MB/persp, -69MB/persp, 62MB/persp
+- **feat-sparql-1.2-cleanup:** 3 executors × 3 perspectives: single=1.2ms, multi=1.0ms (0.87x), pressure=0.9ms (0.74x). RSS growth: -71MB/persp, -76MB/persp, 62MB/persp
+- **feat-sse-to-websocket:** 3 executors × 3 perspectives: single=1.2ms, multi=1.1ms (0.91x), pressure=0.8ms (0.64x). RSS growth: -70MB/persp, -68MB/persp, 64MB/persp
 
 ## s1-cold-start
 
@@ -119,6 +128,19 @@ Machine: Apple Silicon MacBook Pro (48GB RAM, 14 CPUs)
 - **dev:** Added 500 links at 26.9 links/s. Avg add: 3.2ms, P95: 5.7ms. Degradation ratio: 1.53x
 - **feat-sparql-1.2-cleanup:** Added 500 links at 34.1 links/s. Avg add: 0.5ms, P95: 0.5ms. Degradation ratio: 4.07x
 - **feat-sse-to-websocket:** Added 500 links at 30.1 links/s. Avg add: 2.5ms, P95: 3.8ms. Degradation ratio: 0.71x
+
+## s2b-million-links
+
+| Metric | dev | feat-sparql-1.2-cleanup | feat-sse-to-websocket |
+| --- | --- | --- | --- |
+| totalLinksAdded | 1000000.00 | 1000000.00 | 1000000.00 |
+| ceilingHit | false | false | false |
+| totalDurationMs | 701559.00 | 327760.00 | 305735.00 |
+
+**Summaries:**
+- **dev:** Added 1000000 links total. Final tier: avg=0.7ms, P95=0.6ms, queryAll=2ms, RSS=2296MB Completed all tiers.
+- **feat-sparql-1.2-cleanup:** Added 1000000 links total. Final tier: avg=0.3ms, P95=0.8ms, queryAll=5ms, RSS=2285MB Completed all tiers.
+- **feat-sse-to-websocket:** Added 1000000 links total. Final tier: avg=0.2ms, P95=0.4ms, queryAll=5ms, RSS=1740MB Completed all tiers.
 
 ## s3-perspective-scaling
 
@@ -192,3 +214,14 @@ Machine: Apple Silicon MacBook Pro (48GB RAM, 14 CPUs)
 - **dev:** 5-min run: 295 links, 29 queries, 5 perspectives. Link avg: 1.1ms. RSS: 553MB → 565MB (2.4MB/min, growing)
 - **feat-sparql-1.2-cleanup:** 5-min run: 295 links, 29 queries, 5 perspectives. Link avg: 1.1ms. RSS: 544MB → 556MB (2.4MB/min, growing)
 - **feat-sse-to-websocket:** 5-min run: 295 links, 29 queries, 5 perspectives. Link avg: 1.2ms. RSS: 208MB → 212MB (0.72MB/min, slow_growth)
+
+## s8-subject-class-queries
+
+| Metric | dev | feat-sparql-1.2-cleanup | feat-sse-to-websocket |
+| --- | --- | --- | --- |
+| sparqlAvailable | true | true | false |
+
+**Summaries:**
+- **dev:** SPARQL: yes. small: 1867 links, seed=1.9s, slowest=subgroupItemsData@1ms. medium: 58365 links, seed=47.3s, slowest=totalItemCount@1ms
+- **feat-sparql-1.2-cleanup:** SPARQL: yes. small: 1874 links, seed=0.9s, slowest=paginatedMessages@4ms. medium: 58420 links, seed=19.3s, slowest=subgroupTopics@1ms
+- **feat-sse-to-websocket:** SPARQL: no (link query fallback). small: 1877 links, seed=1.7s, slowest=totalItemCount@1ms. medium: 58424 links, seed=29.0s, slowest=subgroupItemsData@0ms
