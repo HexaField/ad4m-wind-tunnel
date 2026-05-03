@@ -1,103 +1,139 @@
-# AD4M Wind Tunnel
+# AD4M Test Suite
 
-Performance testing framework for the [AD4M](https://github.com/coasys/ad4m) executor. Benchmarks core operations across branches to detect regressions and compare architectural approaches.
+Performance testing (Wind Tunnel) and protocol interoperability verification for the [AD4M](https://ad4m.dev) executor and link languages.
 
-## Quick Start
+## Contents
+
+### 🌪️ Wind Tunnel — Performance Testing
+
+Load testing framework for the AD4M executor, inspired by [Holochain's Wind Tunnel](https://github.com/holochain/wind-tunnel).
 
 ```bash
 # Install dependencies
 npm install
 
-# Run all scenarios against pre-built executors (skip-build mode)
-npx tsx src/main.ts --skip-build
+# Run all scenarios against all branches (builds executors ~15min each)
+./run.sh
 
-# Run specific scenario on specific branch
-npx tsx src/main.ts --skip-build --branch dev --scenario s1
+# Run with pre-built executors
+./run.sh --skip-build
 
-# Full run including builds (takes 10+ minutes per branch)
-npx tsx src/main.ts
+# Run specific scenario
+./run.sh --scenario s1
+
+# Run against specific branch
+./run.sh --branch dev
 ```
 
-## Scenarios
+#### Scenarios
 
 | ID | Name | Description |
 |----|------|-------------|
-| **S1** | Cold Start | Full lifecycle: health → agent generation → first perspective → first link → first query |
-| **S2** | Link Throughput | 500 sequential link additions with degradation tracking (first 50 vs last 50) |
-| **S5** | Query Scaling | Query latency at 100/500/1000 link thresholds |
-| **M1** | Neighbourhood Sync | Multi-executor baseline (full DHT sync requires language installation) |
+| S1 | Cold Start | Time from executor start to first successful operations |
+| S2 | Link Throughput | Sustained link add/query rate, latency degradation over time |
+| S3 | Perspective Scaling | How the executor handles many perspectives (10, 50, 100) |
+| S4 | Language Install Storm | Concurrent language installation load |
+| S5 | Query Scaling | Query latency vs data size (100, 500, 1000 links) |
+| S6 | API Concurrency | Multiple concurrent connections doing mixed operations |
+| S7 | Memory Stability | RSS growth over sustained workload (5 min run) |
+| M1 | Neighbourhood Sync | Dual-executor neighbourhood create/join/sync |
+| M2 | Multi-Executor Scale | 3 executors, cross-interference measurement |
+| M3 | Link Language Comparison | Sync performance per protocol (requires infra) |
+| M4 | Write Load Under Sync | Sustained writes across shared neighbourhood |
+| M5 | Concurrent Neighbourhoods | Multiple neighbourhoods per agent |
+| A1 | MCP Throughput | AI tool call latency via MCP protocol |
 
-## Architecture
+#### Results
+
+Results are in `results/<branch-name>/`. Run `npx tsx src/report.ts` to regenerate `results/comparison.md`.
+
+Branches tested:
+- `dev` — current main development (GraphQL API)
+- `feat/sse-to-websocket` — WebSocket RPC transport
+- `feat/sparql-1.2-cleanup` — Ad4mModel refactor, RDF Reifiers, optimisations
+
+#### Architecture
 
 ```
 src/
-├── client.ts       # Instrumented HTTP/WS client (GraphQL + REST transports)
-├── executor.ts     # Executor lifecycle (build, init, start, health, stop)
-├── main.ts         # Runner orchestration
-├── scenario.ts     # Scenario interface
-├── scenarios/      # Individual scenario implementations
-├── reporters.ts    # Console + JSON output
-└── report.ts       # Comparison report generation
+├── main.ts           # Runner/orchestrator
+├── client.ts         # Instrumented AD4M client (GraphQL + REST + WS)
+├── executor.ts       # Executor lifecycle management (build/start/stop)
+├── scenario.ts       # Scenario interface
+├── reporters.ts      # Console + JSON reporters
+├── report.ts         # Comparison report generator
+└── scenarios/        # All scenario implementations
 ```
 
-## Branch Transport Map
+---
 
-| Branch | Transport | API |
-|--------|-----------|-----|
-| `dev` | GraphQL | POST `/graphql` with `Authorization: <token>` |
-| `feat/sparql-1.2-cleanup` | GraphQL | POST `/graphql` with `Authorization: <token>` |
-| `feat/sse-to-websocket` | REST | GET/POST `/api/v1/*` with `Authorization: Bearer <token>` |
+### 🔌 Link Language Interoperability Tests
 
-## CLI Options
+Proves each AD4M link language correctly reads/writes to its native protocol backend — verifying that data written in AD4M appears in native apps, and vice versa.
 
-| Flag | Description |
-|------|-------------|
-| `--skip-build` | Use pre-built binaries at `/tmp/ad4m-build-<branch>/target/release/ad4m-executor` |
-| `--branch <name>` | Run only against specified branch (can repeat) |
-| `--scenario <id>` | Run only specified scenario (can repeat) |
-| `--executor-path <path>` | Use a single binary for all branches |
+#### Link Languages
 
-## Output
+| Protocol | Repo | Transport | Native App |
+|----------|------|-----------|------------|
+| **Matrix** | [matrix-link-language](https://github.com/HexaField/matrix-link-language) | HTTP (Client-Server API) | [Element](https://app.element.io) |
+| **Nostr** | [nostr-link-language](https://github.com/HexaField/nostr-link-language) | Native WebSocket + BIP-340 Schnorr | [Snort](https://snort.social) |
+| **AT Protocol** | [atproto-link-language](https://github.com/HexaField/atproto-link-language) | HTTP (XRPC) | [Bluesky](https://bsky.app) |
+| **IPFS** | [ipfs-link-language](https://github.com/HexaField/ipfs-link-language) | HTTP (Kubo API) | [IPFS Desktop](https://docs.ipfs.tech/install/ipfs-desktop/) |
+| **Solid** | [solid-link-language](https://github.com/HexaField/solid-link-language) | HTTP (LDP) | [Penny](https://penny.vincenttunru.com/) |
+| **Hypercore** | [hypercore-link-language](https://github.com/HexaField/hypercore-link-language) | HTTP → sidecar gateway | [hyp CLI](https://docs.holepunch.to/) |
+| **ActivityPub** | [ap-link-language](https://github.com/HexaField/ap-link-language) | HTTP (AP federation) | [Mastodon](https://joinmastodon.org) |
+| **Holochain** | [p-diff-sync](https://github.com/coasys/ad4m/tree/dev/bootstrap-languages/p-diff-sync) | Holochain (built-in) | Flux |
 
-Results are saved to `results/<branch>/<scenario>.json` with a comparison report at `results/comparison.md`.
+See [`CAPABILITIES.md`](CAPABILITIES.md) for a full capability matrix across all 8 languages.
 
-## Initial Results (Apple Silicon M3 Pro, 48GB)
+#### Single-Device Backend Verification (`interop/`)
 
-### S1 — Cold Start
+Runs each language against Docker-hosted backend services on a single machine:
 
-| Metric | dev | sse-to-websocket | sparql-1.2-cleanup |
-|--------|-----|------------------|-------------------|
-| Health check | 1.5ms | 1.7ms | 0.9ms |
-| Agent generate | 8995ms | 9250ms | 9004ms |
-| First perspective | 52ms | 58ms | 23ms |
-| First link add | 1.3ms | 1.0ms | 1.0ms |
-| First link query | 1.0ms | 0.9ms | 0.6ms |
+```bash
+cd interop
+./setup.sh          # Start all backend services (Docker)
+./verify-matrix.sh  # Test Matrix → Conduit
+./verify-nostr.sh   # Test Nostr → nostr-rs-relay
+./verify-atproto.sh # Test AT Proto → self-hosted PDS
+./verify-ipfs.sh    # Test IPFS → Kubo
+./verify-solid.sh   # Test Solid → CSS pod
+./verify-hypercore.sh # Test Hypercore → sidecar gateway
+./teardown.sh       # Stop all services
+```
 
-### S2 — Link Throughput (500 links)
+See [`interop/README.md`](interop/README.md) for detailed setup and per-protocol notes.
 
-| Metric | dev | sse-to-websocket | sparql-1.2-cleanup |
-|--------|-----|------------------|-------------------|
-| Throughput | 53.5/s | 53.4/s | 53.1/s |
-| Avg add latency | 1.4ms | 0.5ms | 0.4ms |
-| P95 add latency | 1.7ms | 0.6ms | 0.4ms |
-| Degradation ratio | 0.99x | 1.14x | 0.52x |
+#### Multi-Device Sync Tests (`scripts/`)
 
-### S5 — Query Scaling
+Proves bidirectional Perspective sync between two AD4M executors on different machines:
 
-| Links | dev | sse-to-websocket | sparql-1.2-cleanup |
-|-------|-----|------------------|-------------------|
-| 100 | 0.39ms | 0.35ms | 0.32ms |
-| 500 | 0.39ms | 0.39ms | 0.59ms |
-| 1000 | 0.30ms | 0.31ms | 0.29ms |
+```bash
+cp config.example.env config.env
+# Edit with device IPs and language addresses
+./scripts/run-tests.sh              # Run all
+./scripts/run-tests.sh -l nostr     # Single language
+```
 
-All branches show **sublinear query scaling** — queries at 1000 links are faster than at 100 (cache warmup effect).
+#### Infrastructure (`infra/`)
+
+Docker Compose files for each protocol backend:
+- `infra/docker-compose.matrix.yml` — Conduit homeserver
+- `infra/docker-compose.nostr.yml` — nostr-rs-relay
+- `infra/docker-compose.atproto.yml` — Self-hosted PDS
+- `infra/docker-compose.ipfs.yml` — Kubo node
+- `infra/docker-compose.solid.yml` — Community Solid Server
+
+See [`INFRASTRUCTURE.md`](INFRASTRUCTURE.md) for full deployment guide.
+
+---
 
 ## Requirements
 
 - Node.js 20+
-- Rust toolchain (for building executors)
-- `ad4m` repository cloned at `/Users/josh/workspaces/coasys/ad4m`
-- `CUSTOM_DENO_SNAPSHOT.bin` present in the repo root
+- Rust toolchain (for building executor — Wind Tunnel only)
+- Docker + Docker Compose (for interop tests)
+- AD4M repo at `/Users/josh/workspaces/coasys/ad4m` (configurable in `src/main.ts`)
 
 ## License
 
