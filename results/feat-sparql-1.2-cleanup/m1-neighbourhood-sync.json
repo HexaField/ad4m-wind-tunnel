@@ -1,159 +1,159 @@
 {
   "scenario": "m1-neighbourhood-sync",
   "branch": "feat/sparql-1.2-cleanup",
-  "startTime": 1777813258564,
-  "endTime": 1777813277054,
-  "durationMs": 18490,
+  "startTime": 1777815020741,
+  "endTime": 1777815047116,
+  "durationMs": 26375,
   "metrics": {
     "executor1AvgLinkAddMs": 0,
     "executor2AvgLinkAddMs": 0,
     "executor1LinkCount": 10,
     "executor2LinkCount": 10,
     "perspectiveCreateMs": {
-      "executor1": 19.942125000001397,
-      "executor2": 13.811790999985533
+      "executor1": 14.673374999896623,
+      "executor2": 14.247916999971494
     },
     "note": "Full neighbourhood sync requires language installation (future iteration)"
   },
   "samples": [
     {
       "name": "agent1_generate",
-      "durationMs": 9209.74562500001,
-      "timestamp": 1777813258565
+      "durationMs": 13547.660333000007,
+      "timestamp": 1777815020742
     },
     {
       "name": "agent2_generate",
-      "durationMs": 9235.834000000003,
-      "timestamp": 1777813267775
+      "durationMs": 12782.717249999987,
+      "timestamp": 1777815034290
     },
     {
       "name": "perspective1_create",
-      "durationMs": 19.942125000001397,
-      "timestamp": 1777813277010
+      "durationMs": 14.673374999896623,
+      "timestamp": 1777815047073
     },
     {
       "name": "link_add_executor1_0",
-      "durationMs": 1.0576250000158325,
-      "timestamp": 1777813277030,
+      "durationMs": 1.0235000000102445,
+      "timestamp": 1777815047087,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor1_1",
-      "durationMs": 0.453125,
-      "timestamp": 1777813277031,
+      "durationMs": 0.6587919999146834,
+      "timestamp": 1777815047089,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor1_2",
-      "durationMs": 0.5111250000190921,
-      "timestamp": 1777813277032,
+      "durationMs": 0.7137080000247806,
+      "timestamp": 1777815047089,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor1_3",
-      "durationMs": 0.5197500000067521,
-      "timestamp": 1777813277032,
+      "durationMs": 0.659167000092566,
+      "timestamp": 1777815047090,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor1_4",
-      "durationMs": 0.5400829999998678,
-      "timestamp": 1777813277033,
+      "durationMs": 0.886166000040248,
+      "timestamp": 1777815047091,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor1_5",
-      "durationMs": 0.5018339999951422,
-      "timestamp": 1777813277033,
+      "durationMs": 0.6367080000927672,
+      "timestamp": 1777815047091,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor1_6",
-      "durationMs": 0.4063329999917187,
-      "timestamp": 1777813277034,
+      "durationMs": 0.6560830000089481,
+      "timestamp": 1777815047092,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor1_7",
-      "durationMs": 0.41066700001829304,
-      "timestamp": 1777813277034,
+      "durationMs": 0.6364169999724254,
+      "timestamp": 1777815047093,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor1_8",
-      "durationMs": 0.41587499997694977,
-      "timestamp": 1777813277035,
+      "durationMs": 0.5965410000644624,
+      "timestamp": 1777815047093,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor1_9",
-      "durationMs": 0.3614999999990687,
-      "timestamp": 1777813277035,
+      "durationMs": 0.5281249999534339,
+      "timestamp": 1777815047094,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "perspective2_create",
-      "durationMs": 13.811790999985533,
-      "timestamp": 1777813277036
+      "durationMs": 14.247916999971494,
+      "timestamp": 1777815047095
     },
     {
       "name": "link_add_executor2_0",
-      "durationMs": 0.9131249999918509,
-      "timestamp": 1777813277049,
+      "durationMs": 1.049667000072077,
+      "timestamp": 1777815047109,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor2_1",
-      "durationMs": 0.4519579999905545,
-      "timestamp": 1777813277050,
+      "durationMs": 1.2385839999187738,
+      "timestamp": 1777815047110,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor2_2",
-      "durationMs": 0.4858339999918826,
-      "timestamp": 1777813277051,
+      "durationMs": 0.6255420000525191,
+      "timestamp": 1777815047111,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor2_3",
-      "durationMs": 0.4549999999871943,
-      "timestamp": 1777813277051,
+      "durationMs": 0.6149999999906868,
+      "timestamp": 1777815047112,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor2_4",
-      "durationMs": 0.39408300002105534,
-      "timestamp": 1777813277052,
+      "durationMs": 0.616541999974288,
+      "timestamp": 1777815047112,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor2_5",
-      "durationMs": 0.43374999999650754,
-      "timestamp": 1777813277052,
+      "durationMs": 0.6312499999767169,
+      "timestamp": 1777815047113,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor2_6",
-      "durationMs": 0.43620799999916926,
-      "timestamp": 1777813277053,
+      "durationMs": 0.6827499999199063,
+      "timestamp": 1777815047114,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor2_7",
-      "durationMs": 0.4148330000170972,
-      "timestamp": 1777813277053,
+      "durationMs": 0.5422499999403954,
+      "timestamp": 1777815047114,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor2_8",
-      "durationMs": 0.3755829999863636,
-      "timestamp": 1777813277053,
+      "durationMs": 0.46633399999700487,
+      "timestamp": 1777815047115,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "link_add_executor2_9",
-      "durationMs": 0.4292499999864958,
-      "timestamp": 1777813277054,
+      "durationMs": 0.7389170000096783,
+      "timestamp": 1777815047115,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     }
   ],

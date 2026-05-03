@@ -7,7 +7,13 @@ import { join } from "path";
 import { InstrumentedClient, Transport } from "./client.js";
 import { buildExecutor, startExecutor, waitForHealth, stopExecutor, sleep, initExecutor, ExecutorConfig } from "./executor.js";
 import { Scenario, ScenarioContext, ScenarioResult } from "./scenario.js";
-import { s1ColdStart, s2LinkThroughput, s5QueryScaling, m1NeighbourhoodSync } from "./scenarios/index.js";
+import {
+  s1ColdStart, s2LinkThroughput, s3PerspectiveScaling, s4LanguageInstallStorm,
+  s5QueryScaling, s6ApiConcurrency, s7MemoryStability,
+  m1NeighbourhoodSync, m2MultiExecutorScale, m3LinkLanguageComparison,
+  m4WriteLoadUnderSync, m5ConcurrentNeighbourhoods,
+  a1McpThroughput,
+} from "./scenarios/index.js";
 import { consoleReport, jsonReport, comparisonReport } from "./reporters.js";
 
 const AD4M_REPO = "/Users/josh/workspaces/coasys/ad4m";
@@ -26,7 +32,13 @@ const BRANCHES: BranchConfig[] = [
   { name: "feat/sparql-1.2-cleanup", transport: "graphql", dirName: "feat-sparql-1.2-cleanup" },
 ];
 
-const ALL_SCENARIOS: Scenario[] = [s1ColdStart, s2LinkThroughput, s5QueryScaling, m1NeighbourhoodSync];
+const ALL_SCENARIOS: Scenario[] = [
+  s1ColdStart, s2LinkThroughput, s3PerspectiveScaling, s4LanguageInstallStorm,
+  s5QueryScaling, s6ApiConcurrency, s7MemoryStability,
+  m1NeighbourhoodSync, m2MultiExecutorScale, m3LinkLanguageComparison,
+  m4WriteLoadUnderSync, m5ConcurrentNeighbourhoods,
+  a1McpThroughput,
+];
 
 function parseArgs() {
   const args = process.argv.slice(2);

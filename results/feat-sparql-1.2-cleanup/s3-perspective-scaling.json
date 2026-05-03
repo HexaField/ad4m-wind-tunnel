@@ -1,0 +1,1159 @@
+{
+  "scenario": "s3-perspective-scaling",
+  "branch": "feat/sparql-1.2-cleanup",
+  "startTime": 1777814625613,
+  "endTime": 1777814641443,
+  "durationMs": 15830,
+  "metrics": {
+    "phases": [
+      {
+        "perspectiveCount": 10,
+        "avgCreateMs": 13.12,
+        "p95CreateMs": 15.02,
+        "avgLinkAddMs": 0.82,
+        "p95LinkAddMs": 1.06,
+        "rssKb": 572720
+      },
+      {
+        "perspectiveCount": 50,
+        "avgCreateMs": 12.97,
+        "p95CreateMs": 14.44,
+        "avgLinkAddMs": 0.69,
+        "p95LinkAddMs": 1.02,
+        "rssKb": 698480
+      },
+      {
+        "perspectiveCount": 100,
+        "avgCreateMs": 12.65,
+        "p95CreateMs": 14.24,
+        "avgLinkAddMs": 0.67,
+        "p95LinkAddMs": 0.86,
+        "rssKb": 843200
+      }
+    ],
+    "rssSnapshots": [
+      {
+        "perspectiveCount": 0,
+        "rssKb": 567328
+      },
+      {
+        "perspectiveCount": 10,
+        "rssKb": 572720
+      },
+      {
+        "perspectiveCount": 50,
+        "rssKb": 698480
+      },
+      {
+        "perspectiveCount": 100,
+        "rssKb": 843200
+      }
+    ],
+    "totalPerspectivesCreated": 100,
+    "totalLinksAdded": 500,
+    "rssGrowthKb": 275872
+  },
+  "samples": [
+    {
+      "name": "perspective_create_0",
+      "durationMs": 15.023041000007652,
+      "timestamp": 1777814639767
+    },
+    {
+      "name": "link_add_perspective_0",
+      "durationMs": 0.8547910000197589,
+      "timestamp": 1777814639782,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_1",
+      "durationMs": 13.818749999976717,
+      "timestamp": 1777814639786
+    },
+    {
+      "name": "link_add_perspective_1",
+      "durationMs": 0.801041999948211,
+      "timestamp": 1777814639799,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_2",
+      "durationMs": 13.804041999974288,
+      "timestamp": 1777814639803
+    },
+    {
+      "name": "link_add_perspective_2",
+      "durationMs": 0.7424579999642447,
+      "timestamp": 1777814639817,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_3",
+      "durationMs": 13.655957999988459,
+      "timestamp": 1777814639820
+    },
+    {
+      "name": "link_add_perspective_3",
+      "durationMs": 0.7229160000570118,
+      "timestamp": 1777814639833,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_4",
+      "durationMs": 13.865083000040613,
+      "timestamp": 1777814639836
+    },
+    {
+      "name": "link_add_perspective_4",
+      "durationMs": 0.9132080000126734,
+      "timestamp": 1777814639850,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_5",
+      "durationMs": 14.311209000064991,
+      "timestamp": 1777814639853
+    },
+    {
+      "name": "link_add_perspective_5",
+      "durationMs": 0.7072080000070855,
+      "timestamp": 1777814639867,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_6",
+      "durationMs": 12.736291000037454,
+      "timestamp": 1777814639870
+    },
+    {
+      "name": "link_add_perspective_6",
+      "durationMs": 0.6877499999245629,
+      "timestamp": 1777814639883,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_7",
+      "durationMs": 11.393665999989025,
+      "timestamp": 1777814639886
+    },
+    {
+      "name": "link_add_perspective_7",
+      "durationMs": 0.7904169999528676,
+      "timestamp": 1777814639897,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_8",
+      "durationMs": 11.677499999990687,
+      "timestamp": 1777814639901
+    },
+    {
+      "name": "link_add_perspective_8",
+      "durationMs": 10.29804099991452,
+      "timestamp": 1777814639912,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_9",
+      "durationMs": 10.931125000002794,
+      "timestamp": 1777814639925
+    },
+    {
+      "name": "link_add_perspective_9",
+      "durationMs": 0.7715420000022277,
+      "timestamp": 1777814639936,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_10",
+      "durationMs": 12.925832999986596,
+      "timestamp": 1777814639954
+    },
+    {
+      "name": "link_add_perspective_10",
+      "durationMs": 0.8111250000074506,
+      "timestamp": 1777814639967,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_11",
+      "durationMs": 12.70929199992679,
+      "timestamp": 1777814639971
+    },
+    {
+      "name": "link_add_perspective_11",
+      "durationMs": 0.6957910000346601,
+      "timestamp": 1777814639983,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_12",
+      "durationMs": 13.48749999993015,
+      "timestamp": 1777814639986
+    },
+    {
+      "name": "link_add_perspective_12",
+      "durationMs": 1.1896249999990687,
+      "timestamp": 1777814640000,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_13",
+      "durationMs": 12.534749999991618,
+      "timestamp": 1777814640004
+    },
+    {
+      "name": "link_add_perspective_13",
+      "durationMs": 0.9020000000018626,
+      "timestamp": 1777814640016,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_14",
+      "durationMs": 9.770207999972627,
+      "timestamp": 1777814640021
+    },
+    {
+      "name": "link_add_perspective_14",
+      "durationMs": 0.9241660000989214,
+      "timestamp": 1777814640031,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_15",
+      "durationMs": 12.395625000004657,
+      "timestamp": 1777814640034
+    },
+    {
+      "name": "link_add_perspective_15",
+      "durationMs": 1.0255419999593869,
+      "timestamp": 1777814640046,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_16",
+      "durationMs": 11.210042000049725,
+      "timestamp": 1777814640050
+    },
+    {
+      "name": "link_add_perspective_16",
+      "durationMs": 0.8428749999729916,
+      "timestamp": 1777814640061,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_17",
+      "durationMs": 11.432499999995343,
+      "timestamp": 1777814640065
+    },
+    {
+      "name": "link_add_perspective_17",
+      "durationMs": 0.8640420000301674,
+      "timestamp": 1777814640076,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_18",
+      "durationMs": 12.117957999929786,
+      "timestamp": 1777814640079
+    },
+    {
+      "name": "link_add_perspective_18",
+      "durationMs": 2.043792000040412,
+      "timestamp": 1777814640092,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_19",
+      "durationMs": 13.145167000009678,
+      "timestamp": 1777814640101
+    },
+    {
+      "name": "link_add_perspective_19",
+      "durationMs": 0.7070000000530854,
+      "timestamp": 1777814640114,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_20",
+      "durationMs": 13.452083999989554,
+      "timestamp": 1777814640117
+    },
+    {
+      "name": "link_add_perspective_20",
+      "durationMs": 0.7382909998996183,
+      "timestamp": 1777814640130,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_21",
+      "durationMs": 13.992917000083253,
+      "timestamp": 1777814640134
+    },
+    {
+      "name": "link_add_perspective_21",
+      "durationMs": 0.9166250000707805,
+      "timestamp": 1777814640148,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_22",
+      "durationMs": 13.589249999960884,
+      "timestamp": 1777814640151
+    },
+    {
+      "name": "link_add_perspective_22",
+      "durationMs": 0.7462090000044554,
+      "timestamp": 1777814640164,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_23",
+      "durationMs": 13.592708999989554,
+      "timestamp": 1777814640167
+    },
+    {
+      "name": "link_add_perspective_23",
+      "durationMs": 0.7554579999996349,
+      "timestamp": 1777814640181,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_24",
+      "durationMs": 13.669249999918975,
+      "timestamp": 1777814640184
+    },
+    {
+      "name": "link_add_perspective_24",
+      "durationMs": 0.8941669999621809,
+      "timestamp": 1777814640198,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_25",
+      "durationMs": 13.787499999976717,
+      "timestamp": 1777814640201
+    },
+    {
+      "name": "link_add_perspective_25",
+      "durationMs": 0.7883750000037253,
+      "timestamp": 1777814640214,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_26",
+      "durationMs": 14.938084000023082,
+      "timestamp": 1777814640217
+    },
+    {
+      "name": "link_add_perspective_26",
+      "durationMs": 0.9043340000789613,
+      "timestamp": 1777814640232,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_27",
+      "durationMs": 14.435833999887109,
+      "timestamp": 1777814640236
+    },
+    {
+      "name": "link_add_perspective_27",
+      "durationMs": 0.9134159999666736,
+      "timestamp": 1777814640250,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_28",
+      "durationMs": 13.664292000001296,
+      "timestamp": 1777814640254
+    },
+    {
+      "name": "link_add_perspective_28",
+      "durationMs": 0.8203749998938292,
+      "timestamp": 1777814640267,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_29",
+      "durationMs": 12.699707999941893,
+      "timestamp": 1777814640270
+    },
+    {
+      "name": "link_add_perspective_29",
+      "durationMs": 0.6792500000447035,
+      "timestamp": 1777814640283,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_30",
+      "durationMs": 7.39166700001806,
+      "timestamp": 1777814640286
+    },
+    {
+      "name": "link_add_perspective_30",
+      "durationMs": 0.7385839999187738,
+      "timestamp": 1777814640293,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_31",
+      "durationMs": 12.307999999960884,
+      "timestamp": 1777814640296
+    },
+    {
+      "name": "link_add_perspective_31",
+      "durationMs": 0.7975830000359565,
+      "timestamp": 1777814640309,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_32",
+      "durationMs": 13.345583999995142,
+      "timestamp": 1777814640312
+    },
+    {
+      "name": "link_add_perspective_32",
+      "durationMs": 0.7299590000184253,
+      "timestamp": 1777814640325,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_33",
+      "durationMs": 13.665292000048794,
+      "timestamp": 1777814640328
+    },
+    {
+      "name": "link_add_perspective_33",
+      "durationMs": 0.8706249999813735,
+      "timestamp": 1777814640342,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_34",
+      "durationMs": 13.95616699999664,
+      "timestamp": 1777814640345
+    },
+    {
+      "name": "link_add_perspective_34",
+      "durationMs": 1.0162089999066666,
+      "timestamp": 1777814640359,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_35",
+      "durationMs": 11.59258299996145,
+      "timestamp": 1777814640363
+    },
+    {
+      "name": "link_add_perspective_35",
+      "durationMs": 0.69945800001733,
+      "timestamp": 1777814640374,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_36",
+      "durationMs": 13.679125000024214,
+      "timestamp": 1777814640377
+    },
+    {
+      "name": "link_add_perspective_36",
+      "durationMs": 0.8150420000310987,
+      "timestamp": 1777814640391,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_37",
+      "durationMs": 14.138791000004858,
+      "timestamp": 1777814640394
+    },
+    {
+      "name": "link_add_perspective_37",
+      "durationMs": 0.7617910000262782,
+      "timestamp": 1777814640408,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_38",
+      "durationMs": 13.960833000019193,
+      "timestamp": 1777814640412
+    },
+    {
+      "name": "link_add_perspective_38",
+      "durationMs": 0.7368340000975877,
+      "timestamp": 1777814640426,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_39",
+      "durationMs": 14.118790999986231,
+      "timestamp": 1777814640429
+    },
+    {
+      "name": "link_add_perspective_39",
+      "durationMs": 0.684125000028871,
+      "timestamp": 1777814640443,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_40",
+      "durationMs": 13.250166999991052,
+      "timestamp": 1777814640446
+    },
+    {
+      "name": "link_add_perspective_40",
+      "durationMs": 2.478082999936305,
+      "timestamp": 1777814640459,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_41",
+      "durationMs": 14.223208000068553,
+      "timestamp": 1777814640464
+    },
+    {
+      "name": "link_add_perspective_41",
+      "durationMs": 0.7231249999022111,
+      "timestamp": 1777814640478,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_42",
+      "durationMs": 14.410166000016034,
+      "timestamp": 1777814640481
+    },
+    {
+      "name": "link_add_perspective_42",
+      "durationMs": 0.9627089999848977,
+      "timestamp": 1777814640495,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_43",
+      "durationMs": 14.24045899999328,
+      "timestamp": 1777814640499
+    },
+    {
+      "name": "link_add_perspective_43",
+      "durationMs": 0.9088749999646097,
+      "timestamp": 1777814640513,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_44",
+      "durationMs": 13.317292000050656,
+      "timestamp": 1777814640516
+    },
+    {
+      "name": "link_add_perspective_44",
+      "durationMs": 0.7959590000100434,
+      "timestamp": 1777814640529,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_45",
+      "durationMs": 13.674875000026077,
+      "timestamp": 1777814640533
+    },
+    {
+      "name": "link_add_perspective_45",
+      "durationMs": 0.8394580000312999,
+      "timestamp": 1777814640546,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_46",
+      "durationMs": 12.214290999923833,
+      "timestamp": 1777814640551
+    },
+    {
+      "name": "link_add_perspective_46",
+      "durationMs": 0.8289170000934973,
+      "timestamp": 1777814640563,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_47",
+      "durationMs": 12.203166000079364,
+      "timestamp": 1777814640567
+    },
+    {
+      "name": "link_add_perspective_47",
+      "durationMs": 0.7545839999802411,
+      "timestamp": 1777814640579,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_48",
+      "durationMs": 11.622334000072442,
+      "timestamp": 1777814640582
+    },
+    {
+      "name": "link_add_perspective_48",
+      "durationMs": 0.6988750000018626,
+      "timestamp": 1777814640593,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_49",
+      "durationMs": 11.779125000000931,
+      "timestamp": 1777814640596
+    },
+    {
+      "name": "link_add_perspective_49",
+      "durationMs": 0.7639999999664724,
+      "timestamp": 1777814640608,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_50",
+      "durationMs": 11.577917000046,
+      "timestamp": 1777814640625
+    },
+    {
+      "name": "link_add_perspective_50",
+      "durationMs": 0.799457999994047,
+      "timestamp": 1777814640637,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_51",
+      "durationMs": 12.022750000003725,
+      "timestamp": 1777814640640
+    },
+    {
+      "name": "link_add_perspective_51",
+      "durationMs": 0.8595419999910519,
+      "timestamp": 1777814640653,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_52",
+      "durationMs": 13.435165999922901,
+      "timestamp": 1777814640656
+    },
+    {
+      "name": "link_add_perspective_52",
+      "durationMs": 0.6725000001024455,
+      "timestamp": 1777814640669,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_53",
+      "durationMs": 14.240833000047132,
+      "timestamp": 1777814640672
+    },
+    {
+      "name": "link_add_perspective_53",
+      "durationMs": 0.7316250000149012,
+      "timestamp": 1777814640686,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_54",
+      "durationMs": 13.072249999968335,
+      "timestamp": 1777814640689
+    },
+    {
+      "name": "link_add_perspective_54",
+      "durationMs": 1.3779160000849515,
+      "timestamp": 1777814640702,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_55",
+      "durationMs": 11.97545800008811,
+      "timestamp": 1777814640708
+    },
+    {
+      "name": "link_add_perspective_55",
+      "durationMs": 0.7214999999850988,
+      "timestamp": 1777814640720,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_56",
+      "durationMs": 12.369042000034824,
+      "timestamp": 1777814640725
+    },
+    {
+      "name": "link_add_perspective_56",
+      "durationMs": 0.7665000000270084,
+      "timestamp": 1777814640737,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_57",
+      "durationMs": 11.48133300000336,
+      "timestamp": 1777814640740
+    },
+    {
+      "name": "link_add_perspective_57",
+      "durationMs": 0.7290420000208542,
+      "timestamp": 1777814640752,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_58",
+      "durationMs": 12.370125000015832,
+      "timestamp": 1777814640755
+    },
+    {
+      "name": "link_add_perspective_58",
+      "durationMs": 0.7649590000510216,
+      "timestamp": 1777814640767,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_59",
+      "durationMs": 12.009166999952868,
+      "timestamp": 1777814640770
+    },
+    {
+      "name": "link_add_perspective_59",
+      "durationMs": 0.7373749999096617,
+      "timestamp": 1777814640782,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_60",
+      "durationMs": 11.569791999994777,
+      "timestamp": 1777814640785
+    },
+    {
+      "name": "link_add_perspective_60",
+      "durationMs": 0.8088750001043081,
+      "timestamp": 1777814640797,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_61",
+      "durationMs": 11.94558300008066,
+      "timestamp": 1777814640799
+    },
+    {
+      "name": "link_add_perspective_61",
+      "durationMs": 0.7102079999167472,
+      "timestamp": 1777814640811,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_62",
+      "durationMs": 11.677665999974124,
+      "timestamp": 1777814640814
+    },
+    {
+      "name": "link_add_perspective_62",
+      "durationMs": 0.7364580000285059,
+      "timestamp": 1777814640826,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_63",
+      "durationMs": 11.633999999961816,
+      "timestamp": 1777814640829
+    },
+    {
+      "name": "link_add_perspective_63",
+      "durationMs": 0.7861669999547303,
+      "timestamp": 1777814640841,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_64",
+      "durationMs": 13.649166999966837,
+      "timestamp": 1777814640844
+    },
+    {
+      "name": "link_add_perspective_64",
+      "durationMs": 0.75345799990464,
+      "timestamp": 1777814640858,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_65",
+      "durationMs": 13.532750000013039,
+      "timestamp": 1777814640861
+    },
+    {
+      "name": "link_add_perspective_65",
+      "durationMs": 0.7954170000739396,
+      "timestamp": 1777814640874,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_66",
+      "durationMs": 14.570500000030734,
+      "timestamp": 1777814640877
+    },
+    {
+      "name": "link_add_perspective_66",
+      "durationMs": 0.8921669999836013,
+      "timestamp": 1777814640892,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_67",
+      "durationMs": 12.407583000021987,
+      "timestamp": 1777814640895
+    },
+    {
+      "name": "link_add_perspective_67",
+      "durationMs": 0.8363749999552965,
+      "timestamp": 1777814640907,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_68",
+      "durationMs": 12.028374999994412,
+      "timestamp": 1777814640910
+    },
+    {
+      "name": "link_add_perspective_68",
+      "durationMs": 0.8591670000459999,
+      "timestamp": 1777814640923,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_69",
+      "durationMs": 12.157750000013039,
+      "timestamp": 1777814640926
+    },
+    {
+      "name": "link_add_perspective_69",
+      "durationMs": 0.7271249999757856,
+      "timestamp": 1777814640938,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_70",
+      "durationMs": 12.555417000083253,
+      "timestamp": 1777814640941
+    },
+    {
+      "name": "link_add_perspective_70",
+      "durationMs": 0.7799999999115244,
+      "timestamp": 1777814640953,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_71",
+      "durationMs": 12.195082999998704,
+      "timestamp": 1777814640957
+    },
+    {
+      "name": "link_add_perspective_71",
+      "durationMs": 0.733291000011377,
+      "timestamp": 1777814640969,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_72",
+      "durationMs": 12.38695800001733,
+      "timestamp": 1777814640973
+    },
+    {
+      "name": "link_add_perspective_72",
+      "durationMs": 0.853499999968335,
+      "timestamp": 1777814640986,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_73",
+      "durationMs": 13.529957999940962,
+      "timestamp": 1777814640989
+    },
+    {
+      "name": "link_add_perspective_73",
+      "durationMs": 0.7975830000359565,
+      "timestamp": 1777814641003,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_74",
+      "durationMs": 14.122916999971494,
+      "timestamp": 1777814641006
+    },
+    {
+      "name": "link_add_perspective_74",
+      "durationMs": 0.7758750000502914,
+      "timestamp": 1777814641020,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_75",
+      "durationMs": 14.24937500001397,
+      "timestamp": 1777814641023
+    },
+    {
+      "name": "link_add_perspective_75",
+      "durationMs": 0.8554170000134036,
+      "timestamp": 1777814641037,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_76",
+      "durationMs": 13.219791999901645,
+      "timestamp": 1777814641040
+    },
+    {
+      "name": "link_add_perspective_76",
+      "durationMs": 0.7227910000365227,
+      "timestamp": 1777814641054,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_77",
+      "durationMs": 12.597208000021055,
+      "timestamp": 1777814641056
+    },
+    {
+      "name": "link_add_perspective_77",
+      "durationMs": 0.7480840000789613,
+      "timestamp": 1777814641069,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_78",
+      "durationMs": 12.28070799994748,
+      "timestamp": 1777814641072
+    },
+    {
+      "name": "link_add_perspective_78",
+      "durationMs": 0.7872910000151023,
+      "timestamp": 1777814641084,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_79",
+      "durationMs": 12.35862499999348,
+      "timestamp": 1777814641087
+    },
+    {
+      "name": "link_add_perspective_79",
+      "durationMs": 0.6995840000454336,
+      "timestamp": 1777814641100,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_80",
+      "durationMs": 12.076500000082888,
+      "timestamp": 1777814641103
+    },
+    {
+      "name": "link_add_perspective_80",
+      "durationMs": 0.776084000011906,
+      "timestamp": 1777814641115,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_81",
+      "durationMs": 11.812292000046,
+      "timestamp": 1777814641118
+    },
+    {
+      "name": "link_add_perspective_81",
+      "durationMs": 0.8302499999990687,
+      "timestamp": 1777814641130,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_82",
+      "durationMs": 13.681666999938898,
+      "timestamp": 1777814641133
+    },
+    {
+      "name": "link_add_perspective_82",
+      "durationMs": 0.7393750000046566,
+      "timestamp": 1777814641146,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_83",
+      "durationMs": 13.439249999937601,
+      "timestamp": 1777814641149
+    },
+    {
+      "name": "link_add_perspective_83",
+      "durationMs": 0.8795829999726266,
+      "timestamp": 1777814641163,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_84",
+      "durationMs": 13.537624999997206,
+      "timestamp": 1777814641166
+    },
+    {
+      "name": "link_add_perspective_84",
+      "durationMs": 0.9673330000368878,
+      "timestamp": 1777814641180,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_85",
+      "durationMs": 12.423041000030935,
+      "timestamp": 1777814641183
+    },
+    {
+      "name": "link_add_perspective_85",
+      "durationMs": 0.6982090000528842,
+      "timestamp": 1777814641195,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_86",
+      "durationMs": 13.090250000008382,
+      "timestamp": 1777814641199
+    },
+    {
+      "name": "link_add_perspective_86",
+      "durationMs": 0.7903750000987202,
+      "timestamp": 1777814641212,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_87",
+      "durationMs": 12.34595799993258,
+      "timestamp": 1777814641215
+    },
+    {
+      "name": "link_add_perspective_87",
+      "durationMs": 0.8354999999282882,
+      "timestamp": 1777814641227,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_88",
+      "durationMs": 12.274291999987327,
+      "timestamp": 1777814641230
+    },
+    {
+      "name": "link_add_perspective_88",
+      "durationMs": 0.6702499999664724,
+      "timestamp": 1777814641243,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_89",
+      "durationMs": 12.70679199998267,
+      "timestamp": 1777814641254
+    },
+    {
+      "name": "link_add_perspective_89",
+      "durationMs": 0.8782500000670552,
+      "timestamp": 1777814641267,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_90",
+      "durationMs": 12.789792000083253,
+      "timestamp": 1777814641270
+    },
+    {
+      "name": "link_add_perspective_90",
+      "durationMs": 0.8182919999817386,
+      "timestamp": 1777814641283,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_91",
+      "durationMs": 13.842749999952503,
+      "timestamp": 1777814641287
+    },
+    {
+      "name": "link_add_perspective_91",
+      "durationMs": 0.6952919999603182,
+      "timestamp": 1777814641300,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_92",
+      "durationMs": 13.647292000008747,
+      "timestamp": 1777814641303
+    },
+    {
+      "name": "link_add_perspective_92",
+      "durationMs": 0.7504579999949783,
+      "timestamp": 1777814641317,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_93",
+      "durationMs": 12.732749999966472,
+      "timestamp": 1777814641320
+    },
+    {
+      "name": "link_add_perspective_93",
+      "durationMs": 0.7352090000640601,
+      "timestamp": 1777814641333,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_94",
+      "durationMs": 12.162583000026643,
+      "timestamp": 1777814641336
+    },
+    {
+      "name": "link_add_perspective_94",
+      "durationMs": 0.8568750000558794,
+      "timestamp": 1777814641348,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_95",
+      "durationMs": 11.668334000045434,
+      "timestamp": 1777814641351
+    },
+    {
+      "name": "link_add_perspective_95",
+      "durationMs": 0.6694170000264421,
+      "timestamp": 1777814641363,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_96",
+      "durationMs": 11.896249999990687,
+      "timestamp": 1777814641366
+    },
+    {
+      "name": "link_add_perspective_96",
+      "durationMs": 0.8488750000251457,
+      "timestamp": 1777814641378,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_97",
+      "durationMs": 12.258458000025712,
+      "timestamp": 1777814641381
+    },
+    {
+      "name": "link_add_perspective_97",
+      "durationMs": 0.7618340000044554,
+      "timestamp": 1777814641393,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_98",
+      "durationMs": 12.191083000041544,
+      "timestamp": 1777814641396
+    },
+    {
+      "name": "link_add_perspective_98",
+      "durationMs": 0.74633300001733,
+      "timestamp": 1777814641409,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "perspective_create_99",
+      "durationMs": 12.684291999903508,
+      "timestamp": 1777814641412
+    },
+    {
+      "name": "link_add_perspective_99",
+      "durationMs": 0.8257499999599531,
+      "timestamp": 1777814641425,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    }
+  ],
+  "summary": "Created 100 perspectives. Avg create time: 12.6ms at 100 perspectives (0.96x degradation from 10). RSS growth: 269.4MB"
+}

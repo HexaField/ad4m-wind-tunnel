@@ -1,9 +1,9 @@
 {
   "scenario": "s5-query-scaling",
   "branch": "feat/sse-to-websocket",
-  "startTime": 1777813186614,
-  "endTime": 1777813196306,
-  "durationMs": 9692,
+  "startTime": 1777814150318,
+  "endTime": 1777814166807,
+  "durationMs": 16489,
   "metrics": {
     "dataSizes": [
       100,
@@ -13,216 +13,216 @@
     "scalingResults": [
       {
         "dataSize": 100,
-        "queryAllAvgMs": 0.35,
-        "queryBySourceAvgMs": 0.33,
+        "queryAllAvgMs": 0.54,
+        "queryBySourceAvgMs": 0.43,
         "queryAllLatencies": [
-          0.47,
-          0.31,
-          0.34,
-          0.29,
-          0.34
+          0.84,
+          0.45,
+          0.36,
+          0.54,
+          0.51
         ],
         "queryBySourceLatencies": [
+          0.59,
+          0.43,
           0.34,
-          0.37,
-          0.31,
-          0.31,
-          0.32
+          0.4,
+          0.36
         ]
       },
       {
         "dataSize": 500,
-        "queryAllAvgMs": 0.39,
-        "queryBySourceAvgMs": 0.37,
+        "queryAllAvgMs": 0.5,
+        "queryBySourceAvgMs": 0.61,
         "queryAllLatencies": [
-          0.42,
-          0.32,
-          0.43,
-          0.36,
-          0.42
+          0.58,
+          0.46,
+          0.45,
+          0.55,
+          0.43
         ],
         "queryBySourceLatencies": [
-          0.34,
-          0.34,
-          0.36,
+          0.49,
           0.43,
-          0.39
+          1.1,
+          0.56,
+          0.46
         ]
       },
       {
         "dataSize": 1000,
-        "queryAllAvgMs": 0.31,
-        "queryBySourceAvgMs": 0.28,
+        "queryAllAvgMs": 0.5,
+        "queryBySourceAvgMs": 0.48,
         "queryAllLatencies": [
-          0.44,
-          0.32,
-          0.28,
-          0.24,
-          0.25
+          0.62,
+          0.51,
+          0.47,
+          0.48,
+          0.4
         ],
         "queryBySourceLatencies": [
-          0.32,
-          0.3,
-          0.27,
-          0.25,
-          0.25
+          0.5,
+          0.57,
+          0.47,
+          0.45,
+          0.39
         ]
       }
     ],
-    "scalingFactor": 0.89,
+    "scalingFactor": 0.93,
     "totalLinksAdded": 1000
   },
   "samples": [
     {
       "name": "query_all_at_100_iter_0",
-      "durationMs": 0.4651670000021113,
-      "timestamp": 1777813195931
+      "durationMs": 0.8439590000052704,
+      "timestamp": 1777814165750
     },
     {
       "name": "query_source_at_100_iter_0",
-      "durationMs": 0.34100000000034925,
-      "timestamp": 1777813195932
+      "durationMs": 0.594916000001831,
+      "timestamp": 1777814165751
     },
     {
       "name": "query_all_at_100_iter_1",
-      "durationMs": 0.3114159999968251,
-      "timestamp": 1777813195932
+      "durationMs": 0.4534999999887077,
+      "timestamp": 1777814165752
     },
     {
       "name": "query_source_at_100_iter_1",
-      "durationMs": 0.3715420000080485,
-      "timestamp": 1777813195932
+      "durationMs": 0.42875000000640284,
+      "timestamp": 1777814165752
     },
     {
       "name": "query_all_at_100_iter_2",
-      "durationMs": 0.33608300000196323,
-      "timestamp": 1777813195933
+      "durationMs": 0.3635000000067521,
+      "timestamp": 1777814165753
     },
     {
       "name": "query_source_at_100_iter_2",
-      "durationMs": 0.30879100000311155,
-      "timestamp": 1777813195933
+      "durationMs": 0.3443750000005821,
+      "timestamp": 1777814165753
     },
     {
       "name": "query_all_at_100_iter_3",
-      "durationMs": 0.29466600000159815,
-      "timestamp": 1777813195934
+      "durationMs": 0.5433329999941634,
+      "timestamp": 1777814165753
     },
     {
       "name": "query_source_at_100_iter_3",
-      "durationMs": 0.3080829999962589,
-      "timestamp": 1777813195934
+      "durationMs": 0.40083400000003166,
+      "timestamp": 1777814165754
     },
     {
       "name": "query_all_at_100_iter_4",
-      "durationMs": 0.33783400000538677,
-      "timestamp": 1777813195934
+      "durationMs": 0.5088749999995343,
+      "timestamp": 1777814165754
     },
     {
       "name": "query_source_at_100_iter_4",
-      "durationMs": 0.3234590000065509,
-      "timestamp": 1777813195934
+      "durationMs": 0.3624580000032438,
+      "timestamp": 1777814165755
     },
     {
       "name": "query_all_at_500_iter_0",
-      "durationMs": 0.4164580000069691,
-      "timestamp": 1777813196086
+      "durationMs": 0.5845830000034766,
+      "timestamp": 1777814166159
     },
     {
       "name": "query_source_at_500_iter_0",
-      "durationMs": 0.33591700000397395,
-      "timestamp": 1777813196086
+      "durationMs": 0.49104199999419507,
+      "timestamp": 1777814166159
     },
     {
       "name": "query_all_at_500_iter_1",
-      "durationMs": 0.317125000001397,
-      "timestamp": 1777813196087
+      "durationMs": 0.4637079999956768,
+      "timestamp": 1777814166160
     },
     {
       "name": "query_source_at_500_iter_1",
-      "durationMs": 0.34441700000024866,
-      "timestamp": 1777813196087
+      "durationMs": 0.42812500000582077,
+      "timestamp": 1777814166160
     },
     {
       "name": "query_all_at_500_iter_2",
-      "durationMs": 0.4252919999998994,
-      "timestamp": 1777813196087
+      "durationMs": 0.4547500000044238,
+      "timestamp": 1777814166161
     },
     {
       "name": "query_source_at_500_iter_2",
-      "durationMs": 0.3613750000076834,
-      "timestamp": 1777813196088
+      "durationMs": 1.0952919999981532,
+      "timestamp": 1777814166161
     },
     {
       "name": "query_all_at_500_iter_3",
-      "durationMs": 0.3639580000017304,
-      "timestamp": 1777813196088
+      "durationMs": 0.5528749999939464,
+      "timestamp": 1777814166162
     },
     {
       "name": "query_source_at_500_iter_3",
-      "durationMs": 0.4299999999930151,
-      "timestamp": 1777813196088
+      "durationMs": 0.5570000000006985,
+      "timestamp": 1777814166163
     },
     {
       "name": "query_all_at_500_iter_4",
-      "durationMs": 0.42062499999883585,
-      "timestamp": 1777813196089
+      "durationMs": 0.427958000000217,
+      "timestamp": 1777814166163
     },
     {
       "name": "query_source_at_500_iter_4",
-      "durationMs": 0.394665999992867,
-      "timestamp": 1777813196089
+      "durationMs": 0.4587500000052387,
+      "timestamp": 1777814166164
     },
     {
       "name": "query_all_at_1000_iter_0",
-      "durationMs": 0.4376660000125412,
-      "timestamp": 1777813196303
+      "durationMs": 0.623249999989639,
+      "timestamp": 1777814166802
     },
     {
       "name": "query_source_at_1000_iter_0",
-      "durationMs": 0.3211660000088159,
-      "timestamp": 1777813196304
+      "durationMs": 0.5034160000068368,
+      "timestamp": 1777814166803
     },
     {
       "name": "query_all_at_1000_iter_1",
-      "durationMs": 0.3246669999934966,
-      "timestamp": 1777813196304
+      "durationMs": 0.5105840000032913,
+      "timestamp": 1777814166803
     },
     {
       "name": "query_source_at_1000_iter_1",
-      "durationMs": 0.30154200000106357,
-      "timestamp": 1777813196305
+      "durationMs": 0.570625000007567,
+      "timestamp": 1777814166804
     },
     {
       "name": "query_all_at_1000_iter_2",
-      "durationMs": 0.2812080000003334,
-      "timestamp": 1777813196305
+      "durationMs": 0.4712079999881098,
+      "timestamp": 1777814166804
     },
     {
       "name": "query_source_at_1000_iter_2",
-      "durationMs": 0.265625,
-      "timestamp": 1777813196305
+      "durationMs": 0.4677499999961583,
+      "timestamp": 1777814166805
     },
     {
       "name": "query_all_at_1000_iter_3",
-      "durationMs": 0.24379199999384582,
-      "timestamp": 1777813196305
+      "durationMs": 0.47950000000128057,
+      "timestamp": 1777814166805
     },
     {
       "name": "query_source_at_1000_iter_3",
-      "durationMs": 0.24683300001197495,
-      "timestamp": 1777813196306
+      "durationMs": 0.4485839999979362,
+      "timestamp": 1777814166806
     },
     {
       "name": "query_all_at_1000_iter_4",
-      "durationMs": 0.24683300001197495,
-      "timestamp": 1777813196306
+      "durationMs": 0.4002079999918351,
+      "timestamp": 1777814166806
     },
     {
       "name": "query_source_at_1000_iter_4",
-      "durationMs": 0.24662499999976717,
-      "timestamp": 1777813196306
+      "durationMs": 0.3860419999982696,
+      "timestamp": 1777814166807
     }
   ],
-  "summary": "Query scaling (0.89x at 1000 vs 100 links):\n  100 links: queryAll=0.35ms, queryBySource=0.33ms\n  500 links: queryAll=0.39ms, queryBySource=0.37ms\n  1000 links: queryAll=0.31ms, queryBySource=0.28ms"
+  "summary": "Query scaling (0.93x at 1000 vs 100 links):\n  100 links: queryAll=0.54ms, queryBySource=0.43ms\n  500 links: queryAll=0.5ms, queryBySource=0.61ms\n  1000 links: queryAll=0.5ms, queryBySource=0.48ms"
 }

@@ -1,0 +1,31 @@
+{
+  "scenario": "m3-link-language-comparison",
+  "branch": "feat/sse-to-websocket",
+  "startTime": 1777814581179,
+  "endTime": 1777814581179,
+  "durationMs": 0,
+  "metrics": {
+    "status": "STUB",
+    "requiresInfrastructure": [
+      "Docker Compose with Matrix Synapse",
+      "Nostr relay (strfry or similar)",
+      "IPFS node (kubo)",
+      "Compiled link language bundles for each backend",
+      "Holochain bootstrap and proxy services"
+    ],
+    "plannedLanguages": [
+      "matrix",
+      "nostr",
+      "ipfs",
+      "local"
+    ],
+    "plannedMetrics": [
+      "addLatencyMs",
+      "queryLatencyMs",
+      "syncTimeMs",
+      "reliability"
+    ]
+  },
+  "samples": [],
+  "summary": "STUB: Requires Docker Compose infrastructure (Matrix/Nostr/IPFS). See scenario file for requirements."
+}

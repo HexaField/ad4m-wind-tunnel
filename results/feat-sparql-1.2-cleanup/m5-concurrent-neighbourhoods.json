@@ -1,0 +1,31 @@
+{
+  "scenario": "m5-concurrent-neighbourhoods",
+  "branch": "feat/sparql-1.2-cleanup",
+  "startTime": 1777815087590,
+  "endTime": 1777815087590,
+  "durationMs": 0,
+  "metrics": {
+    "status": "STUB",
+    "requiresInfrastructure": [
+      "6+ executors for 3 concurrent neighbourhoods",
+      "Neighbourhood sync fully operational",
+      "Link languages installed and configured",
+      "Holochain bootstrap + signal server",
+      "~2-3GB available RAM for executor instances"
+    ],
+    "plannedNeighbourhoodCounts": [
+      3,
+      5,
+      10
+    ],
+    "plannedMetrics": [
+      "perNeighbourhoodSyncLatencyMs",
+      "crossNeighbourhoodInterference",
+      "totalMemoryFootprintMb",
+      "cpuUtilisationScaling",
+      "holochainConductorInterference"
+    ]
+  },
+  "samples": [],
+  "summary": "STUB: Requires multi-executor neighbourhood sync infrastructure (6+ executors, Holochain). See scenario file for requirements."
+}

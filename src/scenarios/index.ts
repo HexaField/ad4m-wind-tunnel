@@ -1,4 +1,13 @@
 export { s1ColdStart } from "./s1-cold-start.js";
 export { s2LinkThroughput } from "./s2-link-throughput.js";
+export { s3PerspectiveScaling } from "./s3-perspective-scaling.js";
+export { s4LanguageInstallStorm } from "./s4-language-install-storm.js";
 export { s5QueryScaling } from "./s5-query-scaling.js";
+export { s6ApiConcurrency } from "./s6-api-concurrency.js";
+export { s7MemoryStability } from "./s7-memory-stability.js";
 export { m1NeighbourhoodSync } from "./m1-neighbourhood-sync.js";
+export { m2MultiExecutorScale } from "./m2-multi-executor-scale.js";
+export { m3LinkLanguageComparison } from "./m3-link-language-comparison.js";
+export { m4WriteLoadUnderSync } from "./m4-write-load-under-sync.js";
+export { m5ConcurrentNeighbourhoods } from "./m5-concurrent-neighbourhoods.js";
+export { a1McpThroughput } from "./a1-mcp-throughput.js";

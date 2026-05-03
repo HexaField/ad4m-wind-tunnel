@@ -1,0 +1,47 @@
+{
+  "scenario": "m2-multi-executor-scale",
+  "branch": "feat/sse-to-websocket",
+  "startTime": 1777814545472,
+  "endTime": 1777814578604,
+  "durationMs": 33132,
+  "metrics": {
+    "singleExecutor": {
+      "avgMs": 0.61,
+      "p95Ms": 1.09,
+      "count": 100
+    },
+    "multiExecutor": {
+      "executorCount": 3,
+      "perExecutor": [
+        {
+          "executorIdx": 0,
+          "avgMs": 0.55,
+          "p95Ms": 0.89,
+          "errors": 100
+        },
+        {
+          "executorIdx": 1,
+          "avgMs": 0.66,
+          "p95Ms": 1.41,
+          "errors": 100
+        },
+        {
+          "executorIdx": 2,
+          "avgMs": 0.66,
+          "p95Ms": 1.19,
+          "errors": 100
+        }
+      ],
+      "overallAvgMs": 0.62
+    },
+    "degradationFactor": 1.02
+  },
+  "samples": [
+    {
+      "name": "single_executor_baseline",
+      "durationMs": 61.081457999767736,
+      "timestamp": 1777814560248
+    }
+  ],
+  "summary": "Single: avg 0.6ms. Multi (3 executors): avg 0.6ms. Degradation: 1.02x"
+}

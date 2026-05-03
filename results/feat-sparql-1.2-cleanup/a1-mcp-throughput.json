@@ -1,0 +1,322 @@
+{
+  "scenario": "a1-mcp-throughput",
+  "branch": "feat/sparql-1.2-cleanup",
+  "startTime": 1777815090155,
+  "endTime": 1777815090174,
+  "durationMs": 19,
+  "metrics": {
+    "mcpAvailable": true,
+    "iterations": 50,
+    "errors": 50,
+    "avgMs": 0.35,
+    "p50Ms": 0.35,
+    "p95Ms": 0.4,
+    "p99Ms": 0.45,
+    "minMs": 0.24,
+    "maxMs": 0.45,
+    "throughputCallsPerSec": 2631.6
+  },
+  "samples": [
+    {
+      "name": "mcp_call_0",
+      "durationMs": 0.3897909999359399,
+      "timestamp": 1777815090157,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_1",
+      "durationMs": 0.4039999999804422,
+      "timestamp": 1777815090157,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_2",
+      "durationMs": 0.33241600007750094,
+      "timestamp": 1777815090157,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_3",
+      "durationMs": 0.3505000000586733,
+      "timestamp": 1777815090158,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_4",
+      "durationMs": 0.4027089999290183,
+      "timestamp": 1777815090158,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_5",
+      "durationMs": 0.4035409999778494,
+      "timestamp": 1777815090159,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_6",
+      "durationMs": 0.38125000009313226,
+      "timestamp": 1777815090159,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_7",
+      "durationMs": 0.38754099991638213,
+      "timestamp": 1777815090159,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_8",
+      "durationMs": 0.35662500001490116,
+      "timestamp": 1777815090160,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_9",
+      "durationMs": 0.34870800003409386,
+      "timestamp": 1777815090160,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_10",
+      "durationMs": 0.3486249999841675,
+      "timestamp": 1777815090161,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_11",
+      "durationMs": 0.3975829998962581,
+      "timestamp": 1777815090161,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_12",
+      "durationMs": 0.45433300000149757,
+      "timestamp": 1777815090161,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_13",
+      "durationMs": 0.3522499999962747,
+      "timestamp": 1777815090162,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_14",
+      "durationMs": 0.3543749999953434,
+      "timestamp": 1777815090162,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_15",
+      "durationMs": 0.3738750000484288,
+      "timestamp": 1777815090162,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_16",
+      "durationMs": 0.3727909999433905,
+      "timestamp": 1777815090163,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_17",
+      "durationMs": 0.40058299992233515,
+      "timestamp": 1777815090163,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_18",
+      "durationMs": 0.3882910000393167,
+      "timestamp": 1777815090164,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_19",
+      "durationMs": 0.34545799996703863,
+      "timestamp": 1777815090164,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_20",
+      "durationMs": 0.341084000072442,
+      "timestamp": 1777815090164,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_21",
+      "durationMs": 0.3079589999979362,
+      "timestamp": 1777815090165,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_22",
+      "durationMs": 0.33199999993667006,
+      "timestamp": 1777815090165,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_23",
+      "durationMs": 0.32862499996554106,
+      "timestamp": 1777815090165,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_24",
+      "durationMs": 0.3258749999804422,
+      "timestamp": 1777815090166,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_25",
+      "durationMs": 0.3612499999580905,
+      "timestamp": 1777815090166,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_26",
+      "durationMs": 0.39337500010151416,
+      "timestamp": 1777815090166,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_27",
+      "durationMs": 0.3208749999757856,
+      "timestamp": 1777815090167,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_28",
+      "durationMs": 0.31520799989812076,
+      "timestamp": 1777815090167,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_29",
+      "durationMs": 0.2862920000916347,
+      "timestamp": 1777815090167,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_30",
+      "durationMs": 0.30929100001230836,
+      "timestamp": 1777815090168,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_31",
+      "durationMs": 0.31429199990816414,
+      "timestamp": 1777815090168,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_32",
+      "durationMs": 0.29579100001137704,
+      "timestamp": 1777815090168,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_33",
+      "durationMs": 0.28945799998473376,
+      "timestamp": 1777815090169,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_34",
+      "durationMs": 0.286833000020124,
+      "timestamp": 1777815090169,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_35",
+      "durationMs": 0.277875000028871,
+      "timestamp": 1777815090169,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_36",
+      "durationMs": 0.28295800008345395,
+      "timestamp": 1777815090170,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_37",
+      "durationMs": 0.3174169999547303,
+      "timestamp": 1777815090170,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_38",
+      "durationMs": 0.37016599997878075,
+      "timestamp": 1777815090170,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_39",
+      "durationMs": 0.35408299998380244,
+      "timestamp": 1777815090171,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_40",
+      "durationMs": 0.3568330000853166,
+      "timestamp": 1777815090171,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_41",
+      "durationMs": 0.3220419998979196,
+      "timestamp": 1777815090171,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_42",
+      "durationMs": 0.37754100002348423,
+      "timestamp": 1777815090172,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_43",
+      "durationMs": 0.38683299999684095,
+      "timestamp": 1777815090172,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_44",
+      "durationMs": 0.38995899993460625,
+      "timestamp": 1777815090172,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_45",
+      "durationMs": 0.38099999993573874,
+      "timestamp": 1777815090173,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_46",
+      "durationMs": 0.3398340001003817,
+      "timestamp": 1777815090173,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_47",
+      "durationMs": 0.2732079999987036,
+      "timestamp": 1777815090173,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_48",
+      "durationMs": 0.2817500000819564,
+      "timestamp": 1777815090174,
+      "error": "HTTP 405"
+    },
+    {
+      "name": "mcp_call_49",
+      "durationMs": 0.24341700004879385,
+      "timestamp": 1777815090174,
+      "error": "HTTP 405"
+    }
+  ],
+  "summary": "MCP: 50 calls, avg 0.3ms, P95 0.4ms, 2631.6 calls/s, 50 errors"
+}

@@ -1,0 +1,57 @@
+{
+  "scenario": "s6-api-concurrency",
+  "branch": "feat/sse-to-websocket",
+  "startTime": 1777814169381,
+  "endTime": 1777814191128,
+  "durationMs": 21747,
+  "metrics": {
+    "levels": [
+      {
+        "concurrency": 5,
+        "avgLatencyMs": 27.45,
+        "p50Ms": 1.85,
+        "p95Ms": 112.25,
+        "throughputOpsPerSec": 151,
+        "errors": 35,
+        "totalOps": 100
+      },
+      {
+        "concurrency": 10,
+        "avgLatencyMs": 43.38,
+        "p50Ms": 8.29,
+        "p95Ms": 185.65,
+        "throughputOpsPerSec": 203.4,
+        "errors": 70,
+        "totalOps": 200
+      },
+      {
+        "concurrency": 25,
+        "avgLatencyMs": 89.14,
+        "p50Ms": 47.4,
+        "p95Ms": 335.53,
+        "throughputOpsPerSec": 248,
+        "errors": 175,
+        "totalOps": 500
+      }
+    ],
+    "scalingFactor": 3.25
+  },
+  "samples": [
+    {
+      "name": "concurrency_5",
+      "durationMs": 662.0712920000078,
+      "timestamp": 1777814185123
+    },
+    {
+      "name": "concurrency_10",
+      "durationMs": 983.4772500000108,
+      "timestamp": 1777814187107
+    },
+    {
+      "name": "concurrency_25",
+      "durationMs": 2016.1115419999987,
+      "timestamp": 1777814190126
+    }
+  ],
+  "summary": "Concurrency levels [5,10,25]: At 25 clients: avg 89.1ms, P95 335.5ms, 248 ops/s, 175 errors. Scaling factor: 3.25x"
+}

@@ -1,0 +1,29 @@
+{
+  "scenario": "m4-write-load-under-sync",
+  "branch": "feat/sparql-1.2-cleanup",
+  "startTime": 1777815085017,
+  "endTime": 1777815085017,
+  "durationMs": 0,
+  "metrics": {
+    "status": "STUB",
+    "requiresInfrastructure": [
+      "Neighbourhood sync operational between 2+ executors",
+      "Shared link language with sync support installed",
+      "Holochain bootstrap service",
+      "Signal server for peer discovery"
+    ],
+    "plannedWriteRates": [
+      "10/s",
+      "50/s",
+      "100/s"
+    ],
+    "plannedMetrics": [
+      "writeLatencyMs (with sync overhead)",
+      "syncPropagationDelayMs",
+      "writeThroughputCeiling",
+      "memoryUsageUnderSync"
+    ]
+  },
+  "samples": [],
+  "summary": "STUB: Requires neighbourhood sync infrastructure (Holochain + link language). See scenario file for requirements."
+}

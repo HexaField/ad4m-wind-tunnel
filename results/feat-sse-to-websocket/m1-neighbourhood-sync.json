@@ -1,159 +1,159 @@
 {
   "scenario": "m1-neighbourhood-sync",
   "branch": "feat/sse-to-websocket",
-  "startTime": 1777813199422,
-  "endTime": 1777813217853,
-  "durationMs": 18431,
+  "startTime": 1777814513389,
+  "endTime": 1777814542911,
+  "durationMs": 29522,
   "metrics": {
     "executor1AvgLinkAddMs": 0,
     "executor2AvgLinkAddMs": 0,
     "executor1LinkCount": 10,
     "executor2LinkCount": 10,
     "perspectiveCreateMs": {
-      "executor1": 56.275792000000365,
-      "executor2": 50.1182919999992
+      "executor1": 52.28445899998769,
+      "executor2": 55.71570800000336
     },
     "note": "Full neighbourhood sync requires language installation (future iteration)"
   },
   "samples": [
     {
       "name": "agent1_generate",
-      "durationMs": 9097.618833,
-      "timestamp": 1777813199423
+      "durationMs": 15120.18408399995,
+      "timestamp": 1777814513390
     },
     {
       "name": "agent2_generate",
-      "durationMs": 9215.005749999997,
-      "timestamp": 1777813208521
+      "durationMs": 14278.791458999971,
+      "timestamp": 1777814528511
     },
     {
       "name": "perspective1_create",
-      "durationMs": 56.275792000000365,
-      "timestamp": 1777813217735
+      "durationMs": 52.28445899998769,
+      "timestamp": 1777814542789
     },
     {
       "name": "link_add_executor1_0",
-      "durationMs": 1.0282500000030268,
-      "timestamp": 1777813217792,
+      "durationMs": 1.2143749999813735,
+      "timestamp": 1777814542842,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor1_1",
-      "durationMs": 0.5198749999981374,
-      "timestamp": 1777813217793,
+      "durationMs": 0.8169999999809079,
+      "timestamp": 1777814542843,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor1_2",
-      "durationMs": 0.5589580000087153,
-      "timestamp": 1777813217793,
+      "durationMs": 0.6556669999845326,
+      "timestamp": 1777814542844,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor1_3",
-      "durationMs": 0.5135840000002645,
-      "timestamp": 1777813217794,
+      "durationMs": 0.6167079999577254,
+      "timestamp": 1777814542844,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor1_4",
-      "durationMs": 0.4973750000062864,
-      "timestamp": 1777813217794,
+      "durationMs": 0.6457919999957085,
+      "timestamp": 1777814542845,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor1_5",
-      "durationMs": 0.5617079999938142,
-      "timestamp": 1777813217795,
+      "durationMs": 0.8037079999921843,
+      "timestamp": 1777814542846,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor1_6",
-      "durationMs": 0.4582090000039898,
-      "timestamp": 1777813217796,
+      "durationMs": 0.48283300001639873,
+      "timestamp": 1777814542847,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor1_7",
-      "durationMs": 0.46600000000034925,
-      "timestamp": 1777813217796,
+      "durationMs": 0.5467499999795109,
+      "timestamp": 1777814542847,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor1_8",
-      "durationMs": 0.4759580000099959,
-      "timestamp": 1777813217796,
+      "durationMs": 0.5598330000066198,
+      "timestamp": 1777814542848,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor1_9",
-      "durationMs": 0.47054199999547563,
-      "timestamp": 1777813217797,
+      "durationMs": 0.5672919999924488,
+      "timestamp": 1777814542848,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "perspective2_create",
-      "durationMs": 50.1182919999992,
-      "timestamp": 1777813217797
+      "durationMs": 55.71570800000336,
+      "timestamp": 1777814542849
     },
     {
       "name": "link_add_executor2_0",
-      "durationMs": 0.9766250000102445,
-      "timestamp": 1777813217848,
+      "durationMs": 1.1327080000191927,
+      "timestamp": 1777814542904,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor2_1",
-      "durationMs": 0.557874999998603,
-      "timestamp": 1777813217849,
+      "durationMs": 0.9574169999687001,
+      "timestamp": 1777814542906,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor2_2",
-      "durationMs": 0.5103329999983544,
-      "timestamp": 1777813217849,
+      "durationMs": 0.6372909999918193,
+      "timestamp": 1777814542907,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor2_3",
-      "durationMs": 0.4803749999991851,
-      "timestamp": 1777813217850,
+      "durationMs": 0.5732910000369884,
+      "timestamp": 1777814542907,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor2_4",
-      "durationMs": 0.5127910000010161,
-      "timestamp": 1777813217850,
+      "durationMs": 0.6097080000326969,
+      "timestamp": 1777814542908,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor2_5",
-      "durationMs": 0.43225000001257285,
-      "timestamp": 1777813217851,
+      "durationMs": 0.5957080000080168,
+      "timestamp": 1777814542908,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor2_6",
-      "durationMs": 0.49379200000839774,
-      "timestamp": 1777813217851,
+      "durationMs": 0.486583000048995,
+      "timestamp": 1777814542909,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor2_7",
-      "durationMs": 0.44979199999943376,
-      "timestamp": 1777813217852,
+      "durationMs": 0.4730410000192933,
+      "timestamp": 1777814542910,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor2_8",
-      "durationMs": 0.41349999999511056,
-      "timestamp": 1777813217852,
+      "durationMs": 0.5304999999934807,
+      "timestamp": 1777814542910,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     },
     {
       "name": "link_add_executor2_9",
-      "durationMs": 0.4334170000074664,
-      "timestamp": 1777813217852,
+      "durationMs": 0.8200000000069849,
+      "timestamp": 1777814542911,
       "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 82"
     }
   ],

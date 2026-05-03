@@ -1,0 +1,47 @@
+{
+  "scenario": "m2-multi-executor-scale",
+  "branch": "feat/sparql-1.2-cleanup",
+  "startTime": 1777815049681,
+  "endTime": 1777815079880,
+  "durationMs": 30199,
+  "metrics": {
+    "singleExecutor": {
+      "avgMs": 0.6,
+      "p95Ms": 1.12,
+      "count": 100
+    },
+    "multiExecutor": {
+      "executorCount": 3,
+      "perExecutor": [
+        {
+          "executorIdx": 0,
+          "avgMs": 0.55,
+          "p95Ms": 0.82,
+          "errors": 100
+        },
+        {
+          "executorIdx": 1,
+          "avgMs": 0.47,
+          "p95Ms": 0.62,
+          "errors": 100
+        },
+        {
+          "executorIdx": 2,
+          "avgMs": 0.54,
+          "p95Ms": 0.95,
+          "errors": 100
+        }
+      ],
+      "overallAvgMs": 0.52
+    },
+    "degradationFactor": 0.87
+  },
+  "samples": [
+    {
+      "name": "single_executor_baseline",
+      "durationMs": 59.83208000008017,
+      "timestamp": 1777815062815
+    }
+  ],
+  "summary": "Single: avg 0.6ms. Multi (3 executors): avg 0.5ms. Degradation: 0.87x"
+}

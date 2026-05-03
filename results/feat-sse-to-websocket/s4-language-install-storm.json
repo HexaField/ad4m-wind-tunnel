@@ -1,0 +1,217 @@
+{
+  "scenario": "s4-language-install-storm",
+  "branch": "feat/sse-to-websocket",
+  "startTime": 1777814128522,
+  "endTime": 1777814147707,
+  "durationMs": 19185,
+  "metrics": {
+    "batches": [
+      {
+        "concurrency": 5,
+        "avgCreateMs": 62.69,
+        "avgLinkMs": 7.28,
+        "totalMs": 94,
+        "errors": 50,
+        "rssKb": 195072
+      },
+      {
+        "concurrency": 10,
+        "avgCreateMs": 107.72,
+        "avgLinkMs": 14.32,
+        "totalMs": 134,
+        "errors": 100,
+        "rssKb": 199792
+      },
+      {
+        "concurrency": 20,
+        "avgCreateMs": 178.9,
+        "avgLinkMs": 29.53,
+        "totalMs": 310,
+        "errors": 200,
+        "rssKb": 212048
+      }
+    ],
+    "initialRssKb": 189920,
+    "finalRssKb": 212272,
+    "rssGrowthKb": 22352,
+    "note": "Full language installation testing requires languageApplyTemplateAndPublish API and template languages. This scenario uses concurrent perspective+link operations as a load proxy."
+  },
+  "samples": [
+    {
+      "name": "concurrent_create_5",
+      "durationMs": 49.49725000000035,
+      "timestamp": 1777814144122
+    },
+    {
+      "name": "concurrent_create_5",
+      "durationMs": 50.847374999997555,
+      "timestamp": 1777814144122
+    },
+    {
+      "name": "concurrent_create_5",
+      "durationMs": 49.438083000000915,
+      "timestamp": 1777814144122
+    },
+    {
+      "name": "concurrent_create_5",
+      "durationMs": 82.06804199999897,
+      "timestamp": 1777814144122
+    },
+    {
+      "name": "concurrent_create_5",
+      "durationMs": 81.61883399999351,
+      "timestamp": 1777814144122
+    },
+    {
+      "name": "concurrent_create_10",
+      "durationMs": 106.20733299999847,
+      "timestamp": 1777814145229
+    },
+    {
+      "name": "concurrent_create_10",
+      "durationMs": 110.17416700000467,
+      "timestamp": 1777814145230
+    },
+    {
+      "name": "concurrent_create_10",
+      "durationMs": 107.89783400000306,
+      "timestamp": 1777814145230
+    },
+    {
+      "name": "concurrent_create_10",
+      "durationMs": 108.47962499999267,
+      "timestamp": 1777814145230
+    },
+    {
+      "name": "concurrent_create_10",
+      "durationMs": 109.18924999999581,
+      "timestamp": 1777814145231
+    },
+    {
+      "name": "concurrent_create_10",
+      "durationMs": 103.93687499999942,
+      "timestamp": 1777814145231
+    },
+    {
+      "name": "concurrent_create_10",
+      "durationMs": 109.77941699999792,
+      "timestamp": 1777814145231
+    },
+    {
+      "name": "concurrent_create_10",
+      "durationMs": 108.63387499999953,
+      "timestamp": 1777814145231
+    },
+    {
+      "name": "concurrent_create_10",
+      "durationMs": 108.11241699999664,
+      "timestamp": 1777814145231
+    },
+    {
+      "name": "concurrent_create_10",
+      "durationMs": 104.79366699999082,
+      "timestamp": 1777814145231
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 52.08737499998824,
+      "timestamp": 1777814146380
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 154.9697920000035,
+      "timestamp": 1777814146380
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 201.03066699999908,
+      "timestamp": 1777814146380
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 147.04637500000536,
+      "timestamp": 1777814146381
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 150.20366700000886,
+      "timestamp": 1777814146381
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 147.6019590000069,
+      "timestamp": 1777814146381
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 184.671875,
+      "timestamp": 1777814146381
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 245.73029200000747,
+      "timestamp": 1777814146381
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 261.9054579999938,
+      "timestamp": 1777814146381
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 219.61491699999897,
+      "timestamp": 1777814146381
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 216.9251670000085,
+      "timestamp": 1777814146381
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 245.3208750000049,
+      "timestamp": 1777814146381
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 214.3533330000064,
+      "timestamp": 1777814146381
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 147.74175000000105,
+      "timestamp": 1777814146381
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 150.47229200000584,
+      "timestamp": 1777814146381
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 193.66154200000165,
+      "timestamp": 1777814146381
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 133.26462499999616,
+      "timestamp": 1777814146381
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 149.984540999998,
+      "timestamp": 1777814146381
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 173.06037500000093,
+      "timestamp": 1777814146381
+    },
+    {
+      "name": "concurrent_create_20",
+      "durationMs": 188.35304200000246,
+      "timestamp": 1777814146381
+    }
+  ],
+  "summary": "Concurrent batches [5,10,20]: Last batch (20 concurrent) avg create: 178.9ms, avg link: 29.5ms, 200 errors. RSS growth: 21.8MB"
+}
