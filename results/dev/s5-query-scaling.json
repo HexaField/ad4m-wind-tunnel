@@ -1,0 +1,258 @@
+{
+  "scenario": "s5-query-scaling",
+  "branch": "dev",
+  "startTime": 1777813129302,
+  "endTime": 1777813139009,
+  "durationMs": 9707,
+  "metrics": {
+    "dataSizes": [
+      100,
+      500,
+      1000
+    ],
+    "scalingResults": [
+      {
+        "dataSize": 100,
+        "queryAllAvgMs": 0.39,
+        "queryBySourceAvgMs": 0.4,
+        "queryAllLatencies": [
+          0.36,
+          0.4,
+          0.38,
+          0.4,
+          0.4
+        ],
+        "queryBySourceLatencies": [
+          0.37,
+          0.4,
+          0.42,
+          0.4,
+          0.4
+        ]
+      },
+      {
+        "dataSize": 500,
+        "queryAllAvgMs": 0.39,
+        "queryBySourceAvgMs": 0.39,
+        "queryAllLatencies": [
+          0.41,
+          0.38,
+          0.41,
+          0.37,
+          0.4
+        ],
+        "queryBySourceLatencies": [
+          0.37,
+          0.45,
+          0.38,
+          0.37,
+          0.38
+        ]
+      },
+      {
+        "dataSize": 1000,
+        "queryAllAvgMs": 0.3,
+        "queryBySourceAvgMs": 0.28,
+        "queryAllLatencies": [
+          0.33,
+          0.3,
+          0.29,
+          0.28,
+          0.27
+        ],
+        "queryBySourceLatencies": [
+          0.29,
+          0.29,
+          0.28,
+          0.29,
+          0.27
+        ]
+      }
+    ],
+    "scalingFactor": 0.77,
+    "totalLinksAdded": 1000
+  },
+  "samples": [
+    {
+      "name": "query_all_at_100_iter_0",
+      "durationMs": 0.36349999999947613,
+      "timestamp": 1777813138515,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_source_at_100_iter_0",
+      "durationMs": 0.36925000000337604,
+      "timestamp": 1777813138515,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_all_at_100_iter_1",
+      "durationMs": 0.40008300000044983,
+      "timestamp": 1777813138516,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_source_at_100_iter_1",
+      "durationMs": 0.39516700000240235,
+      "timestamp": 1777813138516,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_all_at_100_iter_2",
+      "durationMs": 0.3836669999946025,
+      "timestamp": 1777813138516,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_source_at_100_iter_2",
+      "durationMs": 0.42241700000158744,
+      "timestamp": 1777813138517,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_all_at_100_iter_3",
+      "durationMs": 0.39770900000439724,
+      "timestamp": 1777813138517,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_source_at_100_iter_3",
+      "durationMs": 0.39695799999753945,
+      "timestamp": 1777813138518,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_all_at_100_iter_4",
+      "durationMs": 0.4012499999953434,
+      "timestamp": 1777813138518,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_source_at_100_iter_4",
+      "durationMs": 0.4047080000018468,
+      "timestamp": 1777813138518,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_all_at_500_iter_0",
+      "durationMs": 0.40583300000434974,
+      "timestamp": 1777813138703,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_source_at_500_iter_0",
+      "durationMs": 0.3748340000020107,
+      "timestamp": 1777813138704,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_all_at_500_iter_1",
+      "durationMs": 0.3752080000049318,
+      "timestamp": 1777813138704,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_source_at_500_iter_1",
+      "durationMs": 0.44741599999542814,
+      "timestamp": 1777813138704,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_all_at_500_iter_2",
+      "durationMs": 0.41208300000289455,
+      "timestamp": 1777813138705,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_source_at_500_iter_2",
+      "durationMs": 0.3797919999997248,
+      "timestamp": 1777813138705,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_all_at_500_iter_3",
+      "durationMs": 0.366915999999037,
+      "timestamp": 1777813138706,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_source_at_500_iter_3",
+      "durationMs": 0.3727920000019367,
+      "timestamp": 1777813138706,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_all_at_500_iter_4",
+      "durationMs": 0.39504199999646517,
+      "timestamp": 1777813138706,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_source_at_500_iter_4",
+      "durationMs": 0.37558399999397807,
+      "timestamp": 1777813138707,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_all_at_1000_iter_0",
+      "durationMs": 0.33145800000056624,
+      "timestamp": 1777813139006,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_source_at_1000_iter_0",
+      "durationMs": 0.2882499999977881,
+      "timestamp": 1777813139006,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_all_at_1000_iter_1",
+      "durationMs": 0.30070900000282563,
+      "timestamp": 1777813139006,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_source_at_1000_iter_1",
+      "durationMs": 0.2865830000009737,
+      "timestamp": 1777813139007,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_all_at_1000_iter_2",
+      "durationMs": 0.2912080000023707,
+      "timestamp": 1777813139007,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_source_at_1000_iter_2",
+      "durationMs": 0.28270899999915855,
+      "timestamp": 1777813139007,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_all_at_1000_iter_3",
+      "durationMs": 0.28254200000083074,
+      "timestamp": 1777813139008,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_source_at_1000_iter_3",
+      "durationMs": 0.28683299999829615,
+      "timestamp": 1777813139008,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_all_at_1000_iter_4",
+      "durationMs": 0.2741660000028787,
+      "timestamp": 1777813139008,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "query_source_at_1000_iter_4",
+      "durationMs": 0.2709160000013071,
+      "timestamp": 1777813139008,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    }
+  ],
+  "summary": "Query scaling (0.77x at 1000 vs 100 links):\n  100 links: queryAll=0.39ms, queryBySource=0.4ms\n  500 links: queryAll=0.39ms, queryBySource=0.39ms\n  1000 links: queryAll=0.3ms, queryBySource=0.28ms"
+}

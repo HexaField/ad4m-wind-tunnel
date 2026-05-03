@@ -1,0 +1,45 @@
+{
+  "scenario": "s1-cold-start",
+  "branch": "feat/sparql-1.2-cleanup",
+  "startTime": 1777813222179,
+  "endTime": 1777813231209,
+  "durationMs": 9030,
+  "metrics": {
+    "healthMs": 0.9166669999976875,
+    "agentGenerateMs": 9003.524124999996,
+    "firstPerspectiveCreateMs": 23.394499999994878,
+    "firstLinkAddMs": 1.014500000004773,
+    "firstLinkQueryMs": 0.5695830000040587,
+    "totalColdStartMs": 9030
+  },
+  "samples": [
+    {
+      "name": "health_check",
+      "durationMs": 0.9166669999976875,
+      "timestamp": 1777813222180
+    },
+    {
+      "name": "agent_generate",
+      "durationMs": 9003.524124999996,
+      "timestamp": 1777813222180
+    },
+    {
+      "name": "first_perspective_create",
+      "durationMs": 23.394499999994878,
+      "timestamp": 1777813231184
+    },
+    {
+      "name": "first_link_add",
+      "durationMs": 1.014500000004773,
+      "timestamp": 1777813231207,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    },
+    {
+      "name": "first_link_query",
+      "durationMs": 0.5695830000040587,
+      "timestamp": 1777813231208,
+      "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
+    }
+  ],
+  "summary": "Cold start complete in 9030ms (health: 1ms, agent: 9004ms, perspective: 23ms, link: 1ms, query: 1ms)"
+}

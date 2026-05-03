@@ -1,0 +1,44 @@
+{
+  "scenario": "s1-cold-start",
+  "branch": "feat/sse-to-websocket",
+  "startTime": 1777813162810,
+  "endTime": 1777813172123,
+  "durationMs": 9313,
+  "metrics": {
+    "healthMs": 1.686583000002429,
+    "agentGenerateMs": 9250.398291000005,
+    "firstPerspectiveCreateMs": 57.7472909999924,
+    "firstLinkAddMs": 0.9817080000066198,
+    "firstLinkQueryMs": 0.911415999988094,
+    "totalColdStartMs": 9313
+  },
+  "samples": [
+    {
+      "name": "health_check",
+      "durationMs": 1.686583000002429,
+      "timestamp": 1777813162810
+    },
+    {
+      "name": "agent_generate",
+      "durationMs": 9250.398291000005,
+      "timestamp": 1777813162812
+    },
+    {
+      "name": "first_perspective_create",
+      "durationMs": 57.7472909999924,
+      "timestamp": 1777813172062
+    },
+    {
+      "name": "first_link_add",
+      "durationMs": 0.9817080000066198,
+      "timestamp": 1777813172120,
+      "error": "HTTP 422: Failed to deserialize the JSON body into the target type: missing field `link` at line 1 column 92"
+    },
+    {
+      "name": "first_link_query",
+      "durationMs": 0.911415999988094,
+      "timestamp": 1777813172122
+    }
+  ],
+  "summary": "Cold start complete in 9313ms (health: 2ms, agent: 9250ms, perspective: 58ms, link: 1ms, query: 1ms)"
+}

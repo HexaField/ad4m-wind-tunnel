@@ -1,0 +1,228 @@
+{
+  "scenario": "s5-query-scaling",
+  "branch": "feat/sse-to-websocket",
+  "startTime": 1777813186614,
+  "endTime": 1777813196306,
+  "durationMs": 9692,
+  "metrics": {
+    "dataSizes": [
+      100,
+      500,
+      1000
+    ],
+    "scalingResults": [
+      {
+        "dataSize": 100,
+        "queryAllAvgMs": 0.35,
+        "queryBySourceAvgMs": 0.33,
+        "queryAllLatencies": [
+          0.47,
+          0.31,
+          0.34,
+          0.29,
+          0.34
+        ],
+        "queryBySourceLatencies": [
+          0.34,
+          0.37,
+          0.31,
+          0.31,
+          0.32
+        ]
+      },
+      {
+        "dataSize": 500,
+        "queryAllAvgMs": 0.39,
+        "queryBySourceAvgMs": 0.37,
+        "queryAllLatencies": [
+          0.42,
+          0.32,
+          0.43,
+          0.36,
+          0.42
+        ],
+        "queryBySourceLatencies": [
+          0.34,
+          0.34,
+          0.36,
+          0.43,
+          0.39
+        ]
+      },
+      {
+        "dataSize": 1000,
+        "queryAllAvgMs": 0.31,
+        "queryBySourceAvgMs": 0.28,
+        "queryAllLatencies": [
+          0.44,
+          0.32,
+          0.28,
+          0.24,
+          0.25
+        ],
+        "queryBySourceLatencies": [
+          0.32,
+          0.3,
+          0.27,
+          0.25,
+          0.25
+        ]
+      }
+    ],
+    "scalingFactor": 0.89,
+    "totalLinksAdded": 1000
+  },
+  "samples": [
+    {
+      "name": "query_all_at_100_iter_0",
+      "durationMs": 0.4651670000021113,
+      "timestamp": 1777813195931
+    },
+    {
+      "name": "query_source_at_100_iter_0",
+      "durationMs": 0.34100000000034925,
+      "timestamp": 1777813195932
+    },
+    {
+      "name": "query_all_at_100_iter_1",
+      "durationMs": 0.3114159999968251,
+      "timestamp": 1777813195932
+    },
+    {
+      "name": "query_source_at_100_iter_1",
+      "durationMs": 0.3715420000080485,
+      "timestamp": 1777813195932
+    },
+    {
+      "name": "query_all_at_100_iter_2",
+      "durationMs": 0.33608300000196323,
+      "timestamp": 1777813195933
+    },
+    {
+      "name": "query_source_at_100_iter_2",
+      "durationMs": 0.30879100000311155,
+      "timestamp": 1777813195933
+    },
+    {
+      "name": "query_all_at_100_iter_3",
+      "durationMs": 0.29466600000159815,
+      "timestamp": 1777813195934
+    },
+    {
+      "name": "query_source_at_100_iter_3",
+      "durationMs": 0.3080829999962589,
+      "timestamp": 1777813195934
+    },
+    {
+      "name": "query_all_at_100_iter_4",
+      "durationMs": 0.33783400000538677,
+      "timestamp": 1777813195934
+    },
+    {
+      "name": "query_source_at_100_iter_4",
+      "durationMs": 0.3234590000065509,
+      "timestamp": 1777813195934
+    },
+    {
+      "name": "query_all_at_500_iter_0",
+      "durationMs": 0.4164580000069691,
+      "timestamp": 1777813196086
+    },
+    {
+      "name": "query_source_at_500_iter_0",
+      "durationMs": 0.33591700000397395,
+      "timestamp": 1777813196086
+    },
+    {
+      "name": "query_all_at_500_iter_1",
+      "durationMs": 0.317125000001397,
+      "timestamp": 1777813196087
+    },
+    {
+      "name": "query_source_at_500_iter_1",
+      "durationMs": 0.34441700000024866,
+      "timestamp": 1777813196087
+    },
+    {
+      "name": "query_all_at_500_iter_2",
+      "durationMs": 0.4252919999998994,
+      "timestamp": 1777813196087
+    },
+    {
+      "name": "query_source_at_500_iter_2",
+      "durationMs": 0.3613750000076834,
+      "timestamp": 1777813196088
+    },
+    {
+      "name": "query_all_at_500_iter_3",
+      "durationMs": 0.3639580000017304,
+      "timestamp": 1777813196088
+    },
+    {
+      "name": "query_source_at_500_iter_3",
+      "durationMs": 0.4299999999930151,
+      "timestamp": 1777813196088
+    },
+    {
+      "name": "query_all_at_500_iter_4",
+      "durationMs": 0.42062499999883585,
+      "timestamp": 1777813196089
+    },
+    {
+      "name": "query_source_at_500_iter_4",
+      "durationMs": 0.394665999992867,
+      "timestamp": 1777813196089
+    },
+    {
+      "name": "query_all_at_1000_iter_0",
+      "durationMs": 0.4376660000125412,
+      "timestamp": 1777813196303
+    },
+    {
+      "name": "query_source_at_1000_iter_0",
+      "durationMs": 0.3211660000088159,
+      "timestamp": 1777813196304
+    },
+    {
+      "name": "query_all_at_1000_iter_1",
+      "durationMs": 0.3246669999934966,
+      "timestamp": 1777813196304
+    },
+    {
+      "name": "query_source_at_1000_iter_1",
+      "durationMs": 0.30154200000106357,
+      "timestamp": 1777813196305
+    },
+    {
+      "name": "query_all_at_1000_iter_2",
+      "durationMs": 0.2812080000003334,
+      "timestamp": 1777813196305
+    },
+    {
+      "name": "query_source_at_1000_iter_2",
+      "durationMs": 0.265625,
+      "timestamp": 1777813196305
+    },
+    {
+      "name": "query_all_at_1000_iter_3",
+      "durationMs": 0.24379199999384582,
+      "timestamp": 1777813196305
+    },
+    {
+      "name": "query_source_at_1000_iter_3",
+      "durationMs": 0.24683300001197495,
+      "timestamp": 1777813196306
+    },
+    {
+      "name": "query_all_at_1000_iter_4",
+      "durationMs": 0.24683300001197495,
+      "timestamp": 1777813196306
+    },
+    {
+      "name": "query_source_at_1000_iter_4",
+      "durationMs": 0.24662499999976717,
+      "timestamp": 1777813196306
+    }
+  ],
+  "summary": "Query scaling (0.89x at 1000 vs 100 links):\n  100 links: queryAll=0.35ms, queryBySource=0.33ms\n  500 links: queryAll=0.39ms, queryBySource=0.37ms\n  1000 links: queryAll=0.31ms, queryBySource=0.28ms"
+}
