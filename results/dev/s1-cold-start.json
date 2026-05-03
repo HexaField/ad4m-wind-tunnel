@@ -1,45 +1,45 @@
 {
   "scenario": "s1-cold-start",
   "branch": "dev",
-  "startTime": 1777813105764,
-  "endTime": 1777813114815,
-  "durationMs": 9051,
+  "startTime": 1777815630767,
+  "endTime": 1777815646541,
+  "durationMs": 15774,
   "metrics": {
-    "healthMs": 1.502791000000002,
-    "agentGenerateMs": 8995.284124999998,
-    "firstPerspectiveCreateMs": 52.095124999999825,
-    "firstLinkAddMs": 1.3209999999999127,
-    "firstLinkQueryMs": 1.0471250000009604,
-    "totalColdStartMs": 9051
+    "healthMs": 1.6520840000002863,
+    "agentGenerateMs": 15714.650584,
+    "firstPerspectiveCreateMs": 54.47691699999996,
+    "firstLinkAddMs": 1.5065419999991718,
+    "firstLinkQueryMs": 1.1558330000007118,
+    "totalColdStartMs": 15774
   },
   "samples": [
     {
       "name": "health_check",
-      "durationMs": 1.502791000000002,
-      "timestamp": 1777813105764
+      "durationMs": 1.6520840000002863,
+      "timestamp": 1777815630767
     },
     {
       "name": "agent_generate",
-      "durationMs": 8995.284124999998,
-      "timestamp": 1777813105765
+      "durationMs": 15714.650584,
+      "timestamp": 1777815630769
     },
     {
       "name": "first_perspective_create",
-      "durationMs": 52.095124999999825,
-      "timestamp": 1777813114761
+      "durationMs": 54.47691699999996,
+      "timestamp": 1777815646484
     },
     {
       "name": "first_link_add",
-      "durationMs": 1.3209999999999127,
-      "timestamp": 1777813114813,
+      "durationMs": 1.5065419999991718,
+      "timestamp": 1777815646538,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     },
     {
       "name": "first_link_query",
-      "durationMs": 1.0471250000009604,
-      "timestamp": 1777813114814,
+      "durationMs": 1.1558330000007118,
+      "timestamp": 1777815646540,
       "error": "GraphQL HTTP 400: {\"errors\":[{\"message\":\"Field \\\"author\\\" must not have a selection since type String! has no subfields\",\"locations\":[{\"line\":3,\"column\":11}]},{\"message\":\"Unknown field \\\"did\\\" on type \\\"String\\\"\",\"locations\":[{\"line\":3,\"column\":20}]}]}"
     }
   ],
-  "summary": "Cold start complete in 9051ms (health: 2ms, agent: 8995ms, perspective: 52ms, link: 1ms, query: 1ms)"
+  "summary": "Cold start complete in 15774ms (health: 2ms, agent: 15715ms, perspective: 54ms, link: 2ms, query: 1ms)"
 }
