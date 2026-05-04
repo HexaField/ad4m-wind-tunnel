@@ -246,7 +246,7 @@ export class InstrumentedClient {
     return this.timed(async () => {
       const mutation = `mutation {
         perspectiveAddLink(uuid: "${perspectiveUuid}", link: {source: "${source}", predicate: "${predicate}", target: "${target}"}) {
-          author { did }
+          author
           timestamp
           data { source predicate target }
         }
@@ -287,7 +287,7 @@ export class InstrumentedClient {
       const queryArg = queryParts.length > 0 ? `query: {${queryParts.join(", ")}}` : `query: {}`;
       const gql = `query {
         perspectiveQueryLinks(uuid: "${perspectiveUuid}", ${queryArg}) {
-          author { did }
+          author
           timestamp
           data { source predicate target }
         }

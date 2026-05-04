@@ -1,6 +1,6 @@
 # AD4M Wind Tunnel — Comparison Report
 
-Generated: 2026-05-03T14:55:23.372Z
+Generated: 2026-05-04T00:07:56.667Z
 Machine: Apple Silicon MacBook Pro (48GB RAM, 14 CPUs)
 
 ## a1-mcp-throughput
@@ -108,6 +108,70 @@ Machine: Apple Silicon MacBook Pro (48GB RAM, 14 CPUs)
 - **dev:** Cold start complete in 15774ms (health: 2ms, agent: 15715ms, perspective: 54ms, link: 2ms, query: 1ms)
 - **feat-sparql-1.2-cleanup:** Cold start complete in 14378ms (health: 1ms, agent: 14360ms, perspective: 15ms, link: 1ms, query: 1ms)
 - **feat-sse-to-websocket:** Cold start complete in 15349ms (health: 3ms, agent: 15290ms, perspective: 44ms, link: 11ms, query: 2ms)
+
+## s10-subscription-fanout
+
+| Metric | dev | feat-sparql-1.2-cleanup | feat-sse-to-websocket |
+| --- | --- | --- | --- |
+| latencyScalingFactor | 41.58 | 5.37 | 0.00 |
+| memoryPerSubscriberKb | 246.00 | 176.00 | 71.00 |
+
+**Summaries:**
+- **dev:** Tested 5,10,25,50,100 subscriber tiers. At 100 subs: avgLat=304.3ms, P95=1012.9ms Latency scaling: 41.58x Backpressure: slow sub DOES affect others
+- **feat-sparql-1.2-cleanup:** Tested 5,10,25,50,100 subscriber tiers. At 100 subs: avgLat=65.1ms, P95=1006.7ms Latency scaling: 5.37x Backpressure: slow sub DOES affect others
+- **feat-sse-to-websocket:** Tested 5,10,25,50,100 subscriber tiers. At 100 subs: avgLat=0.0ms, P95=0.0ms Latency scaling: 0.00x Backpressure: slow sub does NOT affect others
+
+## s12-persistence-cold-query
+
+| Metric | dev | feat-sparql-1.2-cleanup | feat-sse-to-websocket |
+| --- | --- | --- | --- |
+| seedLinkCount | 100000.00 | 100000.00 | 100000.00 |
+| seedDurationMs | 140487.00 | 126332.00 | 25766.00 |
+| seedThroughputLinksPerSec | 711.80 | 791.60 | 3881.00 |
+| emptyStartupMs | 505.00 | 507.00 | 505.00 |
+| coldRestartMs | 505.00 | 505.00 | 504.00 |
+| startupTimeDeltaMs | 1.00 | -2.00 | 0.00 |
+| startupSlowdownFactor | 1.00 | 1.00 | 1.00 |
+| coldQueryAllMs | 3.16 | 3.00 | 2.87 |
+| coldQueryBySourceMs | 1.47 | 0.92 | 1.12 |
+| coldQueryByPredicateMs | 0.66 | 0.59 | 0.65 |
+| warmupP50Ms | 0.36 | 0.48 | 0.48 |
+| warmupFirstMs | 0.49 | 0.44 | 0.61 |
+| warmupLastMs | 0.33 | 0.29 | 0.46 |
+| warmupImprovement | 1.48 | 1.55 | 1.33 |
+| rssAfterSeedMb | 322.00 | 314.00 | 335.00 |
+| rssAfterColdMb | 322.00 | 315.00 | 335.00 |
+
+**Summaries:**
+- **dev:** 100000 links seeded. Startup: empty=505ms, cold=505ms (1.0x slower). Cold queryAll: 3ms, bySource: 1ms. Warmup: first=0ms → last=0ms.
+- **feat-sparql-1.2-cleanup:** 100000 links seeded. Startup: empty=507ms, cold=505ms (1.0x slower). Cold queryAll: 3ms, bySource: 1ms. Warmup: first=0ms → last=0ms.
+- **feat-sse-to-websocket:** 100000 links seeded. Startup: empty=505ms, cold=504ms (1.0x slower). Cold queryAll: 3ms, bySource: 1ms. Warmup: first=1ms → last=0ms.
+
+## s13-read-write-mix
+
+| Metric | dev | feat-sparql-1.2-cleanup | feat-sse-to-websocket |
+| --- | --- | --- | --- |
+| seedLinks | 10000.00 | 10000.00 | 10000.00 |
+| seedDurationMs | 13936.00 | 12022.00 | 3577.00 |
+| durationPerConfigSec | 30.00 | 30.00 | 30.00 |
+
+**Summaries:**
+- **dev:** Tested 1w/5r, 5w/5r, 5w/25r. At 5w/25r: write avg=1493.3ms P95=2886.6ms, read avg=4428.1ms P95=5898.6ms Consistency: OK
+- **feat-sparql-1.2-cleanup:** Tested 1w/5r, 5w/5r, 5w/25r. At 5w/25r: write avg=1556.6ms P95=3394.7ms, read avg=5655.3ms P95=6850.2ms Consistency: OK
+- **feat-sse-to-websocket:** Tested 1w/5r, 5w/5r, 5w/25r. At 5w/25r: write avg=1.5ms P95=2.8ms, read avg=1.9ms P95=3.9ms Consistency: OK
+
+## s14-multi-perspective-load
+
+| Metric | dev | feat-sparql-1.2-cleanup | feat-sse-to-websocket |
+| --- | --- | --- | --- |
+| perspectiveCount | 20.00 | 20.00 | 20.00 |
+| linksPerPerspective | 5000.00 | 5000.00 | 5000.00 |
+| totalLinks | 100000.00 | 100000.00 | 100000.00 |
+
+**Summaries:**
+- **dev:** 20 perspectives × 5000 links = 100000 total. Degradation P1→P20: add 0.98x, query 1.05x. P1 addAvg=1.4ms → P20 addAvg=1.4ms. RSS delta: 186MB total (9.3MB/perspective).
+- **feat-sparql-1.2-cleanup:** 20 perspectives × 5000 links = 100000 total. Degradation P1→P20: add 0.94x, query 0.95x. P1 addAvg=1.3ms → P20 addAvg=1.2ms. RSS delta: 194MB total (9.7MB/perspective).
+- **feat-sse-to-websocket:** 20 perspectives × 5000 links = 100000 total. Degradation P1→P20: add 0.33x, query 0.07x. P1 addAvg=0.5ms → P20 addAvg=0.2ms. RSS delta: 186MB total (9.3MB/perspective).
 
 ## s2-link-throughput
 

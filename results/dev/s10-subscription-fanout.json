@@ -1,0 +1,118 @@
+{
+  "scenario": "s10-subscription-fanout",
+  "branch": "dev",
+  "startTime": 1777851430921,
+  "endTime": 1777851601746,
+  "durationMs": 170825,
+  "metrics": {
+    "tiers": [
+      {
+        "subscriberCount": 5,
+        "totalWritten": 100,
+        "avgNotificationsPerSub": 200,
+        "avgNotificationLatencyMs": 7.32,
+        "p50NotificationLatencyMs": 6.23,
+        "p95NotificationLatencyMs": 14.31,
+        "p99NotificationLatencyMs": 14.31,
+        "rssKb": 160656,
+        "rssDeltaKb": 624,
+        "writeAvgMs": 3.4,
+        "writeP95Ms": 5.1,
+        "missedNotifications": 0
+      },
+      {
+        "subscriberCount": 10,
+        "totalWritten": 100,
+        "avgNotificationsPerSub": 200,
+        "avgNotificationLatencyMs": 5.59,
+        "p50NotificationLatencyMs": 3.58,
+        "p95NotificationLatencyMs": 13.52,
+        "p99NotificationLatencyMs": 13.52,
+        "rssKb": 166032,
+        "rssDeltaKb": 6000,
+        "writeAvgMs": 3.3,
+        "writeP95Ms": 4.56,
+        "missedNotifications": 0
+      },
+      {
+        "subscriberCount": 25,
+        "totalWritten": 100,
+        "avgNotificationsPerSub": 200,
+        "avgNotificationLatencyMs": 4.78,
+        "p50NotificationLatencyMs": 4.56,
+        "p95NotificationLatencyMs": 7.64,
+        "p99NotificationLatencyMs": 7.77,
+        "rssKb": 169424,
+        "rssDeltaKb": 9392,
+        "writeAvgMs": 3.58,
+        "writeP95Ms": 5.52,
+        "missedNotifications": 0
+      },
+      {
+        "subscriberCount": 50,
+        "totalWritten": 100,
+        "avgNotificationsPerSub": 200,
+        "avgNotificationLatencyMs": 6.15,
+        "p50NotificationLatencyMs": 6.27,
+        "p95NotificationLatencyMs": 6.65,
+        "p99NotificationLatencyMs": 6.69,
+        "rssKb": 173376,
+        "rssDeltaKb": 13344,
+        "writeAvgMs": 3.69,
+        "writeP95Ms": 5.78,
+        "missedNotifications": 0
+      },
+      {
+        "subscriberCount": 100,
+        "totalWritten": 100,
+        "avgNotificationsPerSub": 200,
+        "avgNotificationLatencyMs": 304.33,
+        "p50NotificationLatencyMs": 5.91,
+        "p95NotificationLatencyMs": 1012.92,
+        "p99NotificationLatencyMs": 1013,
+        "rssKb": 184064,
+        "rssDeltaKb": 24032,
+        "writeAvgMs": 157.54,
+        "writeP95Ms": 1012.19,
+        "missedNotifications": 0,
+        "backpressure": {
+          "slowSubNotifications": 200,
+          "fastSubAvgNotifications": 200,
+          "slowSubAvgLatencyMs": 6.23,
+          "fastSubAvgLatencyMs": 307.04,
+          "affectsOthers": true
+        }
+      }
+    ],
+    "latencyScalingFactor": 41.58,
+    "memoryPerSubscriberKb": 246
+  },
+  "samples": [
+    {
+      "name": "tier_5",
+      "durationMs": 13062.746207999999,
+      "timestamp": 1777851453134
+    },
+    {
+      "name": "tier_10",
+      "durationMs": 13068.907749999998,
+      "timestamp": 1777851467205
+    },
+    {
+      "name": "tier_25",
+      "durationMs": 13090.758083,
+      "timestamp": 1777851481297
+    },
+    {
+      "name": "tier_50",
+      "durationMs": 13107.547792000005,
+      "timestamp": 1777851495406
+    },
+    {
+      "name": "tier_100",
+      "durationMs": 104336.637166,
+      "timestamp": 1777851600743
+    }
+  ],
+  "summary": "Tested 5,10,25,50,100 subscriber tiers. At 100 subs: avgLat=304.3ms, P95=1012.9ms Latency scaling: 41.58x Backpressure: slow sub DOES affect others"
+}

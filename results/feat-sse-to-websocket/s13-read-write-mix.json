@@ -1,0 +1,127 @@
+{
+  "scenario": "s13-read-write-mix",
+  "branch": "feat/sse-to-websocket",
+  "startTime": 1777852579746,
+  "endTime": 1777852688935,
+  "durationMs": 109189,
+  "metrics": {
+    "seedLinks": 10000,
+    "seedDurationMs": 3577,
+    "configurations": [
+      {
+        "config": "1w_5r",
+        "writers": 1,
+        "readers": 5,
+        "durationMs": 30195,
+        "writeMetrics": {
+          "totalWrites": 150,
+          "avgMs": 1.81,
+          "p50Ms": 1.7,
+          "p95Ms": 2.77,
+          "p99Ms": 4,
+          "errors": 150,
+          "throughputPerSec": 5
+        },
+        "readMetrics": {
+          "totalReads": 745,
+          "avgMs": 1.73,
+          "p50Ms": 1.61,
+          "p95Ms": 2.99,
+          "p99Ms": 4.1,
+          "errors": 0,
+          "throughputPerSec": 24.7,
+          "avgResultCount": 0
+        },
+        "consistency": {
+          "finalLinkCount": 0,
+          "expectedMinLinks": 0,
+          "linksVisible": true
+        }
+      },
+      {
+        "config": "5w_5r",
+        "writers": 5,
+        "readers": 5,
+        "durationMs": 30150,
+        "writeMetrics": {
+          "totalWrites": 750,
+          "avgMs": 1.61,
+          "p50Ms": 1.49,
+          "p95Ms": 3.15,
+          "p99Ms": 4.81,
+          "errors": 750,
+          "throughputPerSec": 24.9
+        },
+        "readMetrics": {
+          "totalReads": 745,
+          "avgMs": 1.48,
+          "p50Ms": 1.36,
+          "p95Ms": 2.71,
+          "p99Ms": 4.2,
+          "errors": 0,
+          "throughputPerSec": 24.7,
+          "avgResultCount": 0
+        },
+        "consistency": {
+          "finalLinkCount": 0,
+          "expectedMinLinks": 0,
+          "linksVisible": true
+        }
+      },
+      {
+        "config": "5w_25r",
+        "writers": 5,
+        "readers": 25,
+        "durationMs": 30202,
+        "writeMetrics": {
+          "totalWrites": 750,
+          "avgMs": 1.52,
+          "p50Ms": 1.41,
+          "p95Ms": 2.81,
+          "p99Ms": 3.75,
+          "errors": 750,
+          "throughputPerSec": 24.8
+        },
+        "readMetrics": {
+          "totalReads": 3725,
+          "avgMs": 1.92,
+          "p50Ms": 1.67,
+          "p95Ms": 3.92,
+          "p99Ms": 5.18,
+          "errors": 0,
+          "throughputPerSec": 123.3,
+          "avgResultCount": 0
+        },
+        "consistency": {
+          "finalLinkCount": 0,
+          "expectedMinLinks": 0,
+          "linksVisible": true
+        }
+      }
+    ],
+    "durationPerConfigSec": 30
+  },
+  "samples": [
+    {
+      "name": "seed_links",
+      "durationMs": 3576.611917,
+      "timestamp": 1777852592380
+    },
+    {
+      "name": "config_1w_5r",
+      "durationMs": 30194.585083000005,
+      "timestamp": 1777852622576
+    },
+    {
+      "name": "config_5w_5r",
+      "durationMs": 30149.949875,
+      "timestamp": 1777852654729
+    },
+    {
+      "name": "config_5w_25r",
+      "durationMs": 30202.328958,
+      "timestamp": 1777852686934
+    }
+  ],
+  "summary": "Tested 1w/5r, 5w/5r, 5w/25r. At 5w/25r: write avg=1.5ms P95=2.8ms, read avg=1.9ms P95=3.9ms Consistency: OK"
+}
