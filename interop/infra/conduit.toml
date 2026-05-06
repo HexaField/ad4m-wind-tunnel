@@ -1,0 +1,39 @@
+# Conduit configuration for Matrix ↔ AD4M/Flux integration tests
+# Ref: https://gitlab.com/famedly/conduit
+
+[global]
+# Server name (used in user IDs: @user:ad4m-test.local)
+server_name = "ad4m-test.local"
+
+# Port to listen on
+port = 6167
+
+# Bind address
+address = "0.0.0.0"
+
+# Database backend
+database_backend = "rocksdb"
+
+# Database path
+database_path = "/var/lib/matrix-conduit/"
+
+# Allow new users to register without a token
+allow_registration = true
+
+# Allow federation (not needed for local tests, but harmless)
+allow_federation = false
+
+# Maximum request size (bytes) — 20 MiB
+max_request_size = 20_000_000
+
+# Trusted servers (minimal for local testing)
+trusted_servers = ["matrix.org"]
+
+# Allow room creation by any registered user
+allow_room_creation = true
+
+# Disable presence tracking (reduces overhead for tests)
+# allow_presence = false
+
+# Log level
+# log = "info"
