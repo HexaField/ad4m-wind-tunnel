@@ -36,6 +36,7 @@ REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 WORKSPACE="$(cd "$REPO_DIR/../.." && pwd)"
 
 AD4M_DIR="${AD4M_DIR:-$WORKSPACE/coasys/ad4m}"
+FLUX_DIR="${FLUX_DIR:-$WORKSPACE/coasys/flux}"
 MATRIX_LANG_DIR="${MATRIX_LANG_DIR:-$WORKSPACE/hexafield/matrix-link-language}"
 AD4M_EXECUTOR="${AD4M_EXECUTOR:-$AD4M_DIR/target/release/ad4m-executor}"
 AD4M_LDK_DIR="${AD4M_LDK_DIR:-$AD4M_DIR/ad4m-ldk/js/lib}"
@@ -267,6 +268,7 @@ mkdir -p "$DATA_DIR/ad4m-data"
     --run-dapp-server false \
     --gql-port "$AD4M_PORT" \
     --admin-credential "$AD4M_TOKEN" \
+    --enable-multi-user true \
     > "$DATA_DIR/executor.log" 2>&1 &
 EXECUTOR_PID=$!
 
@@ -441,6 +443,7 @@ sleep 1
     --run-dapp-server false \
     --gql-port "$AD4M_PORT" \
     --admin-credential "$AD4M_TOKEN" \
+    --enable-multi-user true \
     > "$DATA_DIR/executor.log" 2>&1 &
 EXECUTOR_PID=$!
 
@@ -618,15 +621,117 @@ fi
 
 if [[ "$INTERACTIVE" == "true" ]]; then
     header "Phase 7: Interactive Mode"
+
+    # ─── 7a: Start Element Web ────────────────────────────────────────────────
     step "Starting Element Web on port $ELEMENT_PORT..."
     docker rm -f "$ELEMENT_CONTAINER" 2>/dev/null || true
     docker run -d --name "$ELEMENT_CONTAINER" -p "${ELEMENT_PORT}:80" vectorim/element-web:latest >/dev/null
-    info "Element Web: http://127.0.0.1:${ELEMENT_PORT}"
-    info "Login as @${HUMAN_USER}:ad4m-test.local / $HUMAN_PASS"
-    info "Homeserver: $MATRIX_URL"
-    info "Press Ctrl+C to stop..."
+
+    for i in $(seq 1 15); do
+        curl -sf "http://127.0.0.1:${ELEMENT_PORT}" >/dev/null 2>&1 && break
+        sleep 1
+    done
+    pass "element-start" "Element Web on http://127.0.0.1:${ELEMENT_PORT}"
+
+    # ─── 7b: Serve Flux ───────────────────────────────────────────────────────
+    FLUX_PORT="${FLUX_PORT:-3030}"
+    if [[ -d "$FLUX_DIR/app/dist" ]]; then
+        step "Serving Flux on port $FLUX_PORT..."
+        pkill -f "vite.*preview.*${FLUX_PORT}" 2>/dev/null || true
+        (cd "$FLUX_DIR/app" && npx vite preview --port "$FLUX_PORT" > /tmp/flux-serve.log 2>&1) &
+        FLUX_PID=$!
+        for i in $(seq 1 10); do
+            curl -sf "http://localhost:${FLUX_PORT}" >/dev/null 2>&1 && break
+            sleep 1
+        done
+        if curl -sf "http://localhost:${FLUX_PORT}" >/dev/null 2>&1; then
+            pass "flux-serve" "Flux on http://localhost:${FLUX_PORT}"
+        else
+            warn "Flux not serving — build with: cd $FLUX_DIR/app && pnpm build"
+        fi
+    else
+        warn "Flux dist not found at $FLUX_DIR/app/dist — skipping Flux"
+        warn "Build with: cd $FLUX_DIR && pnpm install && cd app && pnpm build"
+    fi
+
+    # ─── 7c: Create multi-user test account for Flux ──────────────────────────
+    step "Creating multi-user test account for Flux..."
+    FLUX_EMAIL="dev@test.com"
+    FLUX_PASS="test123"
+
+    CREATE_USER=$(curl -sf -X POST "http://${AD4M_HOST}:${AD4M_PORT}/graphql" \
+        -H "Content-Type: application/json" \
+        -H "Authorization: ${AD4M_TOKEN}" \
+        -d "{\"query\":\"mutation { runtimeCreateUser(email: \\\"$FLUX_EMAIL\\\", password: \\\"$FLUX_PASS\\\") { jwt did } }\"}" 2>/dev/null) || CREATE_USER=""
+
+    USER_JWT=$(echo "$CREATE_USER" | jq -r '.data.runtimeCreateUser.jwt // empty' 2>/dev/null)
+    if [[ -z "$USER_JWT" ]]; then
+        # User may already exist, try login
+        LOGIN_USER=$(curl -sf -X POST "http://${AD4M_HOST}:${AD4M_PORT}/graphql" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: ${AD4M_TOKEN}" \
+            -d "{\"query\":\"mutation { runtimeLoginUser(email: \\\"$FLUX_EMAIL\\\", password: \\\"$FLUX_PASS\\\") { jwt did } }\"}" 2>/dev/null) || LOGIN_USER=""
+        USER_JWT=$(echo "$LOGIN_USER" | jq -r '.data.runtimeLoginUser.jwt // empty' 2>/dev/null)
+    fi
+
+    if [[ -n "$USER_JWT" ]]; then
+        pass "flux-user" "User $FLUX_EMAIL authenticated (JWT: ${USER_JWT:0:20}...)"
+    else
+        warn "Could not create/login Flux user — manual auth needed in browser"
+        USER_JWT="$AD4M_TOKEN"
+    fi
+
+    # ─── 7d: Open browsers with auto-auth ─────────────────────────────────────
+    DEVTOOLS_DIR="$WORKSPACE/coasys/ad4m-devtools"
+    BROWSER_AUTH="$DEVTOOLS_DIR/scripts/ad4m-flux-browser-auth.sh"
+
+    if [[ -x "$BROWSER_AUTH" ]] && curl -sf "http://localhost:${FLUX_PORT}" >/dev/null 2>&1; then
+        step "Running browser auth (auto-login to Flux)..."
+        bash "$BROWSER_AUTH" \
+            --executor-url "http://127.0.0.1:${AD4M_PORT}" \
+            --flux-url "http://localhost:${FLUX_PORT}" \
+            --email "$FLUX_EMAIL" \
+            --password "$FLUX_PASS" \
+            --admin-credential "$AD4M_TOKEN" \
+            --flux-dir "$FLUX_DIR" \
+            --chrome-port 9223 \
+            2>&1 | sed 's/^/  [flux-auth] /' || warn "Browser auth failed — open manually"
+    else
+        # Just open the URLs in default browser
+        step "Opening browsers..."
+        open "http://127.0.0.1:${ELEMENT_PORT}" 2>/dev/null || true
+        if curl -sf "http://localhost:${FLUX_PORT}" >/dev/null 2>&1; then
+            open "http://localhost:${FLUX_PORT}" 2>/dev/null || true
+        fi
+    fi
+
+    # ─── 7e: Print connection info ────────────────────────────────────────────
+    echo ""
+    echo -e "${BOLD}═══ Services Running ═══${NC}"
+    echo ""
+    echo "  Element Web:  http://127.0.0.1:${ELEMENT_PORT}"
+    echo "    Homeserver: $MATRIX_URL"
+    echo "    Username:   $HUMAN_USER"
+    echo "    Password:   $HUMAN_PASS"
+    echo ""
+    if curl -sf "http://localhost:${FLUX_PORT}" >/dev/null 2>&1; then
+        echo "  Flux:         http://localhost:${FLUX_PORT}"
+        echo "    Executor:   http://127.0.0.1:${AD4M_PORT}"
+        echo "    User:       $FLUX_EMAIL / $FLUX_PASS"
+        echo ""
+    fi
+    echo "  AD4M GraphQL: http://127.0.0.1:${AD4M_PORT}/graphql"
+    echo "    Admin Token: $AD4M_TOKEN"
+    echo "    Perspective: $PERSPECTIVE_UUID"
+    echo "    Channel:     $CHANNEL_ID"
+    echo ""
+    echo -e "${BOLD}Send messages in Element → they appear as Flux links in AD4M${NC}"
+    echo -e "${BOLD}Add Flux message links in AD4M → they appear in Element${NC}"
+    echo ""
+    echo -e "${BOLD}Press Ctrl+C to stop and clean up.${NC}"
+
     KEEP_RUNNING=true
-    wait "$EXECUTOR_PID"
+    wait "$EXECUTOR_PID" 2>/dev/null || true
 fi
 
 # ═══════════════════════════════════════════════════════════════════════════════
