@@ -46,31 +46,30 @@ check_deps() {
     fi
 }
 
-AD4M_RPC="$REPO_DIR/scripts/ad4m-rpc.py"
+AD4M_RPC="$REPO_DIR/scripts/ad4m-gql.py"
 if [[ ! -f "$AD4M_RPC" ]]; then
-    echo "ERROR: ad4m-rpc.py not found at $AD4M_RPC" >&2
+    echo "ERROR: ad4m-gql.py not found at $AD4M_RPC" >&2
     exit 1
 fi
 
 # ─── Config ──────────────────────────────────────────────────────────────────
 
+# Workspace layout: derive all paths from SCRIPT_DIR
+WORKSPACE="$(cd "$REPO_DIR/../.." && pwd)"
+AD4M_DIR="${AD4M_DIR:-$WORKSPACE/coasys/ad4m}"
+FLUX_DIR="${FLUX_DIR:-$WORKSPACE/coasys/flux}"
+MATRIX_LANG_DIR="${MATRIX_LANG_DIR:-$WORKSPACE/hexafield/matrix-link-language}"
+AD4M_EXECUTOR="${AD4M_EXECUTOR:-$AD4M_DIR/target/release/ad4m-executor}"
+
 # Device A — runs the executor + Docker services
-DEVICE_A="${DEVICE_A:-YOUR_DEVICE_IP}"
-DEVICE_A_USER="${DEVICE_A_USER:-YOUR_USER}"
+DEVICE_A="${DEVICE_A:-127.0.0.1}"
+DEVICE_A_USER="${DEVICE_A_USER:-$(whoami)}"
 AD4M_HOST="${AD4M_HOST:-$DEVICE_A}"
-AD4M_PORT="${AD4M_PORT:-12000}"
+AD4M_PORT="${AD4M_PORT:-12100}"
 AD4M_TOKEN="${AD4M_TOKEN:-test123}"
 
-# Language addresses (installed on executor)
-LANG_ATPROTO="QmzSYwdgzU4pEnJUebu7yrZucqRGSaTfKJs7NBMuFcZLL28xqEq"
-LANG_MATRIX="QmzSYwdkxzhf4sCxuUH28xY6qCFb4xtEPxf4tSSrz8KNs3WUzAW"
-LANG_SOLID="QmzSYwdq6o6am1uXnDU7BJ9GFxVFs5xUJLqFQd3ewar7NvSFi8f"
-LANG_IPFS="QmzSYwdiVKeuFLdJSLNndi4Gpjegp1DATGrfyCphXxYYHd4gfRf"
-LANG_NOSTR="QmzSYwdoGhjYy5u7kQwRtv9GZy9U6y66GrdCWaEfk7zQDM3yMsW"
-LANG_HYPERCORE="QmzSYwdpq92UgzvHHBAsHTC6jRHkBf7y74DaLmrAWnb8XUtnMVH"
-
-# Service endpoints (on Device A)
-MATRIX_URL="http://${DEVICE_A}:6167"
+# Service endpoints (local or on Device A)
+MATRIX_URL="http://${DEVICE_A}:${CONDUIT_PORT:-6167}"
 ATPROTO_URL="http://${DEVICE_A}:2583"
 SOLID_URL="http://${DEVICE_A}:3000"
 IPFS_API="http://${DEVICE_A}:5001"

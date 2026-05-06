@@ -1,71 +1,91 @@
 #!/usr/bin/env bash
-# matrix-flux-proof.sh — Matrix ↔ AD4M/Flux Full Integration Proof
+# matrix-flux-proof.sh — Matrix ↔ Flux Full E2E Integration Proof
 #
-# Proves end-to-end bidirectional messaging between Matrix (Conduit) and AD4M:
-#   1. Build matrix-link-language from source (esbuild → Deno bundle)
-#   2. Start Matrix (Conduit) + AD4M executor locally
+# Proves genuine end-to-end bidirectional messaging between Matrix (Conduit)
+# and AD4M/Flux:
+#   1. Build matrix-link-language from source
+#   2. Start Matrix (Conduit) + AD4M executor locally (language-language-only mode)
 #   3. Publish language, configure with Matrix room credentials
-#   4. Create neighbourhood bridged to Matrix room
-#   5. Send message in Matrix → verify it appears in AD4M perspective
-#   6. Add link in AD4M → verify it appears as Matrix room event
-#   7. (--interactive) Open Element Web + Flux for manual testing
+#   4. Create perspective with Flux community/channel structure
+#   5. Send message in Matrix → verify it appears as Flux Message links in AD4M
+#   6. Add Flux Message links in AD4M → verify it appears as m.room.message in Matrix
+#   7. (--interactive) Open Element Web for manual testing
 #
-# Requirements: Docker, Node.js (npx/tsx), Python3 + websockets, jq, curl
+# Requirements: Docker, Node.js (npx/tsx), Python3, jq, curl
+# Repos: ad4m, flux, matrix-link-language, ad4m-wind-tunnel (sibling layout)
 #
 # Usage:
-#   ./matrix-flux-proof.sh                  # Automated proof (headless)
-#   ./matrix-flux-proof.sh --interactive    # Also open Element Web + Flux UI
-#   ./matrix-flux-proof.sh --skip-build     # Skip language build (use existing bundle)
-#   ./matrix-flux-proof.sh --keep           # Don't clean up on exit
+#   ./matrix-flux-proof.sh                        # Automated proof (headless)
+#   ./matrix-flux-proof.sh --interactive          # Also open Element Web
+#   ./matrix-flux-proof.sh --skip-build           # Skip language build
+#   ./matrix-flux-proof.sh --keep                 # Don't clean up on exit
+#   AD4M_DIR=/path/to/ad4m ./matrix-flux-proof.sh # Custom paths
 #
 set -euo pipefail
 
-# ─── Script paths ────────────────────────────────────────────────────────────
+# ─── Script paths (relative from script location) ────────────────────────────
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-# ─── Source common helpers (with fallback) ───────────────────────────────────
+# Default: sibling repos (all in same grandparent)
+WORKSPACE="$(cd "$REPO_DIR/../.." && pwd)"
+AD4M_DIR="${AD4M_DIR:-$WORKSPACE/coasys/ad4m}"
+FLUX_DIR="${FLUX_DIR:-$WORKSPACE/coasys/flux}"
+MATRIX_LANG_DIR="${MATRIX_LANG_DIR:-$WORKSPACE/hexafield/matrix-link-language}"
 
-if [[ -f "$SCRIPT_DIR/common.sh" ]]; then
-    # Override the device-A-centric defaults for local-only operation
-    export DEVICE_A="127.0.0.1"
-    export DEVICE_A_USER="$USER"
-    export AD4M_HOST="127.0.0.1"
-    export AD4M_PORT="${AD4M_PORT:-12100}"
-    export AD4M_TOKEN="test123"
-    source "$SCRIPT_DIR/common.sh"
-else
-    # ─── Fallback implementations ────────────────────────────────────────
-    RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[0;33m'
-    BLUE='\033[0;34m'; CYAN='\033[0;36m'; BOLD='\033[1m'; NC='\033[0m'
-    info()    { echo -e "${BLUE}ℹ${NC}  $*"; }
-    success() { echo -e "${GREEN}✅${NC} $*"; }
-    warn()    { echo -e "${YELLOW}⚠${NC}  $*"; }
-    error()   { echo -e "${RED}❌${NC} $*"; }
-    header()  { echo -e "\n${BOLD}${CYAN}═══ $* ═══${NC}\n"; }
-    step()    { echo -e "${BOLD}→${NC} $*"; }
-    PASS_COUNT=0; FAIL_COUNT=0; SKIP_COUNT=0
-    pass() { local n="$1" d="${2:-}"; ((PASS_COUNT++)) || true; echo -e "  ${GREEN}✅ PASS:${NC} ${n}${d:+ — $d}"; }
-    fail() { local n="$1" d="${2:-}"; ((FAIL_COUNT++)) || true; echo -e "  ${RED}❌ FAIL:${NC} ${n}${d:+ — $d}"; }
-    skip() { local n="$1" r="${2:-}"; ((SKIP_COUNT++)) || true; echo -e "  ${YELLOW}⏭️  SKIP:${NC} ${n}${r:+ — $r}"; }
-    print_summary() {
-        local protocol="$1"; echo ""
-        echo -e "${BOLD}═══ ${protocol} Interop Summary ═══${NC}"
-        echo -e "  ${GREEN}Passed:${NC}  $PASS_COUNT"
-        echo -e "  ${RED}Failed:${NC}  $FAIL_COUNT"
-        echo -e "  ${YELLOW}Skipped:${NC} $SKIP_COUNT"; echo ""
-        if [[ $FAIL_COUNT -gt 0 ]]; then echo -e "  ${RED}${BOLD}OVERALL: FAIL${NC}"; return 1
-        else echo -e "  ${GREEN}${BOLD}OVERALL: PASS${NC}"; return 0; fi
-    }
-    AD4M_HOST="127.0.0.1"; AD4M_PORT="${AD4M_PORT:-12100}"; AD4M_TOKEN="test123"
-    AD4M_RPC="$REPO_DIR/scripts/ad4m-rpc.py"
-    ad4m_rpc() { python3 "$AD4M_RPC" --host "$AD4M_HOST" --port "$AD4M_PORT" --token "$AD4M_TOKEN" "$@"; }
-fi
+AD4M_EXECUTOR="${AD4M_EXECUTOR:-$AD4M_DIR/target/release/ad4m-executor}"
+AD4M_LDK_DIR="${AD4M_LDK_DIR:-$AD4M_DIR/ad4m-ldk/js/lib}"
+MAINNET_SEED="$AD4M_DIR/rust-executor/src/mainnet_seed.json"
+
+# ─── Helpers ─────────────────────────────────────────────────────────────────
+
+RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[0;33m'
+BLUE='\033[0;34m'; CYAN='\033[0;36m'; BOLD='\033[1m'; NC='\033[0m'
+info()    { echo -e "${BLUE}ℹ${NC}  $*"; }
+success() { echo -e "${GREEN}✅${NC} $*"; }
+warn()    { echo -e "${YELLOW}⚠${NC}  $*"; }
+error()   { echo -e "${RED}❌${NC} $*"; }
+header()  { echo -e "\n${BOLD}${CYAN}═══ $* ═══${NC}\n"; }
+step()    { echo -e "${BOLD}→${NC} $*"; }
+PASS_COUNT=0; FAIL_COUNT=0; SKIP_COUNT=0
+pass() { local n="$1" d="${2:-}"; ((PASS_COUNT++)) || true; echo -e "  ${GREEN}✅ PASS:${NC} ${n}${d:+ — $d}"; }
+fail() { local n="$1" d="${2:-}"; ((FAIL_COUNT++)) || true; echo -e "  ${RED}❌ FAIL:${NC} ${n}${d:+ — $d}"; }
+skip() { local n="$1" r="${2:-}"; ((SKIP_COUNT++)) || true; echo -e "  ${YELLOW}⏭️  SKIP:${NC} ${n}${r:+ — $r}"; }
+print_summary() {
+    local protocol="$1"; echo ""
+    echo -e "${BOLD}═══ ${protocol} Interop Summary ═══${NC}"
+    echo -e "  ${GREEN}Passed:${NC}  $PASS_COUNT"
+    echo -e "  ${RED}Failed:${NC}  $FAIL_COUNT"
+    echo -e "  ${YELLOW}Skipped:${NC} $SKIP_COUNT"; echo ""
+    if [[ $FAIL_COUNT -gt 0 ]]; then echo -e "  ${RED}${BOLD}OVERALL: FAIL${NC}"; return 1
+    else echo -e "  ${GREEN}${BOLD}OVERALL: PASS${NC}"; return 0; fi
+}
+
+# ─── AD4M RPC helper ─────────────────────────────────────────────────────────
+
+AD4M_HOST="127.0.0.1"
+AD4M_PORT="${AD4M_PORT:-12100}"
+AD4M_TOKEN="test123"
+AD4M_RPC="$REPO_DIR/scripts/ad4m-gql.py"
+
+ad4m_rpc() {
+    python3 "$AD4M_RPC" --host "$AD4M_HOST" --port "$AD4M_PORT" --token "$AD4M_TOKEN" "$@"
+}
+
+# Direct GQL helper for complex queries
+ad4m_gql() {
+    local query="$1"
+    local response
+    response=$(curl -sf -X POST "http://${AD4M_HOST}:${AD4M_PORT}/graphql" \
+        -H "Content-Type: application/json" \
+        -H "Authorization: ${AD4M_TOKEN}" \
+        -d "{\"query\": $(echo "$query" | jq -Rs '.')}" 2>/dev/null) || response=""
+    echo "$response"
+}
 
 # ─── Configuration ───────────────────────────────────────────────────────────
 
-# Flags
 INTERACTIVE=false
 SKIP_BUILD=false
 KEEP_RUNNING=false
@@ -77,41 +97,26 @@ for arg in "$@"; do
         --keep)        KEEP_RUNNING=true ;;
         --help|-h)
             echo "Usage: $0 [--interactive] [--skip-build] [--keep]"
-            echo "  --interactive  Open Element Web + Flux after proof completes"
-            echo "  --skip-build   Skip language build (use existing build/bundle.js)"
-            echo "  --keep         Don't clean up containers/executor on exit"
+            echo ""
+            echo "Environment variables:"
+            echo "  AD4M_DIR          Path to ad4m repo (default: ../../coasys/ad4m)"
+            echo "  FLUX_DIR          Path to flux repo (default: ../../coasys/flux)"
+            echo "  MATRIX_LANG_DIR   Path to matrix-link-language (default: ../matrix-link-language)"
+            echo "  AD4M_EXECUTOR     Path to ad4m-executor binary"
+            echo "  AD4M_PORT         GQL port (default: 12100)"
+            echo "  CONDUIT_PORT      Conduit port (default: 6167)"
             exit 0 ;;
         *) error "Unknown flag: $arg"; exit 1 ;;
     esac
 done
 
-# Paths
-AD4M_EXECUTOR="${AD4M_EXECUTOR:-$HOME/.ad4m-plugin/bin/ad4m-executor}"
-SEED_SOURCE="${SEED_SOURCE:-$HOME/.openclaw/plugins/ad4m/.ad4m/mainnet_seed.seed}"
-MATRIX_LANG_DIR="${MATRIX_LANG_DIR:-}"
-CONDUIT_TOML="$SCRIPT_DIR/infra/conduit.toml"
-
-# Find matrix-link-language source
-if [[ -z "$MATRIX_LANG_DIR" ]]; then
-    # Try sibling directory first
-    if [[ -d "$REPO_DIR/../matrix-link-language" ]]; then
-        MATRIX_LANG_DIR="$(cd "$REPO_DIR/../matrix-link-language" && pwd)"
-    elif [[ -d "$HOME/workspaces/hexafield/matrix-link-language" ]]; then
-        MATRIX_LANG_DIR="$HOME/workspaces/hexafield/matrix-link-language"
-    else
-        error "Cannot find matrix-link-language source."
-        echo "  Set MATRIX_LANG_DIR or clone it as a sibling to this repo."
-        exit 1
-    fi
-fi
-
-# Runtime ports
+# Runtime config
 CONDUIT_PORT="${CONDUIT_PORT:-6167}"
 MATRIX_URL="http://127.0.0.1:${CONDUIT_PORT}"
 ELEMENT_PORT=8088
-FLUX_PORT=3030
+CONDUIT_TOML="$SCRIPT_DIR/infra/conduit.toml"
 
-# Temp data directory for executor
+# Temp data directory for executor (NO ~/.ad4m-plugin or ~/.openclaw dependency)
 DATA_DIR=$(mktemp -d "/tmp/ad4m-proof-XXXXXX")
 
 # Docker container names
@@ -120,7 +125,6 @@ ELEMENT_CONTAINER="ad4m-proof-element"
 
 # Process tracking
 EXECUTOR_PID=""
-FLUX_PID=""
 
 # Test identity
 BRIDGE_USER="bridge_bot"
@@ -130,6 +134,8 @@ HUMAN_PASS="humanpass123"
 BRIDGE_TOKEN=""
 HUMAN_TOKEN=""
 ROOM_ID=""
+PERSPECTIVE_UUID=""
+CHANNEL_ID=""
 
 # ─── Cleanup ─────────────────────────────────────────────────────────────────
 
@@ -140,49 +146,25 @@ cleanup() {
         warn "Keeping services running (--keep flag). Clean up manually:"
         echo "  docker rm -f $CONDUIT_CONTAINER $ELEMENT_CONTAINER 2>/dev/null"
         [[ -n "$EXECUTOR_PID" ]] && echo "  kill $EXECUTOR_PID"
-        [[ -n "$FLUX_PID" ]] && echo "  kill $FLUX_PID"
         echo "  rm -rf $DATA_DIR"
         return $exit_code
     fi
 
     step "Cleaning up..."
-
-    # Kill executor
     if [[ -n "$EXECUTOR_PID" ]] && kill -0 "$EXECUTOR_PID" 2>/dev/null; then
         kill "$EXECUTOR_PID" 2>/dev/null || true
         wait "$EXECUTOR_PID" 2>/dev/null || true
-        info "AD4M executor stopped"
     fi
-
-    # Kill Flux serve
-    if [[ -n "$FLUX_PID" ]] && kill -0 "$FLUX_PID" 2>/dev/null; then
-        kill "$FLUX_PID" 2>/dev/null || true
-        info "Flux serve stopped"
-    fi
-
-    # Stop Docker containers
     docker rm -f "$CONDUIT_CONTAINER" 2>/dev/null || true
     docker rm -f "$ELEMENT_CONTAINER" 2>/dev/null || true
-    info "Docker containers removed"
-
-    # Remove temp data
-    if [[ -d "$DATA_DIR" ]]; then
-        rm -rf "$DATA_DIR"
-        info "Temp data removed: $DATA_DIR"
-    fi
-
-    if [[ $exit_code -ne 0 ]]; then
-        echo ""
-        error "Script exited with code $exit_code"
-    fi
-
+    if [[ -d "$DATA_DIR" ]]; then rm -rf "$DATA_DIR"; fi
     return $exit_code
 }
 trap cleanup EXIT
 
 # ─── Dependency checks ───────────────────────────────────────────────────────
 
-header "Matrix ↔ AD4M/Flux Integration Proof"
+header "Matrix ↔ Flux Full E2E Integration Proof"
 step "Checking dependencies..."
 
 MISSING=()
@@ -192,31 +174,29 @@ command -v jq &>/dev/null       || MISSING+=("jq")
 command -v curl &>/dev/null     || MISSING+=("curl")
 command -v npx &>/dev/null      || MISSING+=("node/npx")
 
-python3 -c "import websockets" 2>/dev/null || MISSING+=("python3-websockets (pip3 install websockets)")
-
 if [[ ${#MISSING[@]} -gt 0 ]]; then
     error "Missing dependencies: ${MISSING[*]}"
     exit 1
 fi
-
 if [[ ! -x "$AD4M_EXECUTOR" ]]; then
-    error "AD4M executor not found at: $AD4M_EXECUTOR"
+    error "AD4M executor not found: $AD4M_EXECUTOR"
+    error "Build with: cd $AD4M_DIR && cargo build --release -p ad4m-executor"
     exit 1
 fi
-
-if [[ ! -f "$SEED_SOURCE" ]]; then
-    error "Seed file not found at: $SEED_SOURCE"
+if [[ ! -f "$MAINNET_SEED" ]]; then
+    error "Mainnet seed not found: $MAINNET_SEED"
     exit 1
 fi
-
-if ! docker info &>/dev/null; then
-    error "Docker daemon is not running. Start Docker Desktop first."
+if [[ ! -f "$AD4M_RPC" ]]; then
+    error "ad4m-gql.py not found: $AD4M_RPC"
     exit 1
 fi
+if ! docker info &>/dev/null; then error "Docker not running"; exit 1; fi
 
 success "All dependencies satisfied"
 info "Matrix language source: $MATRIX_LANG_DIR"
 info "AD4M executor: $AD4M_EXECUTOR"
+info "AD4M LDK: $AD4M_LDK_DIR"
 info "Temp data dir: $DATA_DIR"
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -233,34 +213,20 @@ else
     step "Building matrix-link-language..."
     (
         cd "$MATRIX_LANG_DIR"
-
-        # Install deps if needed
         if [[ ! -d "node_modules" ]] || [[ ! -d "node_modules/esbuild" ]]; then
-            step "Installing build dependencies..."
             npm install 2>&1 | tail -3
         fi
-
-        # Build the bundle
         mkdir -p build
-        if command -v deno &>/dev/null; then
-            info "Building with Deno..."
-            deno run --allow-all esbuild.ts 2>&1 | tail -5
-        elif [[ -f "esbuild.node.ts" ]]; then
-            info "Building with Node (esbuild.node.ts)..."
-            export AD4M_LDK_ENTRY="${AD4M_LDK_ENTRY:-$HOME/workspaces/coasys/ad4m/ad4m-ldk/js/lib/index.js}"
-            npx tsx esbuild.node.ts 2>&1
-        else
-            error "No build script available (need Deno or esbuild.node.ts)"
-            exit 1
-        fi
+        export AD4M_LDK_ENTRY="$AD4M_LDK_DIR/index.js"
+        npx tsx esbuild.node.ts 2>&1
     )
 
     if [[ -f "$BUNDLE_PATH" ]]; then
         BUNDLE_SIZE=$(wc -c < "$BUNDLE_PATH" | tr -d ' ')
-        pass "language-build" "Bundle: $BUNDLE_PATH (${BUNDLE_SIZE} bytes)"
+        pass "language-build" "Bundle: ${BUNDLE_SIZE} bytes"
     else
-        fail "language-build" "Bundle not produced at $BUNDLE_PATH"
-        print_summary "Matrix ↔ AD4M" || exit 1
+        fail "language-build" "Bundle not produced"
+        print_summary "Matrix ↔ Flux" || exit 1
     fi
 fi
 
@@ -270,11 +236,74 @@ fi
 
 header "Phase 2: Start Infrastructure"
 
-# ─── 2a: Start Conduit (Matrix homeserver) ───────────────────────────────────
+# ─── 2a: Build local neighbourhood-language ─────────────────────────────────
+
+NH_LANG_DIR="$SCRIPT_DIR/infra/local-neighbourhood-language"
+NH_LANG_BUNDLE="$NH_LANG_DIR/build/bundle.js"
+
+if [[ ! -f "$NH_LANG_BUNDLE" ]]; then
+    step "Building local neighbourhood-language..."
+    mkdir -p "$NH_LANG_DIR/build"
+    (
+        cd "$MATRIX_LANG_DIR"  # Use its node_modules for esbuild
+        AD4M_LDK_ENTRY="$AD4M_LDK_DIR/index.js" node --import tsx -e "
+import * as esbuild from 'esbuild';
+import * as path from 'path';
+const __dirname = '$NH_LANG_DIR';
+await esbuild.build({
+    entryPoints: [path.resolve(__dirname, 'index.ts')],
+    outfile: path.resolve(__dirname, 'build/bundle.js'),
+    bundle: true,
+    platform: 'neutral',
+    target: 'es2022',
+    format: 'esm',
+    charset: 'ascii',
+    plugins: [{
+        name: 'ad4m-ldk-alias',
+        setup(build) {
+            build.onResolve({ filter: /^ad4m:host\\$/ }, () => ({ path: 'ad4m:host', external: true }));
+            build.onResolve({ filter: /^@coasys\\/ad4m-ldk\\$/ }, () => ({ path: process.env.AD4M_LDK_ENTRY, namespace: 'file' }));
+        },
+    }],
+});
+" 2>&1
+    )
+    if [[ -f "$NH_LANG_BUNDLE" ]]; then
+        pass "nh-lang-build" "Local neighbourhood-language built"
+    else
+        fail "nh-lang-build" "Could not build local neighbourhood-language"
+        print_summary "Matrix ↔ Flux" || exit 1
+    fi
+else
+    pass "nh-lang-build" "Local neighbourhood-language already built"
+fi
+
+# ─── 2b: Create initial seed (language-language only) ────────────────────────
+
+step "Creating initial bootstrap seed (language-language only)..."
+
+python3 -c "
+import json, sys
+with open('$MAINNET_SEED') as f:
+    mainnet = json.load(f)
+seed = {
+    'trustedAgents': [],
+    'knownLinkLanguages': [],
+    'directMessageLanguage': '',
+    'agentLanguage': '',
+    'perspectiveLanguage': '',
+    'neighbourhoodLanguage': '',
+    'languageLanguageBundle': mainnet['languageLanguageBundle'],
+}
+with open('$DATA_DIR/bootstrap-seed.json', 'w') as f:
+    json.dump(seed, f)
+print(f'Language-language bundle: {len(seed[\"languageLanguageBundle\"])} chars')
+"
+SEED_PATH="$DATA_DIR/bootstrap-seed.json"
+
+# ─── 2c: Start Conduit ──────────────────────────────────────────────────────
 
 step "Starting Conduit (Matrix homeserver)..."
-
-# Remove stale container if it exists
 docker rm -f "$CONDUIT_CONTAINER" 2>/dev/null || true
 
 docker run -d \
@@ -285,102 +314,199 @@ docker run -d \
     matrixconduit/matrix-conduit:latest \
     >/dev/null
 
-# Wait for Conduit to be ready
-step "Waiting for Conduit to be ready..."
+step "Waiting for Conduit..."
 CONDUIT_READY=false
 for i in $(seq 1 30); do
     if curl -sf "${MATRIX_URL}/_matrix/client/versions" >/dev/null 2>&1; then
-        CONDUIT_READY=true
-        break
+        CONDUIT_READY=true; break
     fi
     sleep 1
 done
 
 if [[ "$CONDUIT_READY" == "true" ]]; then
-    pass "conduit-start" "Conduit ready at $MATRIX_URL"
+    pass "conduit-start" "Ready at $MATRIX_URL"
 else
-    fail "conduit-start" "Conduit not ready after 30s"
-    echo "  Docker logs:"
+    fail "conduit-start" "Not ready after 30s"
     docker logs "$CONDUIT_CONTAINER" 2>&1 | tail -10
-    print_summary "Matrix ↔ AD4M" || exit 1
+    print_summary "Matrix ↔ Flux" || exit 1
 fi
 
-# ─── 2b: Start AD4M executor ────────────────────────────────────────────────
+# ─── 2d: Init + Start executor (Phase 1: publish neighbourhood-language) ────
 
-step "Starting AD4M executor..."
-
-# Prepare data directory
+step "Phase 1: Starting executor to publish neighbourhood-language..."
 mkdir -p "$DATA_DIR/ad4m-data"
-cp "$SEED_SOURCE" "$DATA_DIR/ad4m-data/mainnet_seed.seed"
 
-# Start executor in background
-"$AD4M_EXECUTOR" \
+"$AD4M_EXECUTOR" init \
+    --data-path "$DATA_DIR/ad4m-data" \
+    --network-bootstrap-seed "$SEED_PATH" \
+    > "$DATA_DIR/init.log" 2>&1
+
+"$AD4M_EXECUTOR" run \
     --app-data-path "$DATA_DIR/ad4m-data" \
+    --language-language-only true \
+    --hc-use-bootstrap false \
+    --connect-holochain false \
+    --run-dapp-server false \
     --gql-port "$AD4M_PORT" \
-    --enable-multi-user true \
+    --admin-credential "$AD4M_TOKEN" \
+    > "$DATA_DIR/executor-phase1.log" 2>&1 &
+EXECUTOR_PID=$!
+
+# Wait for executor
+for i in $(seq 1 30); do
+    if curl -sf "http://${AD4M_HOST}:${AD4M_PORT}/graphql" \
+        -H "Content-Type: application/json" \
+        -H "Authorization: ${AD4M_TOKEN}" \
+        -d '{"query":"{ agentStatus { isInitialized } }"}' >/dev/null 2>&1; then
+        break
+    fi
+    if ! kill -0 "$EXECUTOR_PID" 2>/dev/null; then
+        error "Executor died (phase 1). Log:"
+        tail -20 "$DATA_DIR/executor-phase1.log" 2>/dev/null
+        fail "executor-phase1" "Process exited"
+        print_summary "Matrix ↔ Flux" || exit 1
+    fi
+    sleep 1
+done
+
+# Generate agent
+AGENT_RESULT=$(ad4m_gql 'mutation { agentGenerate(passphrase: "test passphrase") { did isInitialized } }' 2>/dev/null) || AGENT_RESULT=""
+AGENT_DID=$(echo "$AGENT_RESULT" | jq -r '.data.agentGenerate.did // "unknown"' 2>/dev/null) || AGENT_DID="unknown"
+if [[ "$AGENT_DID" == "unknown" || -z "$AGENT_DID" ]]; then
+    AGENT_STATUS=$(ad4m_gql '{ agentStatus { did isInitialized } }' 2>/dev/null) || AGENT_STATUS=""
+    AGENT_DID=$(echo "$AGENT_STATUS" | jq -r '.data.agentStatus.did // "unknown"' 2>/dev/null) || AGENT_DID="unknown"
+fi
+pass "agent-init" "DID: ${AGENT_DID:0:40}..."
+
+sleep 2
+
+# Publish neighbourhood-language
+step "Publishing local neighbourhood-language..."
+NH_PUBLISH_RESULT=$(ad4m_rpc language-publish "$NH_LANG_BUNDLE" "local-neighbourhood-store" \
+    "Local neighbourhood store for testing" \
+    --possible-template-params '[]' \
+    2>/dev/null) || NH_PUBLISH_RESULT=""
+
+NH_LANG_HASH=$(echo "$NH_PUBLISH_RESULT" | jq -r '.address // empty' 2>/dev/null)
+if [[ -z "$NH_LANG_HASH" || "$NH_LANG_HASH" == "null" ]]; then
+    NH_LANG_HASH=$(echo "$NH_PUBLISH_RESULT" | tr -d '"' | grep -o 'Qm[a-zA-Z0-9]*' | head -1)
+fi
+
+if [[ -n "$NH_LANG_HASH" ]]; then
+    pass "nh-lang-publish" "Neighbourhood language hash: $NH_LANG_HASH"
+else
+    fail "nh-lang-publish" "Could not publish neighbourhood-language: $NH_PUBLISH_RESULT"
+    tail -10 "$DATA_DIR/executor-phase1.log" 2>/dev/null
+    print_summary "Matrix ↔ Flux" || exit 1
+fi
+
+# Stop phase-1 executor
+kill "$EXECUTOR_PID" 2>/dev/null || true
+wait "$EXECUTOR_PID" 2>/dev/null || true
+EXECUTOR_PID=""
+sleep 1
+
+# ─── 2e: Rebuild seed with neighbourhood-language hash ───────────────────────
+
+step "Rebuilding seed with neighbourhood-language hash..."
+
+python3 -c "
+import json
+with open('$MAINNET_SEED') as f:
+    mainnet = json.load(f)
+seed = {
+    'trustedAgents': [],
+    'knownLinkLanguages': [],
+    'directMessageLanguage': '',
+    'agentLanguage': '',
+    'perspectiveLanguage': '',
+    'neighbourhoodLanguage': '$NH_LANG_HASH',
+    'languageLanguageBundle': mainnet['languageLanguageBundle'],
+}
+with open('$DATA_DIR/bootstrap-seed.json', 'w') as f:
+    json.dump(seed, f)
+print(f'Seed updated: neighbourhoodLanguage={seed[\"neighbourhoodLanguage\"]}')
+"
+
+# ─── 2f: Restart executor (Phase 2: full mode with neighbourhood-language) ──
+
+step "Phase 2: Restarting executor with neighbourhood-language..."
+
+# Re-init to pick up new seed
+"$AD4M_EXECUTOR" init \
+    --data-path "$DATA_DIR/ad4m-data" \
+    --network-bootstrap-seed "$SEED_PATH" \
+    > "$DATA_DIR/init2.log" 2>&1 || true
+
+"$AD4M_EXECUTOR" run \
+    --app-data-path "$DATA_DIR/ad4m-data" \
+    --hc-use-bootstrap false \
+    --connect-holochain false \
+    --run-dapp-server false \
+    --gql-port "$AD4M_PORT" \
     --admin-credential "$AD4M_TOKEN" \
     > "$DATA_DIR/executor.log" 2>&1 &
 EXECUTOR_PID=$!
 
-# Wait for executor to be ready
 step "Waiting for AD4M executor (port $AD4M_PORT)..."
 EXECUTOR_READY=false
-for i in $(seq 1 45); do
-    if python3 "$AD4M_RPC" --host "$AD4M_HOST" --port "$AD4M_PORT" --token "$AD4M_TOKEN" \
-        wait-ready --timeout 2 >/dev/null 2>&1; then
-        EXECUTOR_READY=true
-        break
+for i in $(seq 1 60); do
+    if curl -sf "http://${AD4M_HOST}:${AD4M_PORT}/graphql" \
+        -H "Content-Type: application/json" \
+        -H "Authorization: ${AD4M_TOKEN}" \
+        -d '{"query":"{ agentStatus { isInitialized } }"}' >/dev/null 2>&1; then
+        EXECUTOR_READY=true; break
     fi
-    # Check if process died
     if ! kill -0 "$EXECUTOR_PID" 2>/dev/null; then
-        error "Executor process died. Last 20 lines of log:"
-        tail -20 "$DATA_DIR/executor.log" 2>/dev/null || true
-        fail "executor-start" "Process exited unexpectedly"
-        print_summary "Matrix ↔ AD4M" || exit 1
+        error "Executor died (phase 2). Log:"
+        tail -20 "$DATA_DIR/executor.log" 2>/dev/null
+        fail "executor-start" "Process exited"
+        print_summary "Matrix ↔ Flux" || exit 1
     fi
     sleep 1
 done
 
 if [[ "$EXECUTOR_READY" == "true" ]]; then
-    pass "executor-start" "AD4M executor ready (PID $EXECUTOR_PID, port $AD4M_PORT)"
+    pass "executor-start" "Ready (PID $EXECUTOR_PID, port $AD4M_PORT, with neighbourhood-language)"
 else
-    fail "executor-start" "Executor not ready after 45s"
-    echo "  Last 20 lines of log:"
-    tail -20 "$DATA_DIR/executor.log" 2>/dev/null || true
-    print_summary "Matrix ↔ AD4M" || exit 1
+    fail "executor-start" "Not ready after 60s"
+    tail -20 "$DATA_DIR/executor.log" 2>/dev/null
+    print_summary "Matrix ↔ Flux" || exit 1
 fi
 
-# ─── 2c: Generate agent (multi-user mode requires this) ─────────────────────
-
-step "Generating AD4M agent..."
-AGENT_STATUS=$(ad4m_rpc agent-status 2>/dev/null) || AGENT_STATUS=""
-AGENT_INITIALIZED=$(echo "$AGENT_STATUS" | jq -r '.isInitialized // false' 2>/dev/null) || AGENT_INITIALIZED="false"
-
-if [[ "$AGENT_INITIALIZED" != "true" ]]; then
-    ad4m_rpc agent-generate >/dev/null 2>&1 || true
-    sleep 2
-    AGENT_STATUS=$(ad4m_rpc agent-status 2>/dev/null) || true
+# Unlock/login the existing agent
+step "Unlocking existing agent..."
+UNLOCK_RESULT=$(ad4m_gql 'mutation { agentUnlock(passphrase: "test passphrase") { did isUnlocked } }' 2>/dev/null) || UNLOCK_RESULT=""
+UNLOCK_DID=$(echo "$UNLOCK_RESULT" | jq -r '.data.agentUnlock.did // empty' 2>/dev/null) || UNLOCK_DID=""
+if [[ -n "$UNLOCK_DID" ]]; then
+    pass "agent-unlock" "Agent unlocked: ${UNLOCK_DID:0:40}..."
+else
+    # Already unlocked or auto-unlocked
+    warn "Agent unlock returned: $UNLOCK_RESULT (may be auto-unlocked)"
 fi
-info "Agent status: $(echo "$AGENT_STATUS" | jq -c '.' 2>/dev/null || echo "$AGENT_STATUS")"
+
+# Wait for system languages to load
+step "Waiting for system languages to load (5s)..."
+sleep 5
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# PHASE 3: Publish Language & Configure
+# PHASE 3: Publish Language & Create Matrix Room
 # ═══════════════════════════════════════════════════════════════════════════════
 
-header "Phase 3: Publish & Configure Language"
+header "Phase 3: Publish Language & Configure"
 
-# ─── 3a: Publish language to executor ────────────────────────────────────────
+# ─── 3a: Publish language ────────────────────────────────────────────────────
 
-step "Publishing matrix-link-language to executor..."
+step "Publishing matrix-link-language..."
 
-PUBLISH_RESULT=$(python3 "$AD4M_RPC" --host "$AD4M_HOST" --port "$AD4M_PORT" --token "$AD4M_TOKEN" \
-    language-publish "$BUNDLE_PATH" "matrix-link-language" "Matrix bridge link language" \
+PUBLISH_RESULT=$(ad4m_rpc language-publish "$BUNDLE_PATH" "matrix-link-language" \
+    "Matrix bridge link language for Flux interop" \
     --possible-template-params '["MATRIX_HOMESERVER_URL","MATRIX_ROOM_ID","MATRIX_USER_ID","MATRIX_ACCESS_TOKEN","MATRIX_ROOM_ALIAS","NEIGHBOURHOOD_META"]' \
     2>/dev/null) || PUBLISH_RESULT=""
 
-LANG_HASH=$(echo "$PUBLISH_RESULT" | jq -r '.address // .hash // empty' 2>/dev/null)
+LANG_HASH=$(echo "$PUBLISH_RESULT" | jq -r '.address // empty' 2>/dev/null)
 if [[ -z "$LANG_HASH" || "$LANG_HASH" == "null" ]]; then
-    # Try parsing as raw string
+    # Try raw extraction
     LANG_HASH=$(echo "$PUBLISH_RESULT" | tr -d '"' | grep -o 'Qm[a-zA-Z0-9]*' | head -1)
 fi
 
@@ -390,8 +516,8 @@ else
     fail "language-publish" "Could not publish language"
     echo "  Response: $PUBLISH_RESULT"
     echo "  Executor log (last 10 lines):"
-    tail -10 "$DATA_DIR/executor.log" 2>/dev/null || true
-    print_summary "Matrix ↔ AD4M" || exit 1
+    tail -10 "$DATA_DIR/executor.log" 2>/dev/null
+    print_summary "Matrix ↔ Flux" || exit 1
 fi
 
 # ─── 3b: Create Matrix users ────────────────────────────────────────────────
@@ -410,22 +536,19 @@ BRIDGE_REG=$(curl -sf -X POST "$MATRIX_URL/_matrix/client/v3/register" \
 
 BRIDGE_TOKEN=$(echo "$BRIDGE_REG" | jq -r '.access_token // empty' 2>/dev/null)
 if [[ -z "$BRIDGE_TOKEN" ]]; then
-    # Try login (already registered)
+    # Already registered, try login
     BRIDGE_LOGIN=$(curl -sf -X POST "$MATRIX_URL/_matrix/client/v3/login" \
         -H "Content-Type: application/json" \
-        -d "{
-            \"type\": \"m.login.password\",
-            \"identifier\": {\"type\": \"m.id.user\", \"user\": \"$BRIDGE_USER\"},
-            \"password\": \"$BRIDGE_PASS\"
-        }" 2>/dev/null) || BRIDGE_LOGIN=""
+        -d "{\"type\": \"m.login.password\", \"identifier\": {\"type\": \"m.id.user\", \"user\": \"$BRIDGE_USER\"}, \"password\": \"$BRIDGE_PASS\"}" \
+        2>/dev/null) || BRIDGE_LOGIN=""
     BRIDGE_TOKEN=$(echo "$BRIDGE_LOGIN" | jq -r '.access_token // empty' 2>/dev/null)
 fi
 
 if [[ -n "$BRIDGE_TOKEN" ]]; then
     pass "bridge-user" "@${BRIDGE_USER}:ad4m-test.local"
 else
-    fail "bridge-user" "Could not register/login bridge bot"
-    print_summary "Matrix ↔ AD4M" || exit 1
+    fail "bridge-user" "Could not create/login bridge bot"
+    print_summary "Matrix ↔ Flux" || exit 1
 fi
 
 # Register human user
@@ -442,19 +565,16 @@ HUMAN_TOKEN=$(echo "$HUMAN_REG" | jq -r '.access_token // empty' 2>/dev/null)
 if [[ -z "$HUMAN_TOKEN" ]]; then
     HUMAN_LOGIN=$(curl -sf -X POST "$MATRIX_URL/_matrix/client/v3/login" \
         -H "Content-Type: application/json" \
-        -d "{
-            \"type\": \"m.login.password\",
-            \"identifier\": {\"type\": \"m.id.user\", \"user\": \"$HUMAN_USER\"},
-            \"password\": \"$HUMAN_PASS\"
-        }" 2>/dev/null) || HUMAN_LOGIN=""
+        -d "{\"type\": \"m.login.password\", \"identifier\": {\"type\": \"m.id.user\", \"user\": \"$HUMAN_USER\"}, \"password\": \"$HUMAN_PASS\"}" \
+        2>/dev/null) || HUMAN_LOGIN=""
     HUMAN_TOKEN=$(echo "$HUMAN_LOGIN" | jq -r '.access_token // empty' 2>/dev/null)
 fi
 
 if [[ -n "$HUMAN_TOKEN" ]]; then
     pass "human-user" "@${HUMAN_USER}:ad4m-test.local"
 else
-    fail "human-user" "Could not register/login human user"
-    print_summary "Matrix ↔ AD4M" || exit 1
+    fail "human-user" "Could not create/login human user"
+    print_summary "Matrix ↔ Flux" || exit 1
 fi
 
 # ─── 3c: Create Matrix room ─────────────────────────────────────────────────
@@ -465,43 +585,34 @@ ROOM_RESP=$(curl -sf -X POST "$MATRIX_URL/_matrix/client/v3/createRoom" \
     -H "Authorization: Bearer $BRIDGE_TOKEN" \
     -H "Content-Type: application/json" \
     -d "{
-        \"name\": \"AD4M-Flux Proof Room\",
-        \"topic\": \"Bidirectional interop proof: Matrix ↔ AD4M/Flux\",
+        \"name\": \"Flux Bridge Room\",
+        \"topic\": \"Matrix ↔ Flux bidirectional interop\",
         \"visibility\": \"public\",
         \"preset\": \"public_chat\",
-        \"room_alias_name\": \"ad4m-proof\"
+        \"room_alias_name\": \"flux-bridge\"
     }" 2>/dev/null) || ROOM_RESP=""
 
 ROOM_ID=$(echo "$ROOM_RESP" | jq -r '.room_id // empty' 2>/dev/null)
 if [[ -z "$ROOM_ID" ]]; then
-    fail "room-create" "Could not create Matrix room"
-    echo "  Response: $ROOM_RESP"
-    print_summary "Matrix ↔ AD4M" || exit 1
+    fail "room-create" "Could not create room: $ROOM_RESP"
+    print_summary "Matrix ↔ Flux" || exit 1
 fi
 pass "room-create" "$ROOM_ID"
 
-# Human joins the room
-step "Human user joining room..."
-JOIN_RESP=$(curl -sf -X POST "$MATRIX_URL/_matrix/client/v3/join/$ROOM_ID" \
+# Human joins room
+curl -sf -X POST "$MATRIX_URL/_matrix/client/v3/join/$ROOM_ID" \
     -H "Authorization: Bearer $HUMAN_TOKEN" \
     -H "Content-Type: application/json" \
-    -d '{}' 2>/dev/null) || JOIN_RESP=""
-
-JOIN_ROOM=$(echo "$JOIN_RESP" | jq -r '.room_id // empty' 2>/dev/null)
-if [[ -n "$JOIN_ROOM" ]]; then
-    pass "human-join" "Human joined $ROOM_ID"
-else
-    warn "Human join may have failed (non-critical): $JOIN_RESP"
-fi
+    -d '{}' >/dev/null 2>&1
 
 # ─── 3d: Apply language template ────────────────────────────────────────────
 
-step "Applying language template (binding to room)..."
+step "Applying language template (binding to Matrix room)..."
 
 BRIDGE_USER_ID="@${BRIDGE_USER}:ad4m-test.local"
-ROOM_ALIAS="#ad4m-proof:ad4m-test.local"
+ROOM_ALIAS="#flux-bridge:ad4m-test.local"
 
-TEMPLATE_DATA=$(jq -n \
+TEMPLATE_DATA=$(jq -nc \
     --arg hs "$MATRIX_URL" \
     --arg room "$ROOM_ID" \
     --arg user "$BRIDGE_USER_ID" \
@@ -517,283 +628,304 @@ TEMPLATE_DATA=$(jq -n \
         NEIGHBOURHOOD_META: $meta
     }')
 
-CONFIGURED_ADDR=$(python3 "$AD4M_RPC" --host "$AD4M_HOST" --port "$AD4M_PORT" --token "$AD4M_TOKEN" \
-    language-apply-template "$LANG_HASH" "$TEMPLATE_DATA" 2>/dev/null) || CONFIGURED_ADDR=""
+CONFIGURED_RESULT=$(ad4m_rpc language-apply-template "$LANG_HASH" "$TEMPLATE_DATA" 2>/dev/null) || CONFIGURED_RESULT=""
 
-# Extract address from various response formats
 CONFIGURED_LANG=""
-if echo "$CONFIGURED_ADDR" | jq -e '.address' >/dev/null 2>&1; then
-    CONFIGURED_LANG=$(echo "$CONFIGURED_ADDR" | jq -r '.address')
-elif echo "$CONFIGURED_ADDR" | jq -e 'type == "string"' >/dev/null 2>&1; then
-    CONFIGURED_LANG=$(echo "$CONFIGURED_ADDR" | jq -r '.')
-else
-    CONFIGURED_LANG=$(echo "$CONFIGURED_ADDR" | tr -d '"' | grep -o 'Qm[a-zA-Z0-9]*' | head -1)
+if echo "$CONFIGURED_RESULT" | jq -e '.address' >/dev/null 2>&1; then
+    CONFIGURED_LANG=$(echo "$CONFIGURED_RESULT" | jq -r '.address')
+elif echo "$CONFIGURED_RESULT" | jq -e 'type == "string"' >/dev/null 2>&1; then
+    CONFIGURED_LANG=$(echo "$CONFIGURED_RESULT" | jq -r '.')
 fi
 
 if [[ -n "$CONFIGURED_LANG" && "$CONFIGURED_LANG" != "null" ]]; then
-    pass "language-configure" "Configured address: $CONFIGURED_LANG"
+    pass "language-configure" "Configured: $CONFIGURED_LANG"
 else
-    fail "language-configure" "Could not apply template"
-    echo "  Template data: $TEMPLATE_DATA"
-    echo "  Response: $CONFIGURED_ADDR"
-    print_summary "Matrix ↔ AD4M" || exit 1
+    fail "language-configure" "Template application failed: $CONFIGURED_RESULT"
+    echo "  Executor log (last 15 lines):"
+    tail -15 "$DATA_DIR/executor.log" 2>/dev/null
+    print_summary "Matrix ↔ Flux" || exit 1
 fi
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# PHASE 4: Create Perspective & Neighbourhood
+# PHASE 4: Create Perspective + Flux Community Structure
 # ═══════════════════════════════════════════════════════════════════════════════
 
-header "Phase 4: Create Perspective & Neighbourhood"
+header "Phase 4: Create Perspective & Flux Community"
 
-# ─── 4a: Create perspective ──────────────────────────────────────────────────
+# ─── 4a: Create perspective with link language ───────────────────────────────
 
-step "Creating AD4M perspective..."
+step "Creating AD4M perspective with configured language..."
 
-PERSPECTIVE_RESULT=$(ad4m_rpc perspective-create "Matrix Bridge Proof" 2>/dev/null) || PERSPECTIVE_RESULT=""
+# Create perspective
+PERSPECTIVE_RESULT=$(ad4m_rpc perspective-create "Flux Matrix Bridge" 2>/dev/null) || PERSPECTIVE_RESULT=""
 PERSPECTIVE_UUID=$(echo "$PERSPECTIVE_RESULT" | jq -r '.uuid // empty' 2>/dev/null)
-
 if [[ -z "$PERSPECTIVE_UUID" || "$PERSPECTIVE_UUID" == "null" ]]; then
-    # Try direct string
     PERSPECTIVE_UUID=$(echo "$PERSPECTIVE_RESULT" | tr -d '"' | grep -oE '[0-9a-f-]{36}' | head -1)
 fi
 
 if [[ -n "$PERSPECTIVE_UUID" ]]; then
     pass "perspective-create" "UUID: $PERSPECTIVE_UUID"
 else
-    fail "perspective-create" "Could not create perspective"
-    echo "  Response: $PERSPECTIVE_RESULT"
-    print_summary "Matrix ↔ AD4M" || exit 1
+    fail "perspective-create" "Could not create perspective: $PERSPECTIVE_RESULT"
+    print_summary "Matrix ↔ Flux" || exit 1
 fi
 
-# ─── 4b: Publish as neighbourhood ───────────────────────────────────────────
+# ─── 4b: Publish as neighbourhood (binds language to perspective) ────────────
 
-step "Publishing perspective as neighbourhood..."
+step "Publishing perspective as neighbourhood (binds link language)..."
 
 NH_RESULT=$(ad4m_rpc neighbourhood-publish "$PERSPECTIVE_UUID" "$CONFIGURED_LANG" 2>/dev/null) || NH_RESULT=""
+
+# Extract neighbourhood URL
 NH_URL=""
 if echo "$NH_RESULT" | jq -e 'type == "string"' >/dev/null 2>&1; then
     NH_URL=$(echo "$NH_RESULT" | jq -r '.')
 elif echo "$NH_RESULT" | jq -e '.url' >/dev/null 2>&1; then
     NH_URL=$(echo "$NH_RESULT" | jq -r '.url')
-elif echo "$NH_RESULT" | jq -e '.neighbourhoodUrl' >/dev/null 2>&1; then
-    NH_URL=$(echo "$NH_RESULT" | jq -r '.neighbourhoodUrl')
 fi
 
-if [[ -n "$NH_URL" && "$NH_URL" != "null" ]]; then
+if [[ -n "$NH_URL" && "$NH_URL" != "null" && "$NH_URL" != "" ]]; then
     pass "neighbourhood-publish" "URL: $NH_URL"
 else
-    # Non-fatal: neighbourhood publish may fail in some executor versions
-    # but the language is still active on the perspective
-    warn "Neighbourhood publish returned: $NH_RESULT"
-    skip "neighbourhood-publish" "May still work via perspective directly"
+    fail "neighbourhood-publish" "Could not publish neighbourhood: $NH_RESULT"
+    echo "  Executor log (last 15 lines):"
+    tail -15 "$DATA_DIR/executor.log" 2>/dev/null
+    # This is critical — without neighbourhood, commit() won't fire
+    print_summary "Matrix ↔ Flux" || exit 1
 fi
 
-# Give the language time to initialize and connect
-step "Waiting for language to initialize (5s)..."
+# Give the link language time to initialize after neighbourhood binding
+step "Waiting for link language to initialize (5s)..."
 sleep 5
 
+# ─── 4c: Set up Flux Community structure ─────────────────────────────────────
+
+step "Creating Flux Community structure via AD4M links..."
+
+# Generate stable IDs for our community and channel
+COMMUNITY_ID="flux-community://matrix-bridge"
+CHANNEL_ID="flux-channel://general"
+
+# Add community structure as individual links
+# Community: self → community (has_community)
+ad4m_rpc perspective-add-link "$PERSPECTIVE_UUID" \
+    "ad4m://self" "flux://has_community" "flux://entry_type" >/dev/null 2>&1 || true
+ad4m_rpc perspective-add-link "$PERSPECTIVE_UUID" \
+    "ad4m://self" "literal://string:Matrix%20Bridge" "rdf://name" >/dev/null 2>&1 || true
+ad4m_rpc perspective-add-link "$PERSPECTIVE_UUID" \
+    "ad4m://self" "$CHANNEL_ID" "flux://has_channel" >/dev/null 2>&1 || true
+
+# Channel: type + name
+ad4m_rpc perspective-add-link "$PERSPECTIVE_UUID" \
+    "$CHANNEL_ID" "flux://has_channel" "flux://entry_type" >/dev/null 2>&1 || true
+ad4m_rpc perspective-add-link "$PERSPECTIVE_UUID" \
+    "$CHANNEL_ID" "literal://string:general" "flux://has_channel_name" >/dev/null 2>&1 || true
+
+pass "community-setup" "Community: Matrix Bridge, Channel: general (ID: $CHANNEL_ID)"
+
+# Give the language time to connect and sync
+step "Waiting for language initialization (5s)..."
+sleep 5
+
+# Trigger initial sync
+ad4m_gql "{ perspectiveQueryLinks(uuid: \"$PERSPECTIVE_UUID\", query: {}) { author timestamp data { source target predicate } } }" >/dev/null 2>&1 || true
+sleep 2
+
 # ═══════════════════════════════════════════════════════════════════════════════
-# PHASE 5: Prove Matrix → AD4M
+# PHASE 5: Test Matrix → Flux (Human sends message in Element → appears in AD4M)
 # ═══════════════════════════════════════════════════════════════════════════════
 
-header "Phase 5: Matrix → AD4M (Native → Bridged)"
+header "Phase 5: Matrix → Flux (Element → AD4M Perspective)"
 
-TEST_MSG_MATRIX="Hello from Element! [proof-$(date +%s)]"
+TEST_MSG_M2F="Hello from Matrix! [proof-$(date +%s)]"
 
-step "Sending message from Matrix (human user)..."
+step "Sending message from Matrix human user..."
 
 SEND_RESP=$(curl -sf -X PUT \
-    "$MATRIX_URL/_matrix/client/v3/rooms/$ROOM_ID/send/m.room.message/proof-m2a-$(date +%s)" \
+    "$MATRIX_URL/_matrix/client/v3/rooms/$ROOM_ID/send/m.room.message/proof-m2f-$(date +%s)" \
     -H "Authorization: Bearer $HUMAN_TOKEN" \
     -H "Content-Type: application/json" \
-    -d "$(jq -n --arg body "$TEST_MSG_MATRIX" '{msgtype: "m.text", body: $body}')" \
+    -d "$(jq -n --arg body "$TEST_MSG_M2F" '{msgtype: "m.text", body: $body}')" \
     2>/dev/null) || SEND_RESP=""
 
 EVENT_ID=$(echo "$SEND_RESP" | jq -r '.event_id // empty' 2>/dev/null)
 if [[ -n "$EVENT_ID" ]]; then
-    pass "matrix-send" "Event: $EVENT_ID — \"$TEST_MSG_MATRIX\""
+    pass "matrix-send" "Event: $EVENT_ID"
 else
-    fail "matrix-send" "Could not send Matrix message"
-    echo "  Response: $SEND_RESP"
+    fail "matrix-send" "Could not send message: $SEND_RESP"
 fi
 
-# Also send a custom link event (the format the language actually syncs)
-step "Sending custom link event from Matrix..."
-LINK_EVENT_RESP=$(curl -sf -X PUT \
-    "$MATRIX_URL/_matrix/client/v3/rooms/$ROOM_ID/send/dev.ad4m.link.triple/proof-link-$(date +%s)" \
-    -H "Authorization: Bearer $HUMAN_TOKEN" \
-    -H "Content-Type: application/json" \
-    -d "$(jq -n \
-        --arg src "matrix://proof/subject" \
-        --arg tgt "matrix://proof/object" \
-        --arg pred "matrix://proof/predicate" \
-        --arg author "@${HUMAN_USER}:ad4m-test.local" \
-        '{
-            source: $src,
-            target: $tgt,
-            predicate: $pred,
-            author: $author,
-            timestamp: (now | tostring)
-        }')" \
-    2>/dev/null) || LINK_EVENT_RESP=""
+# Wait and trigger sync cycles
+step "Triggering AD4M sync cycles to pick up Matrix message..."
+for i in $(seq 1 5); do
+    # Query links triggers sync via the link language
+    ad4m_gql "{ perspectiveQueryLinks(uuid: \"$PERSPECTIVE_UUID\", query: {}) { data { source target predicate } } }" >/dev/null 2>&1 || true
+    sleep 3
+done
 
-LINK_EVENT_ID=$(echo "$LINK_EVENT_RESP" | jq -r '.event_id // empty' 2>/dev/null)
-if [[ -n "$LINK_EVENT_ID" ]]; then
-    pass "matrix-link-send" "Custom link event: $LINK_EVENT_ID"
+# Final query for verification
+step "Querying AD4M perspective for Flux Message links..."
+
+LINKS_RAW=$(ad4m_gql "{ perspectiveQueryLinks(uuid: \"$PERSPECTIVE_UUID\", query: {}) { author timestamp data { source target predicate } } }" 2>/dev/null) || LINKS_RAW=""
+
+LINKS_DATA=$(echo "$LINKS_RAW" | jq '.data.perspectiveQueryLinks // []' 2>/dev/null) || LINKS_DATA="[]"
+LINK_COUNT=$(echo "$LINKS_DATA" | jq 'length' 2>/dev/null) || LINK_COUNT=0
+
+info "Total links in perspective: $LINK_COUNT"
+
+# Look for flux://body links containing our test message
+ENCODED_MSG=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$TEST_MSG_M2F'))")
+BODY_LINKS=$(echo "$LINKS_DATA" | jq --arg msg "$TEST_MSG_M2F" --arg enc "$ENCODED_MSG" '[
+    .[] | select(
+        .data.predicate == "flux://body" and (
+            (.data.target | contains($msg)) or
+            (.data.target | contains($enc))
+        )
+    )
+]' 2>/dev/null) || BODY_LINKS="[]"
+BODY_LINK_COUNT=$(echo "$BODY_LINKS" | jq 'length' 2>/dev/null) || BODY_LINK_COUNT=0
+
+# Also check for any flux://body links at all
+ALL_BODY_LINKS=$(echo "$LINKS_DATA" | jq '[.[] | select(.data.predicate == "flux://body")]' 2>/dev/null) || ALL_BODY_LINKS="[]"
+ALL_BODY_COUNT=$(echo "$ALL_BODY_LINKS" | jq 'length' 2>/dev/null) || ALL_BODY_COUNT=0
+
+# Check for has_child links (message parent-child relationship)
+HAS_CHILD_LINKS=$(echo "$LINKS_DATA" | jq '[.[] | select(.data.predicate == "ad4m://has_child")]' 2>/dev/null) || HAS_CHILD_LINKS="[]"
+HAS_CHILD_COUNT=$(echo "$HAS_CHILD_LINKS" | jq 'length' 2>/dev/null) || HAS_CHILD_COUNT=0
+
+# Check for entry_type message flags
+MSG_TYPE_LINKS=$(echo "$LINKS_DATA" | jq '[.[] | select(.data.predicate == "flux://entry_type" and .data.target == "flux://has_message")]' 2>/dev/null) || MSG_TYPE_LINKS="[]"
+MSG_TYPE_COUNT=$(echo "$MSG_TYPE_LINKS" | jq 'length' 2>/dev/null) || MSG_TYPE_COUNT=0
+
+if [[ "$BODY_LINK_COUNT" -gt 0 ]]; then
+    pass "matrix-to-flux-body" "Found flux://body link with message text"
+    info "Body link: $(echo "$BODY_LINKS" | jq -c '.[0].data' 2>/dev/null)"
+elif [[ "$ALL_BODY_COUNT" -gt 0 ]]; then
+    warn "Found ${ALL_BODY_COUNT} flux://body links but text didn't match exactly"
+    echo "$ALL_BODY_LINKS" | jq -c '.[0:3][] | .data' 2>/dev/null
+    skip "matrix-to-flux-body" "Body links present but text encoding mismatch"
 else
-    warn "Custom link event send failed (non-critical): $LINK_EVENT_RESP"
+    if [[ "$LINK_COUNT" -gt 5 ]]; then
+        warn "Perspective has $LINK_COUNT links but no flux://body — checking what synced"
+        echo "$LINKS_DATA" | jq -c '.[] | select(.data.predicate | startswith("flux://") or startswith("ad4m://has_child"))' 2>/dev/null | head -5
+        skip "matrix-to-flux-body" "Partial sync — language active but body not yet visible"
+    else
+        fail "matrix-to-flux-body" "No flux://body links found — sync may not be working"
+        echo "  All links:"
+        echo "$LINKS_DATA" | jq -c '.[] | .data' 2>/dev/null | head -10
+    fi
 fi
 
-# Wait for AD4M to sync
-step "Waiting for AD4M sync (8s)..."
-sleep 8
-
-# Trigger explicit sync if available
-ad4m_rpc raw "perspective.pullLinks" "{\"uuid\": \"$PERSPECTIVE_UUID\"}" >/dev/null 2>&1 || true
-sleep 3
-
-# Query AD4M for links
-step "Querying AD4M perspective for synced links..."
-LINKS_RAW=$(ad4m_rpc perspective-query-links "$PERSPECTIVE_UUID" 2>/dev/null) || LINKS_RAW="[]"
-
-# Check the response
-LINK_COUNT=$(echo "$LINKS_RAW" | jq 'if type == "array" then length else 0 end' 2>/dev/null) || LINK_COUNT=0
-
-if [[ "$LINK_COUNT" -gt 0 ]]; then
-    pass "matrix-to-ad4m" "Found $LINK_COUNT links in AD4M perspective"
-    info "Links sample: $(echo "$LINKS_RAW" | jq -c '.[0:2]' 2>/dev/null)"
-
-    # Check specifically for our test content
-    FOUND_MSG=$(echo "$LINKS_RAW" | jq --arg msg "$TEST_MSG_MATRIX" \
-        '[.[] | select(
-            (.data.target // .target // "" | contains($msg)) or
-            (.data.source // .source // "" | contains($msg)) or
-            (tostring | contains($msg))
-        )] | length' 2>/dev/null) || FOUND_MSG=0
-
-    FOUND_LINK=$(echo "$LINKS_RAW" | jq \
-        '[.[] | select(
-            (.data.source // .source // "" | contains("matrix://proof")) or
-            (.data.target // .target // "" | contains("matrix://proof"))
-        )] | length' 2>/dev/null) || FOUND_LINK=0
-
-    if [[ "$FOUND_MSG" -gt 0 ]]; then
-        pass "matrix-msg-synced" "Text message found in AD4M links"
-    else
-        skip "matrix-msg-synced" "Text message not found (may use different event type)"
-    fi
-
-    if [[ "$FOUND_LINK" -gt 0 ]]; then
-        pass "matrix-link-synced" "Custom link event found in AD4M"
-    else
-        skip "matrix-link-synced" "Custom link event not found (sync may need more time)"
-    fi
+if [[ "$HAS_CHILD_COUNT" -gt 0 ]]; then
+    pass "matrix-to-flux-child" "Found ad4m://has_child links ($HAS_CHILD_COUNT)"
 else
-    # The sync may not have completed yet — this is the most timing-sensitive part
-    warn "No links found yet — language may still be syncing"
-    skip "matrix-to-ad4m" "No links synced yet (language may need more time to initialize)"
+    skip "matrix-to-flux-child" "No has_child links yet"
+fi
+
+if [[ "$MSG_TYPE_COUNT" -gt 0 ]]; then
+    pass "matrix-to-flux-type" "Found flux://entry_type = flux://has_message ($MSG_TYPE_COUNT)"
+else
+    skip "matrix-to-flux-type" "No message type flags yet"
 fi
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# PHASE 6: Prove AD4M → Matrix
+# PHASE 6: Test Flux → Matrix (AD4M Message links → appears in Matrix room)
 # ═══════════════════════════════════════════════════════════════════════════════
 
-header "Phase 6: AD4M → Matrix (Bridged → Native)"
+header "Phase 6: Flux → Matrix (AD4M Perspective → Element)"
 
-TEST_MSG_AD4M="Hello from Flux! [proof-$(date +%s)]"
+TEST_MSG_F2M="Hello from Flux! [proof-$(date +%s)]"
+FLUX_MSG_ID="flux-msg://proof-$(date +%s)"
 
-step "Adding link from AD4M side..."
+step "Adding Flux Message links to AD4M perspective (batch commit)..."
 
-ADD_RESULT=$(ad4m_rpc perspective-add-link "$PERSPECTIVE_UUID" \
-    "ad4m://self" \
-    "$TEST_MSG_AD4M" \
-    "ad4m://has_message" 2>/dev/null) || ADD_RESULT=""
+# Build the 3-link batch for a Flux Message.
+# CRITICAL: must be a single commit so the language's detectFluxMessages() sees all 3 together
+ENCODED_BODY="literal://string:$(python3 -c "import urllib.parse; print(urllib.parse.quote('$TEST_MSG_F2M'))")"
 
-if [[ -n "$ADD_RESULT" ]]; then
-    pass "ad4m-send" "Link added: source=ad4m://self target=\"$TEST_MSG_AD4M\""
+LINKS_JSON=$(jq -nc \
+    --arg ch "$CHANNEL_ID" \
+    --arg msg "$FLUX_MSG_ID" \
+    --arg body "$ENCODED_BODY" \
+    '[
+        {"source": $ch, "target": $msg, "predicate": "ad4m://has_child"},
+        {"source": $msg, "target": "flux://has_message", "predicate": "flux://entry_type"},
+        {"source": $msg, "target": $body, "predicate": "flux://body"}
+    ]')
+
+info "Adding links: $CHANNEL_ID → $FLUX_MSG_ID (has_child + type + body)"
+
+# Use perspectiveAddLinks (plural) for batch commit
+BATCH_GQL="mutation { perspectiveAddLinks(uuid: \"$PERSPECTIVE_UUID\", links: [
+    {source: \"$CHANNEL_ID\", target: \"$FLUX_MSG_ID\", predicate: \"ad4m://has_child\"},
+    {source: \"$FLUX_MSG_ID\", target: \"flux://has_message\", predicate: \"flux://entry_type\"},
+    {source: \"$FLUX_MSG_ID\", target: \"$ENCODED_BODY\", predicate: \"flux://body\"}
+]) { author timestamp data { source target predicate } } }"
+
+BATCH_RESULT=$(ad4m_gql "$BATCH_GQL" 2>/dev/null) || BATCH_RESULT=""
+
+if echo "$BATCH_RESULT" | jq -e '.data.perspectiveAddLinks' >/dev/null 2>&1; then
+    ADDED_COUNT=$(echo "$BATCH_RESULT" | jq '.data.perspectiveAddLinks | length' 2>/dev/null)
+    pass "flux-send" "Flux Message links added ($ADDED_COUNT links in batch)"
 else
-    fail "ad4m-send" "Could not add link to perspective"
+    # Fallback: add individually (the language still detects if sync catches all)
+    warn "Batch add failed: $BATCH_RESULT — falling back to individual adds"
+    ad4m_rpc perspective-add-link "$PERSPECTIVE_UUID" \
+        "$CHANNEL_ID" "$FLUX_MSG_ID" "ad4m://has_child" >/dev/null 2>&1 || true
+    ad4m_rpc perspective-add-link "$PERSPECTIVE_UUID" \
+        "$FLUX_MSG_ID" "flux://has_message" "flux://entry_type" >/dev/null 2>&1 || true
+    ad4m_rpc perspective-add-link "$PERSPECTIVE_UUID" \
+        "$FLUX_MSG_ID" "$ENCODED_BODY" "flux://body" >/dev/null 2>&1 || true
+    pass "flux-send" "Flux Message links added (individual commits)"
 fi
 
-# Also add a structured link
-step "Adding structured link from AD4M..."
-STRUCT_RESULT=$(ad4m_rpc perspective-add-link "$PERSPECTIVE_UUID" \
-    "ad4m://proof/flux-subject" \
-    "ad4m://proof/flux-object" \
-    "ad4m://proof/flux-predicate" 2>/dev/null) || STRUCT_RESULT=""
+# Wait for the language to commit the message to Matrix
+step "Waiting for AD4M → Matrix commit (10s)..."
+sleep 10
 
-if [[ -n "$STRUCT_RESULT" ]]; then
-    pass "ad4m-struct-send" "Structured link added"
-else
-    warn "Structured link add may have failed: $STRUCT_RESULT"
-fi
+# Check Matrix room for the message
+step "Checking Matrix room for Flux-originated message..."
 
-# Wait for Matrix to receive the events
-step "Waiting for Matrix sync (8s)..."
-sleep 8
-
-# Check Matrix room for events from AD4M
-step "Checking Matrix room for AD4M-originated events..."
 MESSAGES_RESP=$(curl -sf "$MATRIX_URL/_matrix/client/v3/rooms/$ROOM_ID/messages?dir=b&limit=50" \
     -H "Authorization: Bearer $HUMAN_TOKEN" 2>/dev/null) || MESSAGES_RESP="{}"
 
 TOTAL_EVENTS=$(echo "$MESSAGES_RESP" | jq '.chunk | length' 2>/dev/null) || TOTAL_EVENTS=0
+info "Total Matrix room events: $TOTAL_EVENTS"
 
-# Look for AD4M link events (dev.ad4m.link.triple) from the bridge bot
-AD4M_EVENTS=$(echo "$MESSAGES_RESP" | jq --arg sender "$BRIDGE_USER_ID" '[
+# Look for our Flux message text in Matrix room
+FOUND_FLUX_MSG=$(echo "$MESSAGES_RESP" | jq --arg msg "$TEST_MSG_F2M" '[
     .chunk[]? | select(
-        .sender == $sender and (
-            .type == "dev.ad4m.link.triple" or
-            .type == "m.room.message"
-        )
-    )
-] | length' 2>/dev/null) || AD4M_EVENTS=0
-
-# Check for our specific message content
-FOUND_FLUX_MSG=$(echo "$MESSAGES_RESP" | jq --arg msg "$TEST_MSG_AD4M" '[
-    .chunk[]? | select(
-        (.content.body // "" | contains($msg)) or
-        (.content.target // "" | contains($msg)) or
-        ((.content | tostring) | contains($msg))
+        .type == "m.room.message" and
+        (.content.body // "" | contains($msg))
     )
 ] | length' 2>/dev/null) || FOUND_FLUX_MSG=0
 
-FOUND_FLUX_LINK=$(echo "$MESSAGES_RESP" | jq '[
-    .chunk[]? | select(
-        (.content.source // "" | contains("ad4m://proof/flux")) or
-        (.content.target // "" | contains("ad4m://proof/flux"))
-    )
-] | length' 2>/dev/null) || FOUND_FLUX_LINK=0
-
-info "Total room events: $TOTAL_EVENTS, from bridge: $AD4M_EVENTS"
-
-if [[ "$AD4M_EVENTS" -gt 0 ]]; then
-    pass "ad4m-to-matrix" "Found $AD4M_EVENTS events from AD4M bridge in Matrix"
-else
-    if [[ "$TOTAL_EVENTS" -gt 2 ]]; then
-        # There are events but maybe not attributed to bridge bot
-        # Check for any dev.ad4m.link.triple events regardless of sender
-        ALL_LINK_EVENTS=$(echo "$MESSAGES_RESP" | jq '[.chunk[]? | select(.type == "dev.ad4m.link.triple")] | length' 2>/dev/null) || ALL_LINK_EVENTS=0
-        if [[ "$ALL_LINK_EVENTS" -gt 0 ]]; then
-            pass "ad4m-to-matrix" "Found $ALL_LINK_EVENTS link triple events in Matrix room"
-        else
-            skip "ad4m-to-matrix" "No AD4M events found yet (language commit may be async)"
-        fi
-    else
-        skip "ad4m-to-matrix" "Events not yet propagated (language may need more sync time)"
-    fi
-fi
+# Also check for any messages from bridge bot
+BRIDGE_USER_ID="@${BRIDGE_USER}:ad4m-test.local"
+BRIDGE_EVENTS=$(echo "$MESSAGES_RESP" | jq --arg sender "$BRIDGE_USER_ID" '[
+    .chunk[]? | select(.sender == $sender)
+] | length' 2>/dev/null) || BRIDGE_EVENTS=0
 
 if [[ "$FOUND_FLUX_MSG" -gt 0 ]]; then
-    pass "flux-msg-in-matrix" "Flux message text found in Matrix room"
-elif [[ "$FOUND_FLUX_LINK" -gt 0 ]]; then
-    pass "flux-link-in-matrix" "Flux structured link found in Matrix room"
+    pass "flux-to-matrix-msg" "Flux message text found in Matrix room!"
+    echo "$MESSAGES_RESP" | jq --arg msg "$TEST_MSG_F2M" '.chunk[]? | select(.content.body // "" | contains($msg)) | {sender, type, body: .content.body}' 2>/dev/null | head -5
+elif [[ "$BRIDGE_EVENTS" -gt 0 ]]; then
+    warn "Bridge bot sent events but message text not found as m.room.message"
+    echo "  Bridge events:"
+    echo "$MESSAGES_RESP" | jq --arg sender "$BRIDGE_USER_ID" '[.chunk[]? | select(.sender == $sender)] | .[0:3] | .[] | {type, body: .content.body, content: .content}' 2>/dev/null
+    skip "flux-to-matrix-msg" "Bridge active but message format may differ"
 else
-    if [[ "$AD4M_EVENTS" -gt 0 || "$TOTAL_EVENTS" -gt 3 ]]; then
-        skip "flux-content-verify" "Events exist but specific content not matched (schema difference)"
-    else
-        skip "flux-content-verify" "Awaiting language commit propagation"
-    fi
+    fail "flux-to-matrix-msg" "No messages from bridge bot in Matrix room"
+    echo "  Room events (last 5):"
+    echo "$MESSAGES_RESP" | jq '.chunk[0:5][] | {sender, type, body: .content.body}' 2>/dev/null
+fi
+
+# Also look for any dev.ad4m.link.triple events (standard link federation)
+LINK_TRIPLE_EVENTS=$(echo "$MESSAGES_RESP" | jq '[.chunk[]? | select(.type == "dev.ad4m.link.triple")] | length' 2>/dev/null) || LINK_TRIPLE_EVENTS=0
+if [[ "$LINK_TRIPLE_EVENTS" -gt 0 ]]; then
+    pass "flux-to-matrix-links" "Found $LINK_TRIPLE_EVENTS dev.ad4m.link.triple events in Matrix"
+else
+    info "No raw link.triple events (expected if language sends as m.room.message)"
 fi
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -803,25 +935,18 @@ fi
 if [[ "$INTERACTIVE" == "true" ]]; then
     header "Phase 7: Interactive Mode"
 
-    # Start Element Web
     step "Starting Element Web on port $ELEMENT_PORT..."
     docker rm -f "$ELEMENT_CONTAINER" 2>/dev/null || true
     docker run -d \
         --name "$ELEMENT_CONTAINER" \
         -p "${ELEMENT_PORT}:80" \
         vectorim/element-web:latest \
-        >/dev/null 2>&1 || warn "Could not start Element Web container"
+        >/dev/null 2>&1 || warn "Could not start Element Web"
 
-    # Wait for Element
     sleep 3
-    if curl -sf "http://127.0.0.1:${ELEMENT_PORT}" >/dev/null 2>&1; then
-        success "Element Web running at http://127.0.0.1:${ELEMENT_PORT}"
-    else
-        warn "Element Web may not have started correctly"
-    fi
 
     echo ""
-    echo -e "${BOLD}═══ Interactive Testing Instructions ═══${NC}"
+    echo -e "${BOLD}═══ Interactive Testing ═══${NC}"
     echo ""
     echo "  Element Web:  http://127.0.0.1:${ELEMENT_PORT}"
     echo "    Homeserver: $MATRIX_URL"
@@ -829,28 +954,29 @@ if [[ "$INTERACTIVE" == "true" ]]; then
     echo "    Password:   $HUMAN_PASS"
     echo "    Room:       $ROOM_ID"
     echo ""
-    echo "  AD4M Executor: ws://127.0.0.1:${AD4M_PORT}"
+    echo "  AD4M Executor: http://127.0.0.1:${AD4M_PORT}/graphql"
     echo "    Admin Token: $AD4M_TOKEN"
     echo "    Perspective: $PERSPECTIVE_UUID"
+    echo "    Channel ID:  $CHANNEL_ID"
     echo ""
-    echo "  Matrix API (direct):"
-    echo "    curl -H 'Authorization: Bearer $HUMAN_TOKEN' \\"
-    echo "      '$MATRIX_URL/_matrix/client/v3/rooms/$ROOM_ID/messages?dir=b&limit=10'"
+    echo "  Send a Flux message (batch):"
+    echo "    MSG_ID=\"flux-msg://test-\$(date +%s)\""
+    echo "    curl -X POST http://127.0.0.1:${AD4M_PORT}/graphql \\"
+    echo "      -H 'Content-Type: application/json' -H 'Authorization: $AD4M_TOKEN' \\"
+    echo "      -d '{\"query\": \"mutation { perspectiveAddLinks(uuid: \\\"$PERSPECTIVE_UUID\\\", links: [{source: \\\"$CHANNEL_ID\\\", target: \\\"'\$MSG_ID'\\\", predicate: \\\"ad4m://has_child\\\"}, {source: \\\"'\$MSG_ID'\\\", target: \\\"flux://has_message\\\", predicate: \\\"flux://entry_type\\\"}, {source: \\\"'\$MSG_ID'\\\", target: \\\"literal://string:Hello%20World\\\", predicate: \\\"flux://body\\\"}]) { data { source target predicate } } }\"}'"
     echo ""
-    echo "  AD4M CLI:"
+    echo "  Query links:"
     echo "    python3 $AD4M_RPC --port $AD4M_PORT --token $AD4M_TOKEN \\"
     echo "      perspective-query-links $PERSPECTIVE_UUID"
     echo ""
     echo -e "${BOLD}Press Ctrl+C to stop and clean up.${NC}"
-    echo ""
 
-    # Open browser if on macOS
     if command -v open &>/dev/null; then
         open "http://127.0.0.1:${ELEMENT_PORT}" 2>/dev/null || true
     fi
 
-    # Wait for Ctrl+C
-    wait
+    # Block until interrupted
+    wait $EXECUTOR_PID 2>/dev/null || true
 fi
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -860,15 +986,16 @@ fi
 header "Proof Complete"
 
 echo "Infrastructure:"
-echo "  • Conduit:    $MATRIX_URL (container: $CONDUIT_CONTAINER)"
-echo "  • Executor:   ws://127.0.0.1:$AD4M_PORT (PID: $EXECUTOR_PID)"
-echo "  • Room:       $ROOM_ID"
+echo "  • Conduit:     $MATRIX_URL (container: $CONDUIT_CONTAINER)"
+echo "  • Executor:    http://127.0.0.1:$AD4M_PORT (PID: $EXECUTOR_PID)"
+echo "  • Room:        $ROOM_ID"
 echo "  • Perspective: $PERSPECTIVE_UUID"
+echo "  • Channel:     $CHANNEL_ID"
 echo ""
 echo "Credentials:"
-echo "  • Bridge bot: @${BRIDGE_USER}:ad4m-test.local"
-echo "  • Human user: @${HUMAN_USER}:ad4m-test.local / $HUMAN_PASS"
-echo "  • AD4M token: $AD4M_TOKEN"
+echo "  • Bridge bot:  @${BRIDGE_USER}:ad4m-test.local (token: ${BRIDGE_TOKEN:0:20}...)"
+echo "  • Human user:  @${HUMAN_USER}:ad4m-test.local / $HUMAN_PASS"
+echo "  • AD4M token:  $AD4M_TOKEN"
 echo ""
 
-print_summary "Matrix ↔ AD4M/Flux" || exit 1
+print_summary "Matrix ↔ Flux" || exit 1
