@@ -97,7 +97,7 @@ export class InstrumentedClient {
     const id = String(++this.requestId);
     return new Promise<T>((resolve, reject) => {
       this.pendingRequests.set(id, { resolve, reject });
-      this.ws!.send(JSON.stringify({ id: Number(id), method, params }));
+      this.ws!.send(JSON.stringify({ id, type: method, params }));
       setTimeout(() => {
         if (this.pendingRequests.has(id)) {
           this.pendingRequests.delete(id);
@@ -207,7 +207,7 @@ export class InstrumentedClient {
 
   async createPerspective(name: string): Promise<TimedResult<any>> {
     if (this.config.transport === "ws") {
-      return this.timed(() => this.wsCall("perspective.add", { name }));
+      return this.timed(() => this.wsCall("perspective.create", { name }));
     }
     if (this.config.transport === "rest") {
       return this.timed(() =>
@@ -229,7 +229,7 @@ export class InstrumentedClient {
   ): Promise<TimedResult<any>> {
     if (this.config.transport === "ws") {
       return this.timed(() =>
-        this.wsCall("perspective.add_link", {
+        this.wsCall("perspective.addLink", {
           uuid: perspectiveUuid,
           link: { source, predicate, target },
         })
@@ -262,7 +262,7 @@ export class InstrumentedClient {
   ): Promise<TimedResult<any>> {
     if (this.config.transport === "ws") {
       return this.timed(() =>
-        this.wsCall("perspective.query_links", {
+        this.wsCall("perspective.queryLinks", {
           uuid: perspectiveUuid,
           query: params || {},
         })
@@ -300,7 +300,7 @@ export class InstrumentedClient {
   async runProlog(perspectiveUuid: string, query: string): Promise<TimedResult<any>> {
     if (this.config.transport === "ws") {
       return this.timed(() =>
-        this.wsCall("perspective.query_prolog", { uuid: perspectiveUuid, query })
+        this.wsCall("perspective.queryProlog", { uuid: perspectiveUuid, query })
       );
     }
     if (this.config.transport === "rest") {
@@ -320,7 +320,7 @@ export class InstrumentedClient {
   async querySparql(perspectiveUuid: string, query: string): Promise<TimedResult<any>> {
     if (this.config.transport === "ws") {
       return this.timed(() =>
-        this.wsCall("perspective.query_sparql", { uuid: perspectiveUuid, query })
+        this.wsCall("perspective.querySparql", { uuid: perspectiveUuid, query })
       );
     }
     if (this.config.transport === "rest") {
