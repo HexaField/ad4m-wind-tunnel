@@ -20,16 +20,16 @@ source "$SCRIPT_DIR/common-matrix.sh"
 # Defaults
 # ═══════════════════════════════════════════════════════════════════════════════
 
-WORKSPACE="${WORKSPACE:-$(cd "$SCRIPT_DIR/../../../.." && pwd)}"
+WORKSPACE="${WORKSPACE:-$(cd "$SCRIPT_DIR/../.." && pwd)}"
 
 HOMESERVER=""
 ACCESS_TOKEN=""
 MATRIX_USER=""
 MATRIX_PASSWORD=""
 ROOM_ID=""
-AD4M_DIR="${AD4M_DIR:-$WORKSPACE/coasys/ad4m}"
-FLUX_DIR="${FLUX_DIR:-$WORKSPACE/coasys/flux}"
-MATRIX_LANG_DIR="${MATRIX_LANG_DIR:-$WORKSPACE/hexafield/matrix-link-language}"
+AD4M_DIR="${AD4M_DIR:-$WORKSPACE/ad4m}"
+FLUX_DIR="${FLUX_DIR:-$WORKSPACE/flux}"
+MATRIX_LANG_DIR="${MATRIX_LANG_DIR:-$WORKSPACE/matrix-link-language}"
 DATA_DIR=""
 AUTO_DATA_DIR=true
 
@@ -511,8 +511,7 @@ if [[ -d "$FLUX_DIR/app/dist" ]]; then
 
     # Try ad4m-flux-browser-auth.sh from ad4m-devtools (optional)
     BROWSER_AUTH_CANDIDATES=(
-        "$WORKSPACE/coasys/ad4m-devtools/scripts/ad4m-flux-browser-auth.sh"
-        "$WORKSPACE/hexafield/ad4m-devtools/scripts/ad4m-flux-browser-auth.sh"
+        "${DEVTOOLS_DIR:-$WORKSPACE/ad4m-devtools}/scripts/ad4m-flux-browser-auth.sh"
     )
     BROWSER_AUTH=""
     for candidate in "${BROWSER_AUTH_CANDIDATES[@]}"; do

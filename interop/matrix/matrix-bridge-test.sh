@@ -28,10 +28,10 @@ source "$SCRIPT_DIR/common-matrix.sh"
 # Defaults
 # ═══════════════════════════════════════════════════════════════════════════════
 
-WORKSPACE="${WORKSPACE:-$(cd "$SCRIPT_DIR/../../../.." && pwd)}"
+WORKSPACE="${WORKSPACE:-$(cd "$SCRIPT_DIR/../.." && pwd)}"
 
-AD4M_DIR="${AD4M_DIR:-$WORKSPACE/coasys/ad4m}"
-MATRIX_LANG_DIR="${MATRIX_LANG_DIR:-$WORKSPACE/hexafield/matrix-link-language}"
+AD4M_DIR="${AD4M_DIR:-$WORKSPACE/ad4m}"
+MATRIX_LANG_DIR="${MATRIX_LANG_DIR:-$WORKSPACE/matrix-link-language}"
 DATA_DIR=""
 AUTO_DATA_DIR=true
 

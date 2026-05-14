@@ -25,7 +25,7 @@ export const m1NeighbourhoodSync: Scenario = {
 
     const client2 = new InstrumentedClient({
       port: port2,
-      adminToken: "test123",
+      adminToken: ctx.adminToken,
       transport,
     });
 

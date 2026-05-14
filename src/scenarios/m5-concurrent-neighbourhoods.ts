@@ -7,12 +7,12 @@
  */
 
 import { execSync } from "child_process";
+import { join } from "path";
 import { Scenario, ScenarioContext, ScenarioResult } from "../scenario.js";
 import { startExecutor, waitForHealth, stopExecutor, sleep, ExecutorConfig } from "../executor.js";
 import { InstrumentedClient, Transport } from "../client.js";
 
 const PERSPECTIVES_PER_EXECUTOR = 3;
-const ADMIN_TOKEN = "test123";
 
 function getRssKb(pid: number): number {
   try {
@@ -57,7 +57,7 @@ export const m5ConcurrentNeighbourhoods: Scenario = {
     const transport = ctx.client.config.transport;
 
     const branchDirName = branch.replace(/\//g, "-");
-    const binaryPath = `/tmp/ad4m-build-${branchDirName}/target/release/ad4m-executor`;
+    const binaryPath = join(ctx.tmpDirBase, `ad4m-build-${branchDirName}`, "target", "release", "ad4m-executor");
 
     // Executor 1 is already running from the runner (port from ctx)
     // Start 2 additional executors
@@ -76,35 +76,35 @@ export const m5ConcurrentNeighbourhoods: Scenario = {
       console.log(`[m5] Starting executor 2 on port ${port2}...`);
       const config2: ExecutorConfig = {
         branch, port: port2,
-        dataPath: `/tmp/ad4m-wt-m5-e1`,
-        adminToken: ADMIN_TOKEN,
-        adamRepoPath: "/Users/josh/workspaces/coasys/ad4m",
-        buildDir: `/tmp/ad4m-build-${branchDirName}`,
+        dataPath: join(ctx.tmpDirBase, `ad4m-wt-m5-e1`),
+        adminToken: ctx.adminToken,
+        adamRepoPath: ctx.adamRepoPath,
+        buildDir: join(ctx.tmpDirBase, `ad4m-build-${branchDirName}`),
         transport,
       };
       const proc2 = await startExecutor(binaryPath, config2);
       extraProcs.push(proc2);
-      await waitForHealth(port2, transport, 120000);
+      await waitForHealth(port2, transport, 120000, ctx.adminToken);
       console.log(`[m5] Executor 2 healthy`);
 
       // Start executor 3
       console.log(`[m5] Starting executor 3 on port ${port3}...`);
       const config3: ExecutorConfig = {
         branch, port: port3,
-        dataPath: `/tmp/ad4m-wt-m5-e2`,
-        adminToken: ADMIN_TOKEN,
-        adamRepoPath: "/Users/josh/workspaces/coasys/ad4m",
-        buildDir: `/tmp/ad4m-build-${branchDirName}`,
+        dataPath: join(ctx.tmpDirBase, `ad4m-wt-m5-e2`),
+        adminToken: ctx.adminToken,
+        adamRepoPath: ctx.adamRepoPath,
+        buildDir: join(ctx.tmpDirBase, `ad4m-build-${branchDirName}`),
         transport,
       };
       const proc3 = await startExecutor(binaryPath, config3);
       extraProcs.push(proc3);
-      await waitForHealth(port3, transport, 120000);
+      await waitForHealth(port3, transport, 120000, ctx.adminToken);
       console.log(`[m5] Executor 3 healthy`);
 
       // Create clients for executors 2 and 3
-      const client2 = new InstrumentedClient({ port: port2, adminToken: ADMIN_TOKEN, transport });
-      const client3 = new InstrumentedClient({ port: port3, adminToken: ADMIN_TOKEN, transport });
+      const client2 = new InstrumentedClient({ port: port2, adminToken: ctx.adminToken, transport });
+      const client3 = new InstrumentedClient({ port: port3, adminToken: ctx.adminToken, transport });
       if (transport === "ws") {
         await client2.connect();
         await client3.connect();
@@ -320,7 +320,7 @@ export const m5ConcurrentNeighbourhoods: Scenario = {
       }
       // Don't disconnect the ctx client — runner handles that
       await sleep(3000);
-      try { execSync("rm -rf /tmp/ad4m-wt-m5-e1 /tmp/ad4m-wt-m5-e2", { stdio: "pipe" }); } catch {}
+      try { execSync(`rm -rf "${join(ctx.tmpDirBase, 'ad4m-wt-m5-e1')}" "${join(ctx.tmpDirBase, 'ad4m-wt-m5-e2')}"`, { stdio: "pipe" }); } catch {}
     }
   },
 };

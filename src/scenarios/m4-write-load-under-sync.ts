@@ -7,11 +7,10 @@
  */
 
 import { execSync } from "child_process";
+import { join } from "path";
 import { Scenario, ScenarioContext, ScenarioResult } from "../scenario.js";
 import { startExecutor, waitForHealth, stopExecutor, sleep, ExecutorConfig } from "../executor.js";
 import { InstrumentedClient, Transport } from "../client.js";
-
-const ADMIN_TOKEN = "test123";
 
 function getRssKb(pid: number): number {
   try {
@@ -56,7 +55,7 @@ export const m4WriteLoadUnderSync: Scenario = {
     const transport = ctx.client.config.transport;
 
     const branchDirName = branch.replace(/\//g, "-");
-    const binaryPath = `/tmp/ad4m-build-${branchDirName}/target/release/ad4m-executor`;
+    const binaryPath = join(ctx.tmpDirBase, `ad4m-build-${branchDirName}`, "target", "release", "ad4m-executor");
 
     const port2 = port + 1;
     let proc2: any = null;
@@ -65,22 +64,23 @@ export const m4WriteLoadUnderSync: Scenario = {
       // Executor 1 is already running (provided by runner context)
       // Start executor 2
       console.log(`[m4] Starting executor 2 on port ${port2}...`);
+      const dataPath2 = join(ctx.tmpDirBase, `ad4m-wt-m4-e2`);
       const config2: ExecutorConfig = {
         branch,
         port: port2,
-        dataPath: `/tmp/ad4m-wt-m4-e2`,
-        adminToken: ADMIN_TOKEN,
-        adamRepoPath: "/Users/josh/workspaces/coasys/ad4m",
-        buildDir: `/tmp/ad4m-build-${branchDirName}`,
+        dataPath: dataPath2,
+        adminToken: ctx.adminToken,
+        adamRepoPath: ctx.adamRepoPath,
+        buildDir: join(ctx.tmpDirBase, `ad4m-build-${branchDirName}`),
         transport,
       };
       proc2 = await startExecutor(binaryPath, config2);
-      await waitForHealth(port2, transport, 120000);
+      await waitForHealth(port2, transport, 120000, ctx.adminToken);
       console.log("[m4] Executor 2 healthy");
 
       // Client 1 is already provided
       const client1 = client;
-      const client2 = new InstrumentedClient({ port: port2, adminToken: ADMIN_TOKEN, transport });
+      const client2 = new InstrumentedClient({ port: port2, adminToken: ctx.adminToken, transport });
       if (transport === "ws") {
         await client2.connect();
       }
@@ -287,7 +287,7 @@ export const m4WriteLoadUnderSync: Scenario = {
     } finally {
       if (proc2) stopExecutor(proc2);
       await sleep(2000);
-      try { execSync("rm -rf /tmp/ad4m-wt-m4-e2", { stdio: "pipe" }); } catch {}
+      try { execSync(`rm -rf "${join(ctx.tmpDirBase, 'ad4m-wt-m4-e2')}"`, { stdio: "pipe" }); } catch {}
     }
   },
 };

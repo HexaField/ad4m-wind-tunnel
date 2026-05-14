@@ -54,11 +54,14 @@ fi
 
 # ─── Config ──────────────────────────────────────────────────────────────────
 
-# Workspace layout: derive all paths from SCRIPT_DIR
-WORKSPACE="$(cd "$REPO_DIR/../.." && pwd)"
-AD4M_DIR="${AD4M_DIR:-$WORKSPACE/coasys/ad4m}"
-FLUX_DIR="${FLUX_DIR:-$WORKSPACE/coasys/flux}"
-MATRIX_LANG_DIR="${MATRIX_LANG_DIR:-$WORKSPACE/hexafield/matrix-link-language}"
+# Workspace layout: paths are fully configurable via env vars.
+# Defaults assume the wind tunnel is checked out alongside the other repos,
+# e.g. $HOME/workspaces/<org>/<repo>.
+# Override any path individually: AD4M_DIR=/my/ad4m FLUX_DIR=/my/flux ./common.sh
+WORKSPACE="${WORKSPACE:-$(cd "$REPO_DIR/.." && pwd)}"
+AD4M_DIR="${AD4M_DIR:-$WORKSPACE/ad4m}"
+FLUX_DIR="${FLUX_DIR:-$WORKSPACE/flux}"
+MATRIX_LANG_DIR="${MATRIX_LANG_DIR:-$WORKSPACE/matrix-link-language}"
 AD4M_EXECUTOR="${AD4M_EXECUTOR:-$AD4M_DIR/target/release/ad4m-executor}"
 
 # Device A — runs the executor + Docker services

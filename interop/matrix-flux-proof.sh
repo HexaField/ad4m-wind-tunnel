@@ -33,11 +33,11 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-WORKSPACE="$(cd "$REPO_DIR/../.." && pwd)"
+WORKSPACE="${WORKSPACE:-$(cd "$REPO_DIR/.." && pwd)}"
 
-AD4M_DIR="${AD4M_DIR:-$WORKSPACE/coasys/ad4m}"
-FLUX_DIR="${FLUX_DIR:-$WORKSPACE/coasys/flux}"
-MATRIX_LANG_DIR="${MATRIX_LANG_DIR:-$WORKSPACE/hexafield/matrix-link-language}"
+AD4M_DIR="${AD4M_DIR:-$WORKSPACE/ad4m}"
+FLUX_DIR="${FLUX_DIR:-$WORKSPACE/flux}"
+MATRIX_LANG_DIR="${MATRIX_LANG_DIR:-$WORKSPACE/matrix-link-language}"
 AD4M_EXECUTOR="${AD4M_EXECUTOR:-$AD4M_DIR/target/release/ad4m-executor}"
 AD4M_LDK_DIR="${AD4M_LDK_DIR:-$AD4M_DIR/ad4m-ldk/js/lib}"
 MAINNET_SEED="$AD4M_DIR/rust-executor/src/mainnet_seed.json"
@@ -45,7 +45,7 @@ AD4M_RPC="$REPO_DIR/scripts/ad4m-gql.py"
 
 AD4M_HOST="127.0.0.1"
 AD4M_PORT="${AD4M_PORT:-12100}"
-AD4M_TOKEN="test123"
+AD4M_TOKEN="${AD4M_TOKEN:-test123}"
 CONDUIT_PORT="${CONDUIT_PORT:-6167}"
 CONDUIT_TOML="$SCRIPT_DIR/infra/conduit.toml"
 CONDUIT_CONTAINER="ad4m-proof-conduit"
@@ -682,7 +682,7 @@ if [[ "$INTERACTIVE" == "true" ]]; then
     fi
 
     # ─── 7d: Open browsers with auto-auth ─────────────────────────────────────
-    DEVTOOLS_DIR="$WORKSPACE/coasys/ad4m-devtools"
+    DEVTOOLS_DIR="${DEVTOOLS_DIR:-$WORKSPACE/ad4m-devtools}"
     BROWSER_AUTH="$DEVTOOLS_DIR/scripts/ad4m-flux-browser-auth.sh"
 
     if [[ -x "$BROWSER_AUTH" ]] && curl -sf "http://localhost:${FLUX_PORT}" >/dev/null 2>&1; then

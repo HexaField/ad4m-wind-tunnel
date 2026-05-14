@@ -12,6 +12,7 @@ import { Scenario, ScenarioContext, ScenarioResult } from "../scenario.js";
 import { InstrumentedClient } from "../client.js";
 import { startExecutor, waitForHealth, stopExecutor, sleep, ExecutorConfig } from "../executor.js";
 import { existsSync } from "fs";
+import { join } from "path";
 import { ChildProcess } from "child_process";
 
 const EXECUTOR_COUNT = 3;
@@ -75,7 +76,7 @@ export const m2MultiExecutorScale: Scenario = {
     const branchDirName = branch === "dev" ? "dev"
       : branch === "feat/sse-to-websocket" ? "feat-sse-to-websocket"
       : "feat-sparql-1.2-cleanup";
-    const binaryPath = `/tmp/ad4m-build-${branchDirName}/target/release/ad4m-executor`;
+    const binaryPath = join(ctx.tmpDirBase, `ad4m-build-${branchDirName}`, "target", "release", "ad4m-executor");
 
     if (!existsSync(binaryPath)) {
       return {
@@ -100,24 +101,24 @@ export const m2MultiExecutorScale: Scenario = {
 
     for (let i = 1; i < EXECUTOR_COUNT; i++) {
       const execPort = port + BASE_PORT_OFFSET + i;
-      const dataPath = `/tmp/ad4m-wt-data-m2-exec-${i}`;
+      const dataPath = join(ctx.tmpDirBase, `ad4m-wt-data-m2-exec-${i}`);
       const config: ExecutorConfig = {
         branch,
         port: execPort,
         dataPath,
-        adminToken: "test123",
-        adamRepoPath: "/Users/josh/workspaces/coasys/ad4m",
-        buildDir: `/tmp/ad4m-build-${branchDirName}`,
+        adminToken: ctx.adminToken,
+        adamRepoPath: ctx.adamRepoPath,
+        buildDir: join(ctx.tmpDirBase, `ad4m-build-${branchDirName}`),
         transport,
       };
 
       try {
         const proc = await startExecutor(binaryPath, config);
-        await waitForHealth(execPort, transport, 120000);
+        await waitForHealth(execPort, transport, 120000, ctx.adminToken);
         additionalProcs.push(proc);
         additionalPorts.push(execPort);
 
-        const c = new InstrumentedClient({ port: execPort, adminToken: "test123", transport });
+        const c = new InstrumentedClient({ port: execPort, adminToken: ctx.adminToken, transport });
         if (transport === "ws") await c.connect();
         additionalClients.push(c);
       } catch (err: any) {

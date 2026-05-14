@@ -117,7 +117,7 @@ export const m3LinkLanguageComparison: Scenario = {
       try {
         execSync(
           "docker compose -f interop/docker-compose.yml up -d 2>&1",
-          { cwd: "/tmp/ad4m-wind-tunnel", timeout: 120000, stdio: "pipe" }
+          { cwd: process.cwd(), timeout: 120000, stdio: "pipe" }
         );
         dockerStarted = true;
       } catch (err: any) {
@@ -259,7 +259,7 @@ export const m3LinkLanguageComparison: Scenario = {
         try {
           execSync(
             "docker compose -f interop/docker-compose.yml down -v 2>&1",
-            { cwd: "/tmp/ad4m-wind-tunnel", timeout: 60000, stdio: "pipe" }
+            { cwd: process.cwd(), timeout: 60000, stdio: "pipe" }
           );
         } catch (err: any) {
           console.log(`[m3] Docker cleanup warning: ${err.message?.substring(0, 100)}`);

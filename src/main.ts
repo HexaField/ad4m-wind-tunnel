@@ -16,10 +16,9 @@ import {
   s10SubscriptionFanout, s12PersistenceColdQuery, s13ReadWriteMix, s14MultiPerspectiveLoad,
 } from "./scenarios/index.js";
 import { consoleReport, jsonReport, comparisonReport } from "./reporters.js";
+import { config, validateAdamRepo } from "./config.js";
 
-const AD4M_REPO = "/Users/josh/workspaces/coasys/ad4m";
-const RESULTS_DIR = join(process.cwd(), "results");
-const BASE_PORT = 12100;
+const RESULTS_DIR = config.resultsDir;
 
 interface BranchConfig {
   name: string;
@@ -73,14 +72,14 @@ async function runScenariosForBranch(
     console.log(`\n[runner] Running ${scenario.id}: ${scenario.name} on ${branchConfig.name}...`);
 
     // Fresh executor for each scenario
-    const dataPath = `/tmp/ad4m-wt-data-${branchConfig.dirName}-${scenario.id}`;
-    const config: ExecutorConfig = {
+    const dataPath = join(config.tmpDirBase, `ad4m-wt-data-${branchConfig.dirName}-${scenario.id}`);
+    const config_: ExecutorConfig = {
       branch: branchConfig.name,
       port,
       dataPath,
-      adminToken: "test123",
-      adamRepoPath: AD4M_REPO,
-      buildDir: `/tmp/ad4m-build-${branchConfig.dirName}`,
+      adminToken: config.adminToken,
+      adamRepoPath: config.adamRepoPath,
+      buildDir: join(config.tmpDirBase, `ad4m-build-${branchConfig.dirName}`),
       transport: branchConfig.transport,
     };
 
@@ -88,19 +87,19 @@ async function runScenariosForBranch(
     let proc2: any = null;
 
     try {
-      proc = await startExecutor(binaryPath, config);
+      proc = await startExecutor(binaryPath, config_);
 
       // Wait for health
-      const healthWaitMs = await waitForHealth(port, branchConfig.transport, 120000);
+      const healthWaitMs = await waitForHealth(port, branchConfig.transport, 120000, config.adminToken);
       console.log(`[runner] Executor healthy after ${healthWaitMs.toFixed(0)}ms`);
 
       // For M1, start a second executor
       if (scenario.id === "m1") {
-        const dataPath2 = `/tmp/ad4m-wt-data-${branchConfig.dirName}-m1-2`;
-        const config2 = { ...config, port: port + 1, dataPath: dataPath2 };
+        const dataPath2 = join(config.tmpDirBase, `ad4m-wt-data-${branchConfig.dirName}-m1-2`);
+        const config2 = { ...config_, port: port + 1, dataPath: dataPath2 };
         try {
           proc2 = await startExecutor(binaryPath, config2);
-          await waitForHealth(port + 1, branchConfig.transport, 120000);
+          await waitForHealth(port + 1, branchConfig.transport, 120000, config.adminToken);
           console.log(`[runner] Second executor healthy on port ${port + 1}`);
         } catch (err: any) {
           console.log(`[runner] Second executor failed: ${err.message}`);
@@ -112,7 +111,7 @@ async function runScenariosForBranch(
       // Create client
       const client = new InstrumentedClient({
         port,
-        adminToken: "test123",
+        adminToken: config.adminToken,
         transport: branchConfig.transport,
       });
 
@@ -120,7 +119,14 @@ async function runScenariosForBranch(
         await client.connect();
       }
 
-      const ctx: ScenarioContext = { client, branch: branchConfig.name, port };
+      const ctx: ScenarioContext = {
+        client,
+        branch: branchConfig.name,
+        port,
+        adminToken: config.adminToken,
+        adamRepoPath: config.adamRepoPath,
+        tmpDirBase: config.tmpDirBase,
+      };
 
       try {
         const result = await scenario.run(ctx);
@@ -158,8 +164,8 @@ async function runScenariosForBranch(
       if (proc) stopExecutor(proc);
       await sleep(2000);
       // Cleanup data
-      if (existsSync(`/tmp/ad4m-wt-data-${branchConfig.dirName}-${scenario.id}`)) {
-        rmSync(`/tmp/ad4m-wt-data-${branchConfig.dirName}-${scenario.id}`, { recursive: true, force: true });
+      if (existsSync(join(config.tmpDirBase, `ad4m-wt-data-${branchConfig.dirName}-${scenario.id}`))) {
+        rmSync(join(config.tmpDirBase, `ad4m-wt-data-${branchConfig.dirName}-${scenario.id}`), { recursive: true, force: true });
       }
     }
   }
@@ -191,7 +197,7 @@ async function main(): Promise<void> {
     for (const b of branches) binaryPaths.set(b.name, args.executorPath);
   } else if (args.skipBuild) {
     for (const b of branches) {
-      const path = join(`/tmp/ad4m-build-${b.dirName}`, "target", "release", "ad4m-executor");
+      const path = join(config.tmpDirBase, `ad4m-build-${b.dirName}`, "target", "release", "ad4m-executor");
       if (existsSync(path)) {
         binaryPaths.set(b.name, path);
       } else {
@@ -200,14 +206,15 @@ async function main(): Promise<void> {
       }
     }
   } else {
+    validateAdamRepo();
     for (const b of branches) {
-      const buildDir = `/tmp/ad4m-build-${b.dirName}`;
+      const buildDir = join(config.tmpDirBase, `ad4m-build-${b.dirName}`);
       console.log(`\n[build] Building ${b.name}...`);
       const start = performance.now();
       try {
         const path = await buildExecutor({
-          branch: b.name, port: BASE_PORT, dataPath: "",
-          adminToken: "test123", adamRepoPath: AD4M_REPO, buildDir, transport: b.transport,
+          branch: b.name, port: config.basePort, dataPath: "",
+          adminToken: config.adminToken, adamRepoPath: config.adamRepoPath, buildDir, transport: b.transport,
         });
         console.log(`[build] ${b.name} built in ${((performance.now() - start) / 1000).toFixed(0)}s`);
         binaryPaths.set(b.name, path);
@@ -230,7 +237,7 @@ async function main(): Promise<void> {
     const binaryPath = binaryPaths.get(branchConfig.name);
     if (!binaryPath) { console.log(`[runner] Skipping ${branchConfig.name}`); continue; }
 
-    const port = BASE_PORT + portOffset * 10;
+    const port = config.basePort + portOffset * 10;
     portOffset++;
 
     console.log(`\n${"═".repeat(60)}`);

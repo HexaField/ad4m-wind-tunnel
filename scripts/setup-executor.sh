@@ -20,7 +20,7 @@ setup_device() {
     echo "  Checking executor binary..."
     if ! run_on "$host" "$user" "test -x $EXECUTOR_BIN"; then
         echo "  ERROR: Executor binary not found at $EXECUTOR_BIN on $host" >&2
-        echo "  Build it first: cd ~/workspaces/coasys/ad4m && cargo build --release" >&2
+        echo "  Build it first: cd \$AD4M_DIR && cargo build --release" >&2
         return 1
     fi
 

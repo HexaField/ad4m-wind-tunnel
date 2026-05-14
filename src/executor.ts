@@ -134,7 +134,8 @@ export async function startExecutor(
 export async function waitForHealth(
   port: number,
   transport: Transport,
-  timeoutMs: number = 60000
+  timeoutMs: number = 60000,
+  adminToken: string = "test123"
 ): Promise<number> {
   const start = performance.now();
   const deadline = start + timeoutMs;
@@ -154,7 +155,7 @@ export async function waitForHealth(
       if (res.ok) {
         // For WS transport, also verify WS endpoint is accepting connections
         if (transport === "ws") {
-          const wsReady = await checkWsReady(port, "test123", 5000).catch(() => false);
+          const wsReady = await checkWsReady(port, adminToken, 5000).catch(() => false);
           if (!wsReady) {
             await sleep(500);
             continue;

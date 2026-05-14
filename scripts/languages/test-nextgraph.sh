@@ -23,7 +23,7 @@ setup_nextgraph_infra() {
         for dir in \
             "$REPO_DIR/../nextgraph-link-language/gateway" \
             "/tmp/nextgraph-link-language/gateway" \
-            "$HOME/workspaces/hexafield/nextgraph-link-language/gateway"; do
+            "${WORKSPACE:-$HOME/workspaces}/nextgraph-link-language/gateway"; do
             if [[ -d "$dir" ]]; then
                 GATEWAY_DIR="$dir"
                 break

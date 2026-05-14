@@ -19,6 +19,12 @@ export interface ScenarioContext {
   client: InstrumentedClient;
   branch: string;
   port: number;
+  /** Admin token for executor authentication */
+  adminToken: string;
+  /** Path to the AD4M repo (for building/cloning) */
+  adamRepoPath: string;
+  /** Base directory for temporary files */
+  tmpDirBase: string;
 }
 
 export interface Scenario {

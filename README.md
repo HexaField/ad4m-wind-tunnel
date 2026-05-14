@@ -130,12 +130,44 @@ See [`INFRASTRUCTURE.md`](INFRASTRUCTURE.md) for full deployment guide.
 
 ---
 
+## Configuration
+
+All machine-specific values are configurable. CLI args take precedence over environment variables.
+
+| Env Var | CLI Arg | Default | Description |
+|---------|---------|---------|-------------|
+| `AD4M_REPO` | `--ad4m-repo` | *(required for builds)* | Path to local AD4M repo (for `cargo build`) |
+| `AD4M_ADMIN_TOKEN` | `--admin-token` | `test123` | Admin credential for executor auth |
+| `AD4M_WT_TMPDIR` | `--tmp-dir` | OS temp dir | Base directory for temporary data and build dirs |
+| `AD4M_WT_BASE_PORT` | `--base-port` | `12100` | Starting port for executor instances |
+| `AD4M_WT_RESULTS_DIR` | `--results-dir` | `./results` | Where to write JSON result files |
+
+### Pre-built executor
+
+To skip building from source, use `--skip-build` with `--executor-path`:
+
+```bash
+./run.sh --skip-build --executor-path /path/to/ad4m-executor --scenario s1
+```
+
+### Interop scripts
+
+The shell scripts in `interop/` and `scripts/` use these env vars:
+
+| Env Var | Default | Description |
+|---------|---------|-------------|
+| `WORKSPACE` | Parent of this repo | Root directory containing sibling repos |
+| `AD4M_DIR` | `$WORKSPACE/ad4m` | Path to AD4M repo |
+| `FLUX_DIR` | `$WORKSPACE/flux` | Path to Flux repo |
+| `MATRIX_LANG_DIR` | `$WORKSPACE/matrix-link-language` | Path to matrix-link-language repo |
+| `AD4M_TOKEN` | `test123` | Admin token for executor |
+
 ## Requirements
 
 - Node.js 20+
 - Rust toolchain (for building executor — Wind Tunnel only)
 - Docker + Docker Compose (for interop tests)
-- AD4M repo at `/Users/josh/workspaces/coasys/ad4m` (configurable in `src/main.ts`)
+- AD4M repo (set `AD4M_REPO` or use `--executor-path` with a pre-built binary)
 
 ## License
 

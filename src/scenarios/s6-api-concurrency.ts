@@ -59,7 +59,7 @@ export const s6ApiConcurrency: Scenario = {
       for (let i = 0; i < concurrency; i++) {
         const c = new InstrumentedClient({
           port,
-          adminToken: "test123",
+          adminToken: ctx.adminToken,
           transport: ctx.client.config.transport,
         });
         if (ctx.client.config.transport === "ws") {

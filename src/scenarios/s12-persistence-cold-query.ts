@@ -11,6 +11,7 @@
 
 import { spawn, execSync, ChildProcess } from "child_process";
 import { existsSync, mkdirSync, rmSync } from "fs";
+import { join } from "path";
 import { Scenario, ScenarioContext, ScenarioResult } from "../scenario.js";
 import { waitForHealth, sleep } from "../executor.js";
 import { InstrumentedClient, Transport } from "../client.js";
@@ -91,11 +92,8 @@ export const s12PersistenceColdQuery: Scenario = {
     const samples: ScenarioResult["samples"] = [];
 
     // Derive binary path from known build directory pattern
-    const branchDir = branch === "dev" ? "dev"
-      : branch === "feat/sse-to-websocket" ? "feat-sse-to-websocket"
-      : branch === "feat/sparql-1.2-cleanup" ? "feat-sparql-1.2-cleanup"
-      : branch.replace(/\//g, "-");
-    const binaryPath = `/tmp/ad4m-build-${branchDir}/target/release/ad4m-executor`;
+    const branchDir = branch.replace(/\//g, "-");
+    const binaryPath = join(ctx.tmpDirBase, `ad4m-build-${branchDir}`, "target", "release", "ad4m-executor");
 
     if (!existsSync(binaryPath)) {
       return {
@@ -112,7 +110,7 @@ export const s12PersistenceColdQuery: Scenario = {
 
     const transport = client.config.transport;
     const adminToken = client.config.adminToken;
-    const dataPath = `/tmp/ad4m-wt-s12-persist-${branch.replace(/\//g, "-")}`;
+    const dataPath = join(ctx.tmpDirBase, `ad4m-wt-s12-persist-${branch.replace(/\//g, "-")}`);
 
     // Phase 1: Measure empty startup time (baseline)
     console.log(`[s12] Phase 1: Empty startup baseline...`);
@@ -137,7 +135,7 @@ export const s12PersistenceColdQuery: Scenario = {
 
     const emptyPort = port + 5; // Use a different port to avoid conflict with running executor
     let proc = startExecutorRaw(binaryPath, dataPath, emptyPort, adminToken);
-    const emptyStartMs = await waitForHealth(emptyPort, transport, 120000);
+    const emptyStartMs = await waitForHealth(emptyPort, transport, 120000, adminToken);
     console.log(`[s12] Empty startup: ${emptyStartMs.toFixed(0)}ms`);
 
     samples.push({ name: "empty_startup", durationMs: emptyStartMs, timestamp: Date.now() });
@@ -202,7 +200,7 @@ export const s12PersistenceColdQuery: Scenario = {
     console.log(`[s12] Phase 4: Cold restart with ${SEED_LINK_COUNT} links...`);
     const coldRestartPort = emptyPort; // Reuse same port now it's stopped
     proc = startExecutorRaw(binaryPath, dataPath, coldRestartPort, adminToken);
-    const dataStartMs = await waitForHealth(coldRestartPort, transport, 300000); // 5min timeout for large data
+    const dataStartMs = await waitForHealth(coldRestartPort, transport, 300000, adminToken); // 5min timeout for large data
     console.log(`[s12] Cold restart with data: ${dataStartMs.toFixed(0)}ms`);
 
     samples.push({ name: "cold_restart_with_data", durationMs: dataStartMs, timestamp: Date.now() });
