@@ -85,7 +85,7 @@ Proves each AD4M link language correctly reads/writes to its native protocol bac
 | **Hypercore** | [hypercore-link-language](https://github.com/HexaField/hypercore-link-language) | HTTP → sidecar gateway | [hyp CLI](https://docs.holepunch.to/) |
 | **ActivityPub** | [ap-link-language](https://github.com/HexaField/ap-link-language) | HTTP (AP federation) | [Mastodon](https://joinmastodon.org) |
 | **NextGraph** | [nextgraph-link-language](https://github.com/HexaField/nextgraph-link-language) | Websockets | [NextGraph](https://nextgraph.org/) |
-| **Holochain** | [p-diff-sync](https://github.com/coasys/ad4m/tree/dev/bootstrap-languages/p-diff-sync) | Holochain (built-in) | Flux |
+| **Holochain** | [p-diff-sync](https://github.com/coasys/ad4m/tree/dev/bootstrap-languages/p-diff-sync) | Kitsune (Iroh) | [Holochain Launcher](https://www.holochain.org/) |
 
 See [`CAPABILITIES.md`](CAPABILITIES.md) for a full capability matrix across all 8 languages.
 
