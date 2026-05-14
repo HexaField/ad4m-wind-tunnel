@@ -30,7 +30,7 @@ interface BranchConfig {
 const BRANCHES: BranchConfig[] = [
   { name: "dev", transport: "graphql", dirName: "dev" },
   { name: "feat/sse-to-websocket", transport: "rest", dirName: "feat-sse-to-websocket" },
-  { name: "feat/sparql-1.2-cleanup", transport: "graphql", dirName: "feat-sparql-1.2-cleanup" },
+  { name: "feat/sparql-1.2-cleanup", transport: "ws", dirName: "feat-sparql-1.2-cleanup" },
 ];
 
 const ALL_SCENARIOS: Scenario[] = [

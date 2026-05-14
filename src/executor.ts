@@ -7,6 +7,7 @@ import { spawn, ChildProcess, execSync } from "child_process";
 import { mkdirSync, existsSync, writeFileSync, rmSync } from "fs";
 import { join } from "path";
 import { Transport } from "./client.js";
+import WebSocket from "ws";
 
 export interface ExecutorConfig {
   branch: string;
@@ -108,7 +109,7 @@ export async function startExecutor(
   const proc = spawn(binaryPath, [
     "run",
     "--app-data-path", config.dataPath,
-    "--gql-port", String(config.port),
+    "--port", String(config.port),
     "--admin-credential", config.adminToken,
     "--run-dapp-server", "false",
     "--hc-use-bootstrap", "false",
@@ -139,15 +140,26 @@ export async function waitForHealth(
   const deadline = start + timeoutMs;
 
   // GraphQL branches: GET / returns 200
-  // REST branches: GET /health returns JSON
-  const healthUrl = transport === "graphql"
-    ? `http://127.0.0.1:${port}/`
-    : `http://127.0.0.1:${port}/health`;
+  // REST/WS branches: GET /health returns JSON
+  let healthUrl: string;
+  if (transport === "ws" || transport === "rest") {
+    healthUrl = `http://127.0.0.1:${port}/health`;
+  } else {
+    healthUrl = `http://127.0.0.1:${port}/`;
+  }
 
   while (performance.now() < deadline) {
     try {
       const res = await fetch(healthUrl);
       if (res.ok) {
+        // For WS transport, also verify WS endpoint is accepting connections
+        if (transport === "ws") {
+          const wsReady = await checkWsReady(port, "test123", 5000).catch(() => false);
+          if (!wsReady) {
+            await sleep(500);
+            continue;
+          }
+        }
         return performance.now() - start;
       }
     } catch {}
@@ -155,6 +167,29 @@ export async function waitForHealth(
   }
 
   throw new Error(`Executor on port ${port} did not become healthy within ${timeoutMs}ms`);
+}
+
+async function checkWsReady(port: number, token: string, timeoutMs: number): Promise<boolean> {
+  return new Promise((resolve) => {
+    const ws = new WebSocket(`ws://127.0.0.1:${port}/api/v1/ws?token=${token}`);
+    const timer = setTimeout(() => { ws.close(); resolve(false); }, timeoutMs);
+    ws.on("open", () => {
+      // Send a lightweight RPC call to verify the executor is actually ready
+      const id = "health-check-1";
+      ws.send(JSON.stringify({ id, type: "agent.status", params: {} }));
+    });
+    ws.on("message", (data: any) => {
+      try {
+        const msg = JSON.parse(data.toString());
+        if (msg.id === "health-check-1") {
+          clearTimeout(timer);
+          ws.close();
+          resolve(true);
+        }
+      } catch {}
+    });
+    ws.on("error", () => { clearTimeout(timer); ws.close(); resolve(false); });
+  });
 }
 
 export function stopExecutor(proc: ChildProcess): void {
